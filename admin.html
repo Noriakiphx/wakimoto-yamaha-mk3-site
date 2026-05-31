@@ -470,59 +470,6 @@
     .edit-row{grid-template-columns:1fr}
     .ds-grid{grid-template-columns:1fr 1fr}
   }
-
-  /* ── Settings tab ── */
-  .settings-section{
-    background:var(--surface);border:1px solid var(--line);border-radius:10px;
-    padding:24px;margin-bottom:20px;
-  }
-  .settings-title{
-    font-size:16px;margin:0 0 8px;color:var(--text);font-weight:600;
-  }
-  .settings-desc{
-    font-size:13px;color:var(--text-muted);margin:0 0 18px;line-height:1.7;
-  }
-  .supplier-card{
-    background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
-    padding:18px;margin-bottom:12px;
-  }
-  .supplier-card .sc-head{
-    display:flex;align-items:center;gap:12px;margin-bottom:14px;
-    padding-bottom:12px;border-bottom:1px solid var(--line);
-  }
-  .supplier-card .sc-id{
-    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);
-    padding:4px 8px;background:var(--bg);border-radius:4px;letter-spacing:.06em;
-  }
-  .supplier-card .sc-name{
-    flex:1;font-size:15px;font-weight:600;background:transparent;
-    border:1px solid transparent;color:var(--text);padding:6px 8px;border-radius:4px;
-    transition:.15s;
-  }
-  .supplier-card .sc-name:hover, .supplier-card .sc-name:focus{
-    border-color:var(--line);background:var(--bg);
-  }
-  .supplier-card .sc-fields{
-    display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  }
-  .supplier-card .sc-fields label{
-    display:flex;flex-direction:column;gap:5px;
-    font-size:11px;color:var(--text-muted);letter-spacing:.05em;
-  }
-  .supplier-card .sc-fields label.full{grid-column:1 / -1}
-  .supplier-card .sc-fields input,
-  .supplier-card .sc-fields textarea{
-    background:var(--bg);border:1px solid var(--line);color:var(--text);
-    padding:8px 10px;border-radius:5px;font-size:13px;font-family:inherit;
-    transition:border-color .15s;
-  }
-  .supplier-card .sc-fields input:focus,
-  .supplier-card .sc-fields textarea:focus{
-    border-color:var(--accent);outline:none;
-  }
-  @media (max-width:640px){
-    .supplier-card .sc-fields{grid-template-columns:1fr}
-  }
 </style>
 </head>
 <body>
@@ -575,7 +522,6 @@
     <button class="nav-btn" data-view="campaigns">📅 キャンペーン</button>
     <button class="nav-btn" data-view="customers">👥 顧客</button>
     <button class="nav-btn" data-view="suppliers">🏭 仕入リスト</button>
-    <button class="nav-btn" data-view="settings">⚙️ 設定</button>
   </div>
 </nav>
 
@@ -734,38 +680,6 @@
   </div>
 </section>
 
-<!-- ── 設定 ── -->
-<section class="view" id="view-settings">
-  <div class="view-head">
-    <div>
-      <div class="vh-title">設定</div>
-      <div class="vh-sub">／ SETTINGS — メール送信先・仕入先情報の管理</div>
-    </div>
-  </div>
-  <div class="filters">
-    <button class="btn-secondary" id="settings-refresh">↻ 更新</button>
-  </div>
-
-  <div class="settings-section">
-    <h3 class="settings-title">📧 仕入先メール送信先</h3>
-    <p class="settings-desc">
-      「仕入リスト」タブから発注メールを送信する際の宛先となります。<br>
-      フィールドを変更するとフォーカスを外した時点で自動保存されます（緑＝保存成功、赤＝エラー）。
-    </p>
-    <div id="settings-suppliers">
-      <div class="loading">読み込み中...</div>
-    </div>
-  </div>
-
-  <div class="settings-section">
-    <h3 class="settings-title">📨 注文受付通知</h3>
-    <p class="settings-desc">
-      新規注文／トレード・イン問い合わせを受信した際、admin 画面を開いていればブラウザ上にリアルタイム通知（トースト）が表示されます。<br>
-      メールでの通知が必要な場合は、Supabase の Edge Functions または外部サービス（Resend など）の追加実装が必要です。ご希望があればご相談ください。
-    </p>
-  </div>
-</section>
-
 </main>
 
 <!-- ── DRAWER ── -->
@@ -894,7 +808,6 @@ $$('.nav-btn').forEach(btn => {
     const view = btn.dataset.view;
     $$('.nav-btn').forEach(b => b.classList.toggle('is-active', b === btn));
     $$('.view').forEach(v => v.classList.toggle('is-active', v.id === 'view-' + view));
-    if (view === 'settings') loadSettings();
   });
 });
 
@@ -1500,62 +1413,6 @@ function subscribeRealtime(){
     })
     .subscribe();
 }
-
-
-async function loadSettings() {
-  const wrap = document.getElementById('settings-suppliers');
-  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
-  const { data: suppliers, error } = await sb.from('wk_suppliers').select('*').order('id');
-  if (error) {
-    wrap.innerHTML = '<div class="empty">読み込み失敗: ' + error.message + '</div>';
-    return;
-  }
-  if (!suppliers || !suppliers.length) {
-    wrap.innerHTML = '<div class="empty">仕入先データがありません</div>';
-    return;
-  }
-  let html = '';
-  suppliers.forEach(s => {
-    html += `<div class="supplier-card" data-id="${s.id}">
-      <div class="sc-head">
-        <div class="sc-id">${s.id}</div>
-        <input class="sc-name" type="text" value="${s.name||''}" data-field="name" placeholder="仕入先名">
-      </div>
-      <div class="sc-fields">
-        <label>メールアドレス
-          <input type="email" value="${s.contact_email||''}" data-field="contact_email" placeholder="info@example.com">
-        </label>
-        <label>電話番号
-          <input type="text" value="${s.contact_phone||''}" data-field="contact_phone" placeholder="03-1234-5678">
-        </label>
-        <label class="full">備考
-          <textarea data-field="notes" rows="2" placeholder="社内メモ・運用ルール等">${s.notes||''}</textarea>
-        </label>
-      </div>
-    </div>`;
-  });
-  wrap.innerHTML = html;
-
-  wrap.querySelectorAll('[data-field]').forEach(input => {
-    input.addEventListener('blur', async () => {
-      const card = input.closest('.supplier-card');
-      const id = card.dataset.id;
-      const field = input.dataset.field;
-      const value = (input.value || '').trim() || null;
-      input.style.borderColor = '#f59e0b';
-      const { error } = await sb.from('wk_suppliers').update({ [field]: value }).eq('id', id);
-      if (error) {
-        input.style.borderColor = '#ef4444';
-        alert('保存失敗: ' + error.message);
-      } else {
-        input.style.borderColor = '#10b981';
-        setTimeout(() => { input.style.borderColor = ''; }, 1500);
-      }
-    });
-  });
-}
-document.getElementById('settings-refresh').addEventListener('click', loadSettings);
-
 
 // ============================================================
 //  起動

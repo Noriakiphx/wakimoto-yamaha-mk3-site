@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YAMAHA DXS mk3 シリーズ 事前予約受付 ｜ 脇本商会 / Soundassist</title>
-<meta name="description" content="YAMAHA DXS18 / DXS15 / DXS12 mk3 パワードサブウーファーの事前予約を受付中。発売前のご予約で特典をご用意しています。脇本商会 / Soundassist。" />
+<title>YAMAHA DXR ／ DXS mk3 シリーズ 事前予約受付 ｜ 脇本商会 / Soundassist</title>
+<meta name="description" content="YAMAHA DXR15 / DXR12 / DXR10 mk3 パワードスピーカー、DXS18 / DXS15 / DXS12 mk3 パワードサブウーファーの事前予約を受付中。3+1 キャンペーン実施中。脇本商会 / Soundassist。" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -86,6 +86,45 @@
     text-decoration:none;transition:.2s;
   }
   .nav-cta:hover{background:var(--accent);color:#fff}
+
+  /* ─── site switcher (active/passive) ─── */
+  .site-switcher{
+    background:var(--bg-2);border-bottom:1px solid var(--line);
+    position:sticky;top:64px;z-index:40;
+  }
+  .site-switcher .ss-wrap{
+    max-width:1240px;margin:0 auto;display:flex;gap:0;
+  }
+  .ss-tab{
+    flex:1;display:flex;flex-direction:column;gap:3px;
+    padding:14px 24px;text-decoration:none;color:var(--text-dim);
+    border-bottom:2px solid transparent;
+    transition:.2s;position:relative;
+  }
+  .ss-tab + .ss-tab{border-left:1px solid var(--line)}
+  .ss-tab:hover{background:var(--surface);color:var(--text)}
+  .ss-tab.is-active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    background:linear-gradient(180deg, rgba(124,58,237,.08), transparent);
+  }
+  .ss-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.2em;color:var(--text-muted);
+  }
+  .ss-tab.is-active .ss-tag{color:var(--accent)}
+  .ss-title{
+    font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;line-height:1.1;
+  }
+  .ss-sub{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.06em;
+  }
+  @media (max-width:680px){
+    .ss-tab{padding:10px 14px}
+    .ss-title{font-size:14px}
+    .ss-sub{display:none}
+  }
 
   /* ─── hero ─── */
   header.hero{
@@ -337,6 +376,30 @@
   .shared-features{
     margin-top:48px;padding:28px;background:var(--bg-2);border:1px solid var(--line);
   }
+  /* lineup grouping (DXS / DXR の2サブグループ) */
+  .lineup-group{margin-bottom:80px}
+  .lineup-group:last-child{margin-bottom:0}
+  .lineup-group-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    padding:0 0 16px;border-bottom:1px solid var(--line-2);margin-bottom:28px;
+  }
+  .lgh-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.18em;color:var(--accent);
+  }
+  .lgh-title{
+    font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.04em;color:var(--text);
+  }
+  @media (max-width:680px){
+    .lineup-group-head{flex-direction:column;align-items:flex-start;gap:6px}
+  }
+  /* order form のモデルカテゴリ見出し */
+  .model-category{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.16em;color:var(--text-muted);
+    margin:6px 0 8px;
+  }
+  .model-category:not(:first-of-type){margin-top:20px}
   .shared-features h4{
     font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
     color:var(--accent);margin-bottom:16px;
@@ -490,6 +553,143 @@
     font-size:11px;color:var(--text-muted);line-height:1.7;
   }
 
+  /* ─── order form (selector-based) ─── */
+  .order-form{display:flex;flex-direction:column;gap:36px}
+  .order-block{display:flex;flex-direction:column;gap:14px}
+  .order-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.18em;color:var(--accent);
+    padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  /* model selector */
+  .model-options{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  }
+  .model-option{cursor:pointer;display:block;position:relative}
+  .model-option input[type="radio"]{
+    position:absolute;opacity:0;pointer-events:none;
+  }
+  .model-card-mini{
+    background:var(--bg);border:1px solid var(--line-2);
+    padding:18px 18px;display:flex;flex-direction:column;gap:6px;
+    transition:.2s;
+  }
+  .model-option:hover .model-card-mini{border-color:var(--accent-2)}
+  .model-option input:checked + .model-card-mini{
+    border-color:var(--accent);
+    background:rgba(124,58,237,.10);
+    box-shadow:inset 0 0 0 1px var(--accent), 0 4px 18px rgba(124,58,237,.18);
+  }
+  .mc-name{
+    font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.04em;color:var(--text);line-height:1;
+  }
+  .mc-name span{color:var(--accent);font-size:.65em}
+  .mc-spec{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.1em;color:var(--text-muted);
+  }
+  .mc-price{
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    color:var(--accent-2);margin-top:4px;font-weight:700;
+  }
+  /* quantity control */
+  .qty-row{display:flex;align-items:center;flex-wrap:wrap;gap:24px}
+  .qty-control{
+    display:inline-flex;align-items:center;
+    border:1px solid var(--line-2);background:var(--bg);
+  }
+  .qty-btn{
+    width:44px;height:44px;background:transparent;border:none;
+    color:var(--text);font-size:20px;cursor:pointer;
+    font-family:'JetBrains Mono',monospace;
+    transition:.15s;
+  }
+  .qty-btn:hover{background:var(--surface);color:var(--accent)}
+  #qty{
+    width:64px;height:44px;background:transparent;border:none;
+    border-left:1px solid var(--line);border-right:1px solid var(--line);
+    text-align:center;color:var(--text);
+    font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+    -moz-appearance:textfield;
+  }
+  #qty::-webkit-outer-spin-button,
+  #qty::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .qty-suffix{
+    padding:0 16px;font-family:'JetBrains Mono',monospace;
+    font-size:13px;color:var(--text-dim);
+  }
+  .campaign-meter{display:flex;flex-direction:column;gap:2px}
+  .cm-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.16em;color:var(--text-muted);
+  }
+  .cm-msg{
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--accent-2);font-weight:500;
+  }
+  .cm-msg.active{color:var(--accent);text-shadow:0 0 12px rgba(124,58,237,.5)}
+  /* order summary */
+  .order-summary{
+    background:linear-gradient(135deg, rgba(124,58,237,.10) 0%, var(--bg) 60%);
+    border:1px solid var(--accent);
+    padding:22px 26px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .sum-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--text-dim);letter-spacing:.04em;
+  }
+  .sum-row.sum-free{color:var(--accent-2)}
+  .sum-row.sum-total{
+    margin-top:6px;padding-top:14px;
+    border-top:1px solid rgba(124,58,237,.3);
+    color:var(--text);font-size:14px;
+  }
+  .sum-tax{font-size:11px;color:var(--text-muted);margin-left:6px}
+  .sum-amount{
+    font-family:'Anton',sans-serif;font-size:28px;
+    color:var(--accent);letter-spacing:.02em;
+  }
+  /* customer fields */
+  .customer-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  }
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field-full{grid-column:1 / -1}
+  .field > span{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;
+  }
+  .field em{color:var(--accent);font-style:normal;margin-left:4px}
+  .field input,.field textarea{
+    background:var(--bg);
+    border:1px solid var(--line-2);
+    color:var(--text);
+    padding:12px 14px;
+    font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;
+    transition:.15s;
+  }
+  .field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
+  .field input:focus,.field textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px var(--accent), 0 0 16px rgba(124,58,237,.25);
+  }
+  .field textarea{resize:vertical;font-family:inherit}
+  /* submit */
+  .order-submit{
+    align-self:flex-start;font-size:15px;padding:16px 32px;
+  }
+  .order-note{
+    font-size:12px;color:var(--text-muted);line-height:1.7;
+  }
+  @media (max-width:680px){
+    .model-options{grid-template-columns:1fr;gap:8px}
+    .customer-grid{grid-template-columns:1fr}
+    .qty-row{flex-direction:column;align-items:flex-start;gap:14px}
+  }
+
   /* ─── responsive ─── */
   @media (max-width:780px){
     .lineup{grid-template-columns:1fr}
@@ -505,7 +705,146 @@
   .reveal:nth-child(2){animation-delay:.15s}
   .reveal:nth-child(3){animation-delay:.25s}
   .reveal:nth-child(4){animation-delay:.35s}
+
+  /* ── Multi-model order form (per-card qty stepper) ── */
+  .mc-qty{
+    display:flex;align-items:center;gap:6px;
+    margin-top:12px;padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .mc-qty-btn{
+    width:30px;height:30px;
+    background:var(--bg-2);border:1px solid var(--line);
+    color:var(--text);border-radius:6px;
+    font-size:18px;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.15s;padding:0;line-height:1;
+  }
+  .mc-qty-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .mc-qty input[type="number"]{
+    width:54px;text-align:center;
+    background:transparent;border:1px solid var(--line);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:14px;font-weight:600;
+    padding:6px 4px;border-radius:6px;
+    -moz-appearance:textfield;
+  }
+  .mc-qty input[type="number"]::-webkit-inner-spin-button,
+  .mc-qty input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0;
+  }
+  .mc-qty-unit{
+    font-size:11px;color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;letter-spacing:.05em;
+  }
+  .mc-subtotal{
+    margin-top:10px;font-size:11px;
+    color:var(--accent-2);
+    font-family:'JetBrains Mono',monospace;
+    min-height:16px;letter-spacing:.04em;
+  }
+  .model-card-mini.is-selected{
+    border-color:var(--accent) !important;
+    background:linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,.02)) !important;
+    box-shadow:0 4px 16px rgba(124,58,237,.18);
+  }
+
+  /* multi-item summary list */
+  .sm-list{
+    display:flex;flex-direction:column;gap:8px;
+    margin-bottom:8px;
+  }
+  .sm-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px;background:var(--bg-2);border-radius:8px;
+    gap:10px;flex-wrap:wrap;border:1px solid var(--line);
+  }
+  .sm-name{
+    font-weight:600;font-size:14px;
+    flex:1;min-width:140px;color:var(--text);
+  }
+  .sm-detail{
+    display:flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;color:var(--text-dim);
+    flex-wrap:wrap;
+  }
+  .sm-free{color:var(--accent-2);font-size:11px}
+  .sm-subtotal{color:var(--text);font-weight:700;font-size:13px}
+  .sm-empty{
+    text-align:center;padding:24px;
+    color:var(--text-muted);font-size:13px;
+    background:var(--bg-2);border-radius:8px;
+    border:1px dashed var(--line);
+  }
+
+  /* ── Success modal + product sold-out states (Supabase) ── */
+  .success-modal{
+    position:fixed;inset:0;background:rgba(0,0,0,.85);
+    z-index:1000;display:flex;align-items:center;justify-content:center;
+    padding:24px;backdrop-filter:blur(6px);
+    animation:fadeIn .25s ease;
+  }
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .sm-box{
+    background:var(--surface);border:1px solid var(--accent);
+    border-radius:16px;padding:40px 32px;
+    max-width:460px;width:100%;text-align:center;
+    box-shadow:0 30px 80px rgba(124,58,237,.3);
+  }
+  .sm-icon{
+    width:64px;height:64px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    font-size:36px;font-weight:bold;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    box-shadow:0 8px 24px rgba(124,58,237,.5);
+  }
+  .sm-title{
+    font-family:'Anton',sans-serif;font-size:26px;letter-spacing:.04em;
+    margin-bottom:14px;
+  }
+  .sm-msg{
+    color:var(--text-dim);font-size:14px;line-height:1.8;
+    margin-bottom:18px;white-space:pre-wrap;
+  }
+  .sm-no{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent-2);font-size:15px;font-weight:600;
+    padding:12px 16px;background:var(--bg-2);border-radius:8px;
+    letter-spacing:.06em;margin:14px 0 24px;
+    border:1px solid var(--accent-soft);
+  }
+  .sm-close{
+    padding:11px 28px;background:var(--accent);color:#fff;
+    border-radius:8px;font-weight:600;font-size:14px;
+    transition:.15s;cursor:pointer;border:none;
+    font-family:inherit;
+  }
+  .sm-close:hover{background:var(--accent-3, #a78bfa)}
+
+  /* sold-out product state */
+  .model-card-mini.is-soldout{
+    opacity:.4;pointer-events:none;position:relative;
+  }
+  .model-card-mini.is-soldout::after{
+    content:'売り切れ';position:absolute;top:50%;left:50%;
+    transform:translate(-50%, -50%) rotate(-12deg);
+    background:var(--text);color:#000;padding:4px 14px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+    letter-spacing:.1em;border-radius:4px;pointer-events:none;
+  }
+  .mc-lead-time{
+    margin-top:4px;font-size:10px;color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;letter-spacing:.05em;
+  }
+
+  /* submit button loading state */
+  .order-submit:disabled, .submit-btn:disabled{
+    opacity:.6;cursor:not-allowed;
+  }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -513,9 +852,25 @@
 <nav>
   <div class="wrap">
     <div class="brand">脇本商会<span class="div">/</span><span class="sa">SOUNDASSIST</span></div>
-    <a href="#preorder" class="nav-cta">事前予約フォーム →</a>
+    <a href="#preorder" class="nav-cta">ご注文フォーム →</a>
   </div>
 </nav>
+
+<!-- SITE SWITCHER (active/passive) -->
+<div class="site-switcher">
+  <div class="ss-wrap">
+    <a class="ss-tab is-active" href="dxs-mk3-preregistration.html">
+      <span class="ss-tag">／ ACTIVE</span>
+      <span class="ss-title">DXR · DXS mk3</span>
+      <span class="ss-sub">パワード（アンプ内蔵）</span>
+    </a>
+    <a class="ss-tab" href="cxr-cxs-mk3-preregistration.html">
+      <span class="ss-tag">／ PASSIVE</span>
+      <span class="ss-title">CXR · CXS mk3</span>
+      <span class="ss-sub">パッシブ（パワーアンプ別）</span>
+    </a>
+  </div>
+</div>
 
 <!-- HERO -->
 <header class="hero">
@@ -524,22 +879,22 @@
     <div class="badge reveal">PRE-ORDER NOW OPEN ／ 事前予約受付中</div>
     <h1 class="reveal">
       YAMAHA<br>
-      DXS<span class="mk3">·mk3</span>
-      <span class="sub">POWERED SUBWOOFER SERIES ／ 2026.06 RELEASE</span>
+      DXR · DXS<span class="mk3"> mk3</span>
+      <span class="sub">POWERED LOUDSPEAKERS &amp; SUBWOOFERS ／ 2026.06 RELEASE</span>
     </h1>
     <p class="hero-lead reveal">
-      新開発 2,500W クラスD アンプ、96kHz DSP、最大 134dB SPL。
-      DXS18 / DXS15 / DXS12 mk3 ― あらゆるライブ現場の低域を、
-      もう運任せにしない。発売前のご予約を脇本商会にて受付中。
+      DXR mk3 パワードスピーカー（15″/12″/10″）と DXS mk3 パワードサブウーファー（18″/15″/12″）。
+      新開発クラスD アンプ、96kHz DSP、Advanced FIR-X Tuning と Drive Motion Calibration。
+      最大 134dB SPL ― ライブ・イベント・設備までを網羅する6機種のラインナップを脇本商会にて受付中。
     </p>
     <dl class="hero-meta reveal">
       <div><dt>RELEASE</dt><dd>2026.06</dd></div>
-      <div><dt>LINEUP</dt><dd>18″ / 15″ / 12″</dd></div>
+      <div><dt>TOP</dt><dd>15 / 12 / 10″</dd></div>
+      <div><dt>SUB</dt><dd>18 / 15 / 12″</dd></div>
       <div><dt>MAX SPL</dt><dd>132–134 dB</dd></div>
-      <div><dt>AMP</dt><dd>2,500 W CLASS-D</dd></div>
     </dl>
     <div class="hero-cta-row">
-      <a href="#preorder" class="btn btn-primary">事前予約する →</a>
+      <a href="#preorder" class="btn btn-primary">ご注文する →</a>
       <a href="#lineup" class="btn btn-ghost">ラインナップを見る</a>
     </div>
   </div>
@@ -561,7 +916,7 @@
         </div>
         <h3>3＋1 キャンペーン</h3>
         <p>同モデルを3台ご予約ごとに、もう1台を無償でご提供。DXS18 / DXS15 / DXS12 mk3 <strong style="color:var(--accent-2)">全機種対象</strong>のキャンペーン期間中の特典です。<span style="color:var(--text-muted);font-size:.92em">※同一モデル単位でのお申込みに限ります（複数モデルの混在は不可）。</span></p>
-        <span class="placeholder">// キャンペーン期間：要記載</span>
+        <span class="placeholder" data-campaign-period="three_plus_one">// キャンペーン期間：要記載</span>
       </div>
       <div class="benefit">
         <div class="benefit-num">PRIVILEGE / 02</div>
@@ -591,7 +946,16 @@
     <div class="section-tag">SECTION 02 ／ LINEUP &amp; SPECIFICATIONS</div>
     <h2 class="section-title">ラインナップ.</h2>
 
-    <div class="lineup">
+    <!-- DXS mk3 サブウーファー -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 01 — POWERED SUBWOOFERS</div>
+          <div class="lgh-title">DXS mk3 ／ パワードサブウーファー</div>
+        </div>
+      </div>
+
+      <div class="lineup">
       <!-- DXS18 mk3 -->
       <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/dxs_mk3/index.html" target="_blank" rel="noopener noreferrer">
         <div class="speaker-visual">
@@ -645,7 +1009,7 @@
         <div class="speaker-visual">
           <span class="size-label">12″</span>
           <!-- ▼ 製品画像差し替え：images/dxs12-mk3.jpg （YAMAHA公式素材） -->
-          <img class="product-img" src="images/REPLACE_dxs12-mk3.jpg" alt="YAMAHA DXS12 mk3 パワードサブウーファー">
+          <img class="product-img" src="images/dxs12-mk3.jpg" alt="YAMAHA DXS12 mk3 パワードサブウーファー">
           <div class="img-placeholder">images/<br>dxs12-mk3.jpg<br>// 製品画像を配置</div>
         </div>
         <div class="model-name">DXS12<span class="mk"> mk3</span></div>
@@ -663,19 +1027,121 @@
           <span class="arrow">↗</span>
         </div>
       </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// SUBWOOFER COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">2,500 W Class-D Amp</span>
+          <span class="pill">96 kHz DSP</span>
+          <span class="pill">D-XSUB Processing</span>
+          <span class="pill">Cardioid Mode</span>
+          <span class="pill">User-editable EQ / X-Over</span>
+          <span class="pill">D-Remote App (iOS / Android)</span>
+          <span class="pill">Polyurea-coated Plywood</span>
+          <span class="pill">Rear LCD Panel</span>
+        </div>
+      </div>
     </div>
 
-    <div class="shared-features">
-      <h4>// COMMON FEATURES ／ 全モデル共通</h4>
-      <div class="feature-pills">
-        <span class="pill">96 kHz DSP</span>
-        <span class="pill">D-XSUB Processing</span>
-        <span class="pill">User-editable EQ / X-Over</span>
-        <span class="pill">Cardioid Mode</span>
-        <span class="pill">D-Remote App (iOS / Android)</span>
-        <span class="pill">Polyurea-coated Plywood</span>
-        <span class="pill">Rear LCD Panel</span>
-        <span class="pill">2,500 W Class-D Amp</span>
+    <!-- DXR mk3 パワードスピーカー -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 02 — POWERED LOUDSPEAKERS</div>
+          <div class="lgh-title">DXR mk3 ／ パワードスピーカー</div>
+        </div>
+      </div>
+
+      <div class="lineup">
+      <!-- DXR15 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/dxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">15″</span>
+          <!-- ▼ 製品画像差し替え：images/dxr15-mk3.jpg -->
+          <img class="product-img" src="images/dxr15-mk3.jpg" alt="YAMAHA DXR15 mk3 パワードスピーカー">
+          <div class="img-placeholder">images/<br>dxr15-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">DXR15<span class="mk"> mk3</span></div>
+        <div class="model-tag">FLAGSHIP ／ 15-INCH 2-WAY</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">15″ + 1.75″ HF</span></li>
+          <li><span class="k">Amp</span><span class="v">2,000 W Class-D</span></li>
+          <li><span class="k">Max SPL</span><span class="v">134 dB</span></li>
+          <li><span class="k">DSP</span><span class="v">96 kHz FIR-X</span></li>
+          <li><span class="k">Mode</span><span class="v">FOH ／ Monitor</span></li>
+          <li><span class="k">Pole</span><span class="v">0° ／ −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- DXR12 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/dxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">12″</span>
+          <!-- ▼ 製品画像差し替え：images/dxr12-mk3.jpg -->
+          <img class="product-img" src="images/dxr12-mk3.jpg" alt="YAMAHA DXR12 mk3 パワードスピーカー">
+          <div class="img-placeholder">images/<br>dxr12-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">DXR12<span class="mk"> mk3</span></div>
+        <div class="model-tag">STANDARD ／ 12-INCH 2-WAY</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">12″ + 1.75″ HF</span></li>
+          <li><span class="k">Amp</span><span class="v">2,000 W Class-D</span></li>
+          <li><span class="k">Max SPL</span><span class="v">134 dB</span></li>
+          <li><span class="k">DSP</span><span class="v">96 kHz FIR-X</span></li>
+          <li><span class="k">Mode</span><span class="v">FOH ／ Monitor</span></li>
+          <li><span class="k">Pole</span><span class="v">0° ／ −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- DXR10 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/dxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">10″</span>
+          <!-- ▼ 製品画像差し替え：images/dxr10-mk3.jpg -->
+          <img class="product-img" src="images/dxr10-mk3.jpg" alt="YAMAHA DXR10 mk3 パワードスピーカー">
+          <div class="img-placeholder">images/<br>dxr10-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">DXR10<span class="mk"> mk3</span></div>
+        <div class="model-tag">COMPACT ／ 10-INCH 2-WAY</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">10″ + 1.75″ HF</span></li>
+          <li><span class="k">Amp</span><span class="v">2,000 W Class-D</span></li>
+          <li><span class="k">Max SPL</span><span class="v">132 dB</span></li>
+          <li><span class="k">DSP</span><span class="v">96 kHz FIR-X</span></li>
+          <li><span class="k">Mode</span><span class="v">FOH ／ Monitor</span></li>
+          <li><span class="k">Pole</span><span class="v">0° ／ −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// LOUDSPEAKER COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">2,000 W Class-D Amp</span>
+          <span class="pill">96 kHz DSP</span>
+          <span class="pill">Advanced FIR-X Tuning</span>
+          <span class="pill">Drive Motion Calibration</span>
+          <span class="pill">AUTO V/H POSITION</span>
+          <span class="pill">D-Remote App (iOS / Android)</span>
+          <span class="pill">Bluetooth Audio</span>
+          <span class="pill">Intelligent FBS</span>
+          <span class="pill">Foam-molded Resin Enclosure</span>
+          <span class="pill">0° / −7° Pole Socket</span>
+          <span class="pill">Eyebolt Rigging Point</span>
+        </div>
       </div>
     </div>
   </div>
@@ -711,6 +1177,24 @@
           <div class="acc-name">機能カバー（DXS12 mk3用）</div>
           <div class="acc-compat"><span class="lbl">FOR</span>DXS12 mk3 / CXS12 mk3</div>
           <div class="acc-desc">最小モデル用カバー。コンパクトな取り回しを損なわない軽量設計。※完全防水ではありません（耐水仕様）。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR153</div>
+          <div class="acc-name">機能カバー（DXR15 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR15 mk3 / CXR15 mk3</div>
+          <div class="acc-desc">パワードスピーカー用機能カバー。装着したまま音出し可能、屋外運用や保管時の傷・ほこり・天候変化から機材を保護。2026年8月発売予定。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR123</div>
+          <div class="acc-name">機能カバー（DXR12 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR12 mk3 / CXR12 mk3</div>
+          <div class="acc-desc">DXR12 mk3 / CXR12 mk3 専用カバー。装着したまま音出し可能。2026年8月発売予定。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR103</div>
+          <div class="acc-name">機能カバー（DXR10 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR10 mk3 / CXR10 mk3</div>
+          <div class="acc-desc">最小モデル用カバー。可搬性を損なわない軽量設計。装着したまま音出し可能。2026年8月発売予定。</div>
         </div>
       </div>
     </div>
@@ -836,33 +1320,167 @@
   </div>
 </section>
 
-<!-- PRE-ORDER FORM -->
+<!-- ORDER FORM -->
 <section id="preorder">
   <div class="wrap">
-    <div class="section-tag">SECTION 05 ／ PRE-ORDER FORM</div>
-    <h2 class="section-title">事前予約フォーム.</h2>
+    <div class="section-tag">SECTION 05 ／ ORDER FORM</div>
+    <h2 class="section-title">ご注文フォーム.</h2>
 
     <div class="form-wrap">
       <div class="form-intro">
-        <p>下記フォームよりご予約内容をお送りください。<br>担当者より2営業日以内に正式な御見積書をご返信いたします。</p>
+        <p>必要な機種ごとに数量をご入力ください（複数機種の同時注文に対応）。3＋1キャンペーンは機種ごとに自動計算されます。<br>送信ボタンで脇本商会にご注文が送信されます。担当者より2営業日以内にご連絡いたします。</p>
       </div>
 
-      <!--
-        ▼ Google フォーム埋め込み URL をここに差し替えてください
-        Google フォーム編集画面 → 送信 → < > アイコン → iframe の src URL をコピー
-      -->
-      <div class="form-frame">
-        <iframe
-          src="https://docs.google.com/forms/d/e/REPLACE_WITH_YOUR_FORM_ID/viewform?embedded=true"
-          width="100%" height="980" frameborder="0" marginheight="0" marginwidth="0">
-          読み込んでいます…
-        </iframe>
-      </div>
+      <form class="order-form" onsubmit="submitOrder(event)">
+        <!-- 01 機種 -->
+        <div class="order-block">
+          <div class="order-label">/ 01 — 機種を選択</div>
 
-      <div class="form-replace-note">
-        ⚠ 公開前に <code>iframe src</code> の <code>REPLACE_WITH_YOUR_FORM_ID</code> を実際の Google フォーム ID に置き換えてください。<br>
-        推奨フォーム項目：会社名 ／ ご担当者名 ／ ご連絡先（電話・メール）／ ご希望モデル（DXS18/15/12 mk3）／ 数量 ／ ご希望納品時期 ／ 用途・備考
-      </div>
+          <div class="model-category">／ パワードサブウーファー</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="dxs18">
+              <div class="mc-name">DXS18<span> mk3</span></div>
+              <div class="mc-spec">18″ ／ 134 dB SPL</div>
+              <div class="mc-price" data-price="dxs18">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs18', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxs18" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs18', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="dxs15">
+              <div class="mc-name">DXS15<span> mk3</span></div>
+              <div class="mc-spec">15″ ／ 134 dB SPL</div>
+              <div class="mc-price" data-price="dxs15">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs15', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxs15" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs15', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="dxs12">
+              <div class="mc-name">DXS12<span> mk3</span></div>
+              <div class="mc-spec">12″ ／ 132 dB SPL</div>
+              <div class="mc-price" data-price="dxs12">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs12', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxs12" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxs12', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+          <div class="model-category">／ パワードスピーカー</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="dxr15">
+              <div class="mc-name">DXR15<span> mk3</span></div>
+              <div class="mc-spec">15″ + 1.75″ HF ／ 134 dB</div>
+              <div class="mc-price" data-price="dxr15">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr15', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxr15" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr15', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="dxr12">
+              <div class="mc-name">DXR12<span> mk3</span></div>
+              <div class="mc-spec">12″ + 1.75″ HF ／ 134 dB</div>
+              <div class="mc-price" data-price="dxr12">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr12', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxr12" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr12', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="dxr10">
+              <div class="mc-name">DXR10<span> mk3</span></div>
+              <div class="mc-spec">10″ + 1.75″ HF ／ 132 dB</div>
+              <div class="mc-price" data-price="dxr10">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr10', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_dxr10" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('dxr10', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+        </div>
+        </div>
+        <!-- 注文サマリー -->
+        <div class="order-summary">
+          <div class="sm-list" id="sm-list">
+            <div class="sm-empty">機種を選択してください（各カードの「＋」で数量を増やしてください）</div>
+          </div>
+          <div class="sum-row">
+            <span class="sum-key">合計台数</span>
+            <span class="sum-val"><span id="sum-qty">0</span> 台</span>
+          </div>
+          <div class="sum-row sum-free" id="sum-free" style="display:none">
+            <span class="sum-key">3＋1無償特典</span>
+            <span class="sum-val">+ <span id="sum-free-qty">0</span> 台 FREE</span>
+          </div>
+          <div class="sum-row sum-total">
+            <span class="sum-key">合計金額<span id="sum-tax-label" class="sum-tax">（税込）</span></span>
+            <span class="sum-val sum-amount" id="sum-total">¥0</span>
+          </div>
+        </div>
+        <!-- 03 お客様情報 -->
+        <div class="order-block">
+          <div class="order-label">/ 03 — お客様情報</div>
+          <div class="customer-grid">
+            <label class="field">
+              <span>会社名 <em>*</em></span>
+              <input type="text" id="company" required>
+            </label>
+            <label class="field">
+              <span>ご担当者名 <em>*</em></span>
+              <input type="text" id="contact" required>
+            </label>
+            <label class="field">
+              <span>メールアドレス <em>*</em></span>
+              <input type="email" id="email" required>
+            </label>
+            <label class="field">
+              <span>電話番号 <em>*</em></span>
+              <input type="tel" id="phone" required>
+            </label>
+            <label class="field field-full">
+              <span>納品先住所</span>
+              <input type="text" id="address" placeholder="〒 から始まる正式な住所">
+            </label>
+            <label class="field">
+              <span>ご希望納期</span>
+              <input type="text" id="delivery" placeholder="例：2026年8月中旬">
+            </label>
+            <label class="field">
+              <span>用途・参考情報</span>
+              <input type="text" id="usage" placeholder="例：野外フェス、設備導入">
+            </label>
+            <label class="field field-full">
+              <span>備考・ご要望</span>
+              <textarea id="notes" rows="3"></textarea>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary order-submit">
+          ご注文内容を送信する →
+        </button>
+
+        <p class="order-note">※ 送信後、担当者より2営業日以内にご連絡いたします。ご入力いただいたメールアドレス宛にも控えをお送りします。</p>
+      </form>
     </div>
   </div>
 </section>
@@ -887,9 +1505,9 @@
         <span class="arrow">TEL →</span>
       </a>
       <a href="#preorder" class="contact-card">
-        <span class="icon">/ 03 — PRE-ORDER</span>
-        <h3>事前予約フォームへ</h3>
-        <p>まずは事前予約だけ確保しておきたい方はこちらから。</p>
+        <span class="icon">/ 03 — ORDER</span>
+        <h3>ご注文フォームへ</h3>
+        <p>機種・数量をご選択のうえ、選択式フォームからご注文ください。</p>
         <span class="arrow">FORM →</span>
       </a>
     </div>
@@ -918,6 +1536,332 @@
     </div>
   </div>
 </footer>
+
+<script>
+
+// ============================================================
+//  Supabase 連携
+// ============================================================
+const SUPABASE_URL = 'https://nhnidamtxsgbqnlcwzgs.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bdxBJnylkn_8iZKGEvxUmA_heddc-QJ';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const PAGE_SOURCE = 'dxs';
+const PAGE_CATEGORIES = ['powered_sub', 'powered_top'];
+
+async function loadFromSupabase() {
+  try {
+    // 商品マスタを読み込み、価格・在庫・納期をDOMへ反映
+    const { data: products, error: e1 } = await sb
+      .from('wk_products')
+      .select('*')
+      .in('category', PAGE_CATEGORIES)
+      .order('display_order');
+    if (e1) throw e1;
+
+    if (products) {
+      products.forEach(function(p) {
+        ORDER_CONFIG.prices[p.id] = p.price || 0;
+        if (p.name) MODEL_NAMES[p.id] = p.name;
+        const card = document.querySelector('.model-card-mini[data-model="' + p.id + '"]');
+        if (!card) return;
+        // 公開停止 or 在庫切れ
+        if (!p.active || !p.in_stock) {
+          card.classList.add('is-soldout');
+          const input = card.querySelector('input[type="number"]');
+          if (input) { input.disabled = true; input.value = 0; }
+        } else {
+          card.classList.remove('is-soldout');
+          const input = card.querySelector('input[type="number"]');
+          if (input) input.disabled = false;
+        }
+        // 納期表示
+        if (p.lead_time) {
+          let leadEl = card.querySelector('.mc-lead-time');
+          if (!leadEl) {
+            leadEl = document.createElement('div');
+            leadEl.className = 'mc-lead-time';
+            const specEl = card.querySelector('.mc-spec');
+            if (specEl) specEl.appendChild(leadEl);
+          }
+          leadEl.textContent = '納期目安: ' + p.lead_time;
+        }
+      });
+    }
+
+    // キャンペーン期間
+    const { data: campaigns, error: e2 } = await sb
+      .from('wk_campaigns')
+      .select('*')
+      .eq('active', true);
+    if (e2) throw e2;
+
+    if (campaigns) {
+      campaigns.forEach(function(c) {
+        document.querySelectorAll('[data-campaign-period="' + c.key + '"]').forEach(function(el) {
+          if (c.start_date && c.end_date) {
+            el.textContent = c.start_date + ' 〜 ' + c.end_date;
+          } else if (c.start_date) {
+            el.textContent = c.start_date + ' 〜';
+          } else if (c.end_date) {
+            el.textContent = '〜 ' + c.end_date;
+          } else {
+            el.textContent = '通年実施中';
+          }
+        });
+        document.querySelectorAll('[data-campaign-title="' + c.key + '"]').forEach(function(el) {
+          el.textContent = c.title;
+        });
+      });
+    }
+
+    updateOrder();
+  } catch (err) {
+    console.warn('[Supabase] データ読み込み失敗（ハードコード値で続行）:', err);
+  }
+}
+
+function showSuccess(title, no, msg) {
+  document.getElementById('sm-title').textContent = title;
+  document.getElementById('sm-no').textContent = no;
+  document.getElementById('sm-msg').textContent = msg;
+  document.getElementById('success-modal').style.display = 'flex';
+}
+
+document.getElementById('sm-close').addEventListener('click', function() {
+  document.getElementById('success-modal').style.display = 'none';
+});
+
+// ============================================================
+//  価格設定 ／ EDIT HERE  ←各機種の販売価格を入力してください
+// ============================================================
+const ORDER_CONFIG = {
+  prices: {
+    // パワードサブウーファー（DXS mk3）
+    dxs18: 0,     // ← DXS18 mk3 の販売価格（半角数字、例：198000）
+    dxs15: 0,     // ← DXS15 mk3 の販売価格
+    dxs12: 0,     // ← DXS12 mk3 の販売価格
+    // パワードスピーカー（DXR mk3）
+    dxr15: 0,     // ← DXR15 mk3 の販売価格
+    dxr12: 0,     // ← DXR12 mk3 の販売価格
+    dxr10: 0,     // ← DXR10 mk3 の販売価格
+  },
+  taxLabel: '（税込）',                 // '（税抜）' に変更可
+  orderEmail: 'info@wakimotocorp.com',  // 送信先メールアドレス
+};
+// ============================================================
+
+const MODEL_NAMES = {
+  dxs18: 'DXS18 mk3',
+  dxs15: 'DXS15 mk3',
+  dxs12: 'DXS12 mk3',
+  dxr15: 'DXR15 mk3',
+  dxr12: 'DXR12 mk3',
+  dxr10: 'DXR10 mk3',
+};
+
+function formatYen(n) {
+  if (!n || n === 0) return '価格未設定';
+  return '¥' + n.toLocaleString('ja-JP');
+}
+
+function changeModelQty(model, delta) {
+  const input = document.querySelector('input[name="qty_' + model + '"]');
+  if (!input) return;
+  const next = Math.max(0, Math.min(99, (parseInt(input.value) || 0) + delta));
+  input.value = next;
+  updateOrder();
+}
+
+function getOrders() {
+  const orders = [];
+  document.querySelectorAll('input[type="number"][name^="qty_"]').forEach(function(input) {
+    const qty = parseInt(input.value) || 0;
+    if (qty > 0) {
+      const model = input.name.replace('qty_', '');
+      orders.push({ model: model, qty: qty });
+    }
+  });
+  return orders;
+}
+
+function updateOrder() {
+  // 各カードの単価表示を更新
+  Object.keys(ORDER_CONFIG.prices).forEach(function(key) {
+    const el = document.querySelector('[data-price="' + key + '"]');
+    if (el) el.textContent = formatYen(ORDER_CONFIG.prices[key]);
+  });
+
+  // 各カードの選択状態と小計表示を更新
+  document.querySelectorAll('.model-card-mini[data-model]').forEach(function(card) {
+    const model = card.dataset.model;
+    const input = card.querySelector('input[name="qty_' + model + '"]');
+    if (!input) return;
+    const qty = parseInt(input.value) || 0;
+    const price = ORDER_CONFIG.prices[model] || 0;
+    const subtotal = price * qty;
+    const free = Math.floor(qty / 3);
+    const subEl = card.querySelector('.mc-subtotal');
+    if (subEl) {
+      if (qty > 0) {
+        let txt = '小計：' + formatYen(subtotal);
+        if (free > 0) txt += '（+' + free + '台 無償）';
+        subEl.textContent = txt;
+      } else {
+        subEl.textContent = '';
+      }
+    }
+    if (qty > 0) card.classList.add('is-selected');
+    else card.classList.remove('is-selected');
+  });
+
+  // 一覧サマリーと合計を再計算
+  const orders = getOrders();
+  let grandTotal = 0;
+  let totalFree = 0;
+  let totalQty = 0;
+
+  const listEl = document.getElementById('sm-list');
+  if (listEl) {
+    if (orders.length === 0) {
+      listEl.innerHTML = '<div class="sm-empty">機種を選択してください（各カードの「＋」で数量を増やしてください）</div>';
+    } else {
+      let html = '';
+      orders.forEach(function(o) {
+        const price = ORDER_CONFIG.prices[o.model] || 0;
+        const subtotal = price * o.qty;
+        const free = Math.floor(o.qty / 3);
+        totalQty += o.qty;
+        totalFree += free;
+        grandTotal += subtotal;
+        let freeHtml = free > 0 ? '<span class="sm-free">+' + free + '台 FREE</span>' : '';
+        html += '<div class="sm-item">';
+        html +=   '<div class="sm-name">' + MODEL_NAMES[o.model] + '</div>';
+        html +=   '<div class="sm-detail">';
+        html +=     '<span>' + formatYen(price) + ' × ' + o.qty + '台</span>';
+        html +=     freeHtml;
+        html +=     '<span class="sm-subtotal">' + formatYen(subtotal) + '</span>';
+        html +=   '</div>';
+        html += '</div>';
+      });
+      listEl.innerHTML = html;
+    }
+  }
+
+  const qtyEl = document.getElementById('sum-qty');
+  if (qtyEl) qtyEl.textContent = totalQty;
+  const freeRow = document.getElementById('sum-free');
+  const freeQtyEl = document.getElementById('sum-free-qty');
+  if (freeRow && freeQtyEl) {
+    freeQtyEl.textContent = totalFree;
+    freeRow.style.display = totalFree > 0 ? 'flex' : 'none';
+  }
+  const totalEl = document.getElementById('sum-total');
+  if (totalEl) totalEl.textContent = formatYen(grandTotal);
+  const taxEl = document.getElementById('sum-tax-label');
+  if (taxEl) taxEl.textContent = ORDER_CONFIG.taxLabel;
+}
+
+function submitOrder(e) {
+  e.preventDefault();
+  const orders = getOrders();
+  if (orders.length === 0) {
+    alert('機種を1つ以上選択してください。');
+    return;
+  }
+
+  let grandTotal = 0;
+  const items = orders.map(function(o) {
+    const price = ORDER_CONFIG.prices[o.model] || 0;
+    const subtotal = price * o.qty;
+    const free = Math.floor(o.qty / 3);
+    grandTotal += subtotal;
+    return {
+      product_id: o.model,
+      product_name: MODEL_NAMES[o.model] || o.model,
+      brand: o.model.startsWith('px') || o.model.startsWith('pc') ? 'yamaha' : 'yamaha',
+      qty: o.qty,
+      free_qty: free,
+      unit_price: price,
+      subtotal: subtotal,
+    };
+  });
+
+  const get = function(id) {
+    const el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  };
+  const orderData = {
+    customer_company: get('company') || null,
+    customer_name: get('contact'),
+    customer_email: get('email'),
+    customer_phone: get('phone') || null,
+    customer_address: get('address') || null,
+    delivery_request: get('delivery') || null,
+    usage_notes: get('usage') || null,
+    notes: get('notes') || null,
+    subtotal: grandTotal,
+    source_page: PAGE_SOURCE,
+  };
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const origBtnText = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
+
+  (async function() {
+    try {
+      const { data: order, error } = await sb
+        .from('wk_orders')
+        .insert(orderData)
+        .select()
+        .single();
+      if (error) throw error;
+
+      const itemsWithOrderId = items.map(function(i) { i.order_id = order.id; return i; });
+      const { error: e2 } = await sb.from('wk_order_items').insert(itemsWithOrderId);
+      if (e2) throw e2;
+
+      showSuccess(
+        'ご注文を承りました',
+        '注文番号：' + order.order_no,
+        '担当者より2営業日以内にご連絡いたします。\nご入力いただいたメールアドレス宛にも控えをお送りいたしますので、迷惑メールフォルダ等もあわせてご確認ください。'
+      );
+
+      e.target.reset();
+      document.querySelectorAll('input[name^="qty_"]').forEach(function(i) { i.value = 0; });
+      document.querySelectorAll('.model-card-mini').forEach(function(c) { c.classList.remove('is-selected'); });
+      updateOrder();
+    } catch (err) {
+      console.error(err);
+      alert('送信失敗：' + (err.message || err) + '\n\nお手数ですが下記までご連絡ください：\ninfo@wakimotocorp.com / TEL 0495-37-4806');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = origBtnText; }
+    }
+  })();
+}
+
+
+// 初期化
+document.addEventListener('DOMContentLoaded', function() {
+  updateOrder();
+  loadFromSupabase();
+  document.querySelectorAll('input[type="number"][name^="qty_"]').forEach(function(input) {
+    input.addEventListener('change', updateOrder);
+  });
+});
+</script>
+
+
+<!-- SUCCESS MODAL (Supabase送信完了) -->
+<div class="success-modal" id="success-modal" style="display:none">
+  <div class="sm-box">
+    <div class="sm-icon">✓</div>
+    <div class="sm-title" id="sm-title">送信完了</div>
+    <div class="sm-no" id="sm-no"></div>
+    <div class="sm-msg" id="sm-msg"></div>
+    <button class="sm-close" id="sm-close">閉じる</button>
+  </div>
+</div>
 
 </body>
 </html>
