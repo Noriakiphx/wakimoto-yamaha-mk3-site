@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /test-supabase.html
+
+Sitemap: https://yamaha-mk3.wakimotocorp.com/sitemap.xml
