@@ -2253,7 +2253,7 @@ function showSuccess(title, no, msg) {
   document.getElementById('success-modal').style.display = 'flex';
 }
 
-document.getElementById('sm-close').addEventListener('click', function() {
+document.getElementById('sm-close')?.addEventListener('click', function() {
   document.getElementById('success-modal').style.display = 'none';
 });
 
