@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin ｜ 脇本商会 / SoundAssist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000;
+    --bg-2:#0a0a0a;
+    --surface:#141414;
+    --surface-2:#1c1c1c;
+    --line:#262626;
+    --line-soft:#1d1d1d;
+    --text:#fff;
+    --text-dim:#b3b3b3;
+    --text-muted:#737373;
+    --accent:#7c3aed;
+    --accent-2:#c4b5fd;
+    --accent-3:#a78bfa;
+    --accent-soft:rgba(124,58,237,.20);
+    --danger:#ef4444;
+    --success:#10b981;
+    --warning:#f59e0b;
+    --info:#3b82f6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{color:var(--accent)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,textarea,select{font-family:inherit;font-size:14px}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:var(--bg-2)}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+  /* ── LOGIN ── */
+  .login-wrap{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:24px;background:radial-gradient(ellipse at top, rgba(124,58,237,.10), transparent 60%), var(--bg);
+  }
+  .login-box{
+    width:100%;max-width:400px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:16px;padding:36px 30px;
+  }
+  .login-brand{
+    text-align:center;margin-bottom:28px;
+  }
+  .login-brand .lb-jp{font-weight:900;font-size:20px;letter-spacing:.02em}
+  .login-brand .lb-en{
+    font-family:'Anton',sans-serif;font-size:13px;color:var(--accent);
+    letter-spacing:.2em;margin-top:4px;
+  }
+  .login-brand .lb-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.2em;margin-top:8px;
+  }
+  .login-box h1{
+    font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.04em;
+    margin-bottom:24px;text-align:center;
+  }
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+  .field label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--text-muted);letter-spacing:.1em;
+  }
+  .field input{
+    padding:11px 14px;background:var(--bg-2);
+    border:1px solid var(--line);border-radius:8px;
+    color:var(--text);outline:none;transition:.15s;
+  }
+  .field input:focus{border-color:var(--accent);background:var(--bg)}
+  .login-btn{
+    width:100%;padding:12px;background:var(--accent);
+    color:#fff;border-radius:8px;font-weight:600;
+    margin-top:8px;transition:.15s;font-size:15px;
+  }
+  .login-btn:hover{background:var(--accent-3)}
+  .login-btn:disabled{opacity:.6;cursor:not-allowed}
+  .login-error{
+    margin-top:14px;padding:10px 14px;background:rgba(239,68,68,.1);
+    border:1px solid var(--danger);border-radius:8px;
+    color:var(--danger);font-size:13px;
+  }
+  .login-note{
+    margin-top:20px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--text-muted);text-align:center;
+    line-height:1.7;
+  }
+
+  /* ── DASHBOARD SHELL ── */
+  .app{display:none}
+  .app.is-active{display:block}
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(0,0,0,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:0 20px;height:60px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .tb-brand{
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;
+  }
+  .tb-brand .tb-tag{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    background:var(--accent);color:#fff;
+    padding:3px 8px;border-radius:4px;letter-spacing:.15em;
+  }
+  .tb-actions{display:flex;align-items:center;gap:12px}
+  .tb-user{font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace}
+  .tb-logout{
+    padding:7px 12px;background:var(--bg-2);
+    border:1px solid var(--line);border-radius:6px;
+    font-size:12px;color:var(--text-dim);transition:.15s;
+  }
+  .tb-logout:hover{border-color:var(--danger);color:var(--danger)}
+
+  /* nav */
+  .navbar{
+    background:var(--bg-2);border-bottom:1px solid var(--line);
+    overflow-x:auto;white-space:nowrap;
+    position:sticky;top:60px;z-index:40;
+  }
+  .navbar-inner{
+    display:flex;gap:0;padding:0 16px;min-width:max-content;
+  }
+  .nav-btn{
+    padding:13px 18px;
+    color:var(--text-dim);font-size:13px;font-weight:500;
+    border-bottom:2px solid transparent;
+    transition:.15s;position:relative;
+    display:flex;align-items:center;gap:8px;
+  }
+  .nav-btn:hover{color:var(--text);background:var(--surface)}
+  .nav-btn.is-active{color:var(--text);border-bottom-color:var(--accent)}
+  .nav-btn .badge{
+    background:var(--danger);color:#fff;
+    font-size:10px;padding:2px 6px;border-radius:10px;
+    font-weight:600;min-width:18px;text-align:center;
+  }
+  .nav-btn .badge.is-zero{background:var(--line);color:var(--text-muted)}
+
+  /* main */
+  main{padding:24px 20px 80px;max-width:1400px;margin:0 auto}
+  .view{display:none}
+  .view.is-active{display:block}
+
+  .view-head{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    flex-wrap:wrap;gap:14px;margin-bottom:24px;
+    padding-bottom:18px;border-bottom:1px solid var(--line);
+  }
+  .vh-title{
+    font-family:'Anton',sans-serif;font-size:32px;letter-spacing:.04em;
+    line-height:1;
+  }
+  .vh-sub{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--text-muted);letter-spacing:.15em;margin-top:6px;
+  }
+  .vh-stats{
+    display:flex;gap:18px;flex-wrap:wrap;
+  }
+  .vh-stat{
+    padding:10px 16px;background:var(--surface);
+    border:1px solid var(--line);border-radius:8px;
+    display:flex;flex-direction:column;gap:2px;min-width:90px;
+  }
+  .vh-stat-k{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    color:var(--text-muted);letter-spacing:.1em;
+  }
+  .vh-stat-v{font-size:18px;font-weight:700;color:var(--text)}
+  .vh-stat-v.is-accent{color:var(--accent-2)}
+  .vh-stat-v.is-danger{color:var(--danger)}
+
+  /* filters */
+  .filters{
+    display:flex;gap:10px;flex-wrap:wrap;
+    margin-bottom:18px;align-items:center;
+  }
+  .filters input[type="search"],
+  .filters select{
+    padding:8px 12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:6px;
+    color:var(--text);outline:none;transition:.15s;font-size:13px;
+  }
+  .filters input[type="search"]{width:240px}
+  .filters input:focus,.filters select:focus{border-color:var(--accent)}
+  .filters .filter-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--text-muted);letter-spacing:.05em;
+  }
+  .btn-primary,.btn-secondary,.btn-danger,.btn-success{
+    padding:8px 14px;border-radius:6px;font-size:12px;font-weight:600;
+    transition:.15s;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-3)}
+  .btn-secondary{background:transparent;border-color:var(--line);color:var(--text-dim)}
+  .btn-secondary:hover{border-color:var(--accent);color:var(--text)}
+  .btn-danger{background:transparent;border-color:var(--danger);color:var(--danger)}
+  .btn-danger:hover{background:var(--danger);color:#fff}
+  .btn-success{background:var(--success);color:#fff}
+  .btn-success:hover{filter:brightness(1.1)}
+
+  /* table */
+  .data-table{
+    width:100%;background:var(--surface);
+    border:1px solid var(--line);border-radius:10px;
+    border-collapse:separate;border-spacing:0;overflow:hidden;
+  }
+  .data-table thead th{
+    text-align:left;padding:12px 14px;
+    background:var(--bg-2);
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.1em;font-weight:600;
+    border-bottom:1px solid var(--line);
+  }
+  .data-table tbody td{
+    padding:13px 14px;border-bottom:1px solid var(--line-soft);
+    font-size:13px;vertical-align:middle;
+  }
+  .data-table tbody tr{cursor:pointer;transition:.15s}
+  .data-table tbody tr:hover{background:var(--surface-2)}
+  .data-table tbody tr:last-child td{border-bottom:none}
+  .data-table .col-mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2)}
+  .data-table .col-num{text-align:right;font-family:'JetBrains Mono',monospace}
+  .data-table .col-name{font-weight:600;color:var(--text)}
+  .data-table .col-date{color:var(--text-muted);font-size:11px;font-family:'JetBrains Mono',monospace}
+
+  .empty-state{
+    padding:60px 20px;text-align:center;
+    background:var(--surface);border:1px dashed var(--line);
+    border-radius:10px;color:var(--text-muted);
+  }
+  .empty-state h3{
+    font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.05em;
+    margin-bottom:8px;color:var(--text-dim);
+  }
+
+  /* status pills */
+  .pill{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:3px 10px;border-radius:11px;
+    font-size:10px;font-weight:600;letter-spacing:.06em;
+    font-family:'JetBrains Mono',monospace;text-transform:uppercase;
+  }
+  .pill::before{
+    content:'';width:6px;height:6px;border-radius:50%;background:currentColor;
+  }
+  .pill.s-new{background:rgba(59,130,246,.15);color:var(--info)}
+  .pill.s-confirmed{background:rgba(124,58,237,.15);color:var(--accent-2)}
+  .pill.s-processing{background:rgba(245,158,11,.15);color:var(--warning)}
+  .pill.s-ordered_to_supplier{background:rgba(245,158,11,.18);color:var(--warning)}
+  .pill.s-shipped{background:rgba(16,185,129,.12);color:var(--success)}
+  .pill.s-delivered{background:rgba(16,185,129,.22);color:var(--success)}
+  .pill.s-cancelled{background:rgba(115,115,115,.15);color:var(--text-muted)}
+  .pill.s-reviewing{background:rgba(245,158,11,.15);color:var(--warning)}
+  .pill.s-quoted{background:rgba(124,58,237,.15);color:var(--accent-2)}
+  .pill.s-accepted{background:rgba(16,185,129,.18);color:var(--success)}
+  .pill.s-completed{background:rgba(16,185,129,.24);color:var(--success)}
+  .pill.s-rejected{background:rgba(239,68,68,.15);color:var(--danger)}
+
+  /* drawer */
+  .drawer-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);
+    z-index:100;display:none;
+  }
+  .drawer-overlay.is-open{display:flex;justify-content:flex-end}
+  .drawer{
+    width:min(720px, 100vw);background:var(--bg);
+    border-left:1px solid var(--line);
+    overflow-y:auto;animation:slide-in .25s ease;
+    display:flex;flex-direction:column;
+  }
+  @keyframes slide-in{from{transform:translateX(100%)}to{transform:none}}
+  .drawer-head{
+    padding:20px 26px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:flex-start;
+    position:sticky;top:0;background:var(--bg);z-index:5;gap:14px;
+  }
+  .dh-title{font-size:18px;font-weight:700}
+  .dh-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-2);margin-top:4px;letter-spacing:.08em}
+  .drawer-close{
+    width:32px;height:32px;border-radius:8px;
+    background:var(--surface);border:1px solid var(--line);
+    color:var(--text-dim);font-size:20px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .drawer-close:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+  .drawer-body{padding:24px 26px;flex:1}
+  .drawer-section{margin-bottom:24px}
+  .ds-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent);letter-spacing:.15em;margin-bottom:10px;font-weight:600;
+  }
+  .ds-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px}
+  .ds-item{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:8px;padding:12px 14px;
+  }
+  .ds-item-k{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    color:var(--text-muted);letter-spacing:.1em;
+  }
+  .ds-item-v{font-size:14px;color:var(--text);margin-top:4px;word-break:break-word}
+  .ds-items-list{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:8px;overflow:hidden;
+  }
+  .ds-item-row{
+    padding:12px 14px;border-bottom:1px solid var(--line-soft);
+    display:flex;justify-content:space-between;align-items:center;gap:14px;
+  }
+  .ds-item-row:last-child{border-bottom:none}
+  .ds-item-row-name{font-weight:600}
+  .ds-item-row-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);display:flex;gap:14px;align-items:center}
+  .ds-item-row-meta .free{color:var(--accent-2);font-size:10px}
+  .ds-item-row-total{font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace}
+  .ds-grand-total{
+    margin-top:12px;padding:14px 16px;
+    background:linear-gradient(180deg, rgba(124,58,237,.10), transparent);
+    border:1px solid var(--accent-soft);border-radius:8px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ds-grand-total .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:.1em}
+  .ds-grand-total .val{font-family:'Anton',sans-serif;font-size:24px;color:var(--accent-2);letter-spacing:.02em}
+
+  /* drawer edit form */
+  .edit-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .edit-field label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.1em;
+  }
+  .edit-field input,.edit-field select,.edit-field textarea{
+    padding:10px 12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:6px;
+    color:var(--text);outline:none;transition:.15s;
+  }
+  .edit-field input:focus,.edit-field select:focus,.edit-field textarea:focus{border-color:var(--accent)}
+  .edit-field textarea{resize:vertical;min-height:80px;font-family:inherit}
+  .edit-actions{
+    display:flex;gap:10px;flex-wrap:wrap;padding-top:14px;
+    border-top:1px solid var(--line);margin-top:18px;
+  }
+  .edit-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  /* card grids (campaigns, supplier cards, etc) */
+  .card-grid{
+    display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:10px;padding:20px;
+    transition:.15s;
+  }
+  .card:hover{border-color:var(--accent-soft)}
+  .card-head{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    margin-bottom:14px;gap:10px;
+  }
+  .card-title{font-weight:700;font-size:15px}
+  .card-tag{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;
+  }
+
+  /* products: price inline edit */
+  .price-input{
+    width:110px;padding:6px 10px;background:var(--bg-2);
+    border:1px solid var(--line);border-radius:5px;
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    text-align:right;font-size:13px;outline:none;
+  }
+  .price-input:focus{border-color:var(--accent)}
+  .stock-toggle{
+    width:42px;height:22px;background:var(--line);
+    border-radius:11px;position:relative;
+    transition:.2s;cursor:pointer;
+    border:none;padding:0;
+  }
+  .stock-toggle::after{
+    content:'';position:absolute;
+    width:18px;height:18px;background:#fff;
+    border-radius:50%;top:1.5px;left:2px;
+    transition:.2s;
+  }
+  .stock-toggle.is-on{background:var(--success)}
+  .stock-toggle.is-on::after{left:22px}
+
+  /* notification toast */
+  .toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--surface);border:1px solid var(--line);
+    padding:12px 22px;border-radius:8px;font-size:13px;
+    z-index:200;animation:toast-in .2s ease;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+  .toast.is-success{border-color:var(--success);color:var(--success)}
+  .toast.is-error{border-color:var(--danger);color:var(--danger)}
+  @keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%)}}
+
+  /* highlight new */
+  .row-new{
+    position:relative;
+    background:linear-gradient(90deg, rgba(124,58,237,.08), transparent 50%) !important;
+  }
+  .row-new::before{
+    content:'NEW';position:absolute;left:-1px;top:50%;
+    transform:translateY(-50%);
+    background:var(--accent);color:#fff;
+    font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;
+    padding:2px 5px;border-radius:0 4px 4px 0;letter-spacing:.1em;
+  }
+
+  /* supplier-pending grouped table */
+  .supplier-group{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:10px;padding:18px 20px;margin-bottom:14px;
+  }
+  .sg-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);
+    gap:12px;flex-wrap:wrap;
+  }
+  .sg-name{font-weight:700;font-size:16px}
+  .sg-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.1em}
+  .sg-list-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13px;
+  }
+  .sg-list-row:last-child{border-bottom:none}
+  .sg-pname{font-weight:600;flex:1}
+  .sg-pqty{font-family:'JetBrains Mono',monospace;color:var(--accent-2);font-weight:700;min-width:80px;text-align:right}
+  .sg-pmeta{font-family:'JetBrains Mono',monospace;color:var(--text-muted);font-size:10px;margin-left:14px;min-width:100px;text-align:right}
+
+  /* loading */
+  .loading{
+    padding:40px;text-align:center;color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+  }
+  .loading::before{
+    content:'';display:inline-block;width:14px;height:14px;
+    border:2px solid var(--line);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite;
+    margin-right:10px;vertical-align:middle;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* responsive */
+  @media (max-width:680px){
+    .topbar{padding:0 14px;height:54px}
+    .tb-user{display:none}
+    .navbar{top:54px}
+    .nav-btn{padding:11px 13px;font-size:12px}
+    main{padding:18px 14px}
+    .vh-title{font-size:24px}
+    .data-table{font-size:12px;display:block;overflow-x:auto;white-space:nowrap}
+    .data-table thead th, .data-table tbody td{padding:10px 12px}
+    .filters input[type="search"]{width:160px}
+    .drawer{width:100vw}
+    .drawer-head, .drawer-body{padding:18px 18px}
+    .edit-row{grid-template-columns:1fr}
+    .ds-grid{grid-template-columns:1fr 1fr}
+  }
+
+  /* ── Settings tab ── */
+  .settings-section{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:24px;margin-bottom:20px;
+  }
+  .settings-title{
+    font-size:16px;margin:0 0 8px;color:var(--text);font-weight:600;
+  }
+  .settings-desc{
+    font-size:13px;color:var(--text-muted);margin:0 0 18px;line-height:1.7;
+  }
+  .supplier-card{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
+    padding:18px;margin-bottom:12px;
+  }
+  .supplier-card .sc-head{
+    display:flex;align-items:center;gap:12px;margin-bottom:14px;
+    padding-bottom:12px;border-bottom:1px solid var(--line);
+  }
+  .supplier-card .sc-id{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);
+    padding:4px 8px;background:var(--bg);border-radius:4px;letter-spacing:.06em;
+  }
+  .supplier-card .sc-name{
+    flex:1;font-size:15px;font-weight:600;background:transparent;
+    border:1px solid transparent;color:var(--text);padding:6px 8px;border-radius:4px;
+    transition:.15s;
+  }
+  .supplier-card .sc-name:hover, .supplier-card .sc-name:focus{
+    border-color:var(--line);background:var(--bg);
+  }
+  .supplier-card .sc-fields{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  }
+  .supplier-card .sc-fields label{
+    display:flex;flex-direction:column;gap:5px;
+    font-size:11px;color:var(--text-muted);letter-spacing:.05em;
+  }
+  .supplier-card .sc-fields label.full{grid-column:1 / -1}
+  .supplier-card .sc-fields input,
+  .supplier-card .sc-fields textarea{
+    background:var(--bg);border:1px solid var(--line);color:var(--text);
+    padding:8px 10px;border-radius:5px;font-size:13px;font-family:inherit;
+    transition:border-color .15s;
+  }
+  .supplier-card .sc-fields input:focus,
+  .supplier-card .sc-fields textarea:focus{
+    border-color:var(--accent);outline:none;
+  }
+  @media (max-width:640px){
+    .supplier-card .sc-fields{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="login-view">
+  <div class="login-box">
+    <div class="login-brand">
+      <div class="lb-jp">脇本商会</div>
+      <div class="lb-en">SOUNDASSIST</div>
+      <div class="lb-tag">／ ADMIN CONSOLE</div>
+    </div>
+    <h1>Sign in</h1>
+    <form id="login-form">
+      <div class="field">
+        <label for="login-email">メールアドレス</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-pw">パスワード</label>
+        <input type="password" id="login-pw" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn" id="login-btn">ログイン</button>
+      <div class="login-error" id="login-error" style="display:none"></div>
+    </form>
+    <div class="login-note">
+      初回ログインのアカウントは Supabase Dashboard の<br>Authentication → Users で追加してください。
+    </div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="app" id="app">
+
+<header class="topbar">
+  <div class="tb-brand">
+    脇本商会 <span class="tb-tag">ADMIN</span>
+  </div>
+  <div class="tb-actions">
+    <span class="tb-user" id="tb-user"></span>
+    <button class="tb-logout" id="tb-logout">ログアウト</button>
+  </div>
+</header>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <button class="nav-btn is-active" data-view="orders">📦 注文 <span class="badge is-zero" id="badge-orders">0</span></button>
+    <button class="nav-btn" data-view="tradeins">🔄 トレード・イン <span class="badge is-zero" id="badge-tradeins">0</span></button>
+    <button class="nav-btn" data-view="products">💰 価格 / 在庫</button>
+    <button class="nav-btn" data-view="campaigns">📅 キャンペーン</button>
+    <button class="nav-btn" data-view="customers">👥 顧客</button>
+    <button class="nav-btn" data-view="suppliers">🏭 仕入リスト</button>
+    <button class="nav-btn" data-view="settings">⚙️ 設定</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ── 注文 ── -->
+<section class="view is-active" id="view-orders">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">注文管理</div>
+      <div class="vh-sub">／ ORDERS</div>
+    </div>
+    <div class="vh-stats">
+      <div class="vh-stat"><div class="vh-stat-k">NEW</div><div class="vh-stat-v is-accent" id="stat-orders-new">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">PROCESSING</div><div class="vh-stat-v" id="stat-orders-processing">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">TOTAL ¥</div><div class="vh-stat-v" id="stat-orders-amount">¥0</div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">FILTER ／</span>
+    <input type="search" id="filter-orders-search" placeholder="注文番号・氏名・会社名・メール">
+    <select id="filter-orders-status">
+      <option value="">すべて</option>
+      <option value="new">新規</option>
+      <option value="confirmed">確認済</option>
+      <option value="processing">処理中</option>
+      <option value="ordered_to_supplier">仕入発注済</option>
+      <option value="shipped">発送済</option>
+      <option value="delivered">納品済</option>
+      <option value="cancelled">キャンセル</option>
+    </select>
+    <button class="btn-secondary" id="orders-refresh">↻ 更新</button>
+  </div>
+
+  <div id="orders-tbody-wrap">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── トレード・イン ── -->
+<section class="view" id="view-tradeins">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">トレード・イン管理</div>
+      <div class="vh-sub">／ POWERSOFT TRADE-IN INQUIRIES</div>
+    </div>
+    <div class="vh-stats">
+      <div class="vh-stat"><div class="vh-stat-k">NEW</div><div class="vh-stat-v is-accent" id="stat-ti-new">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">REVIEWING</div><div class="vh-stat-v" id="stat-ti-reviewing">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">QUOTED</div><div class="vh-stat-v" id="stat-ti-quoted">0</div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">FILTER ／</span>
+    <input type="search" id="filter-ti-search" placeholder="案件番号・氏名・機種">
+    <select id="filter-ti-status">
+      <option value="">すべて</option>
+      <option value="new">新規</option>
+      <option value="reviewing">確認中</option>
+      <option value="quoted">見積済</option>
+      <option value="accepted">受注</option>
+      <option value="completed">完了</option>
+      <option value="rejected">不成立</option>
+    </select>
+    <button class="btn-secondary" id="ti-refresh">↻ 更新</button>
+  </div>
+
+  <div id="ti-tbody-wrap">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── 商品 / 価格 ── -->
+<section class="view" id="view-products">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">価格 / 在庫管理</div>
+      <div class="vh-sub">／ PRODUCTS — 編集後にエンターまたはフォーカス外しで自動保存</div>
+    </div>
+    <div class="vh-stats">
+      <div class="vh-stat"><div class="vh-stat-k">PRODUCTS</div><div class="vh-stat-v" id="stat-prod-total">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">UNPRICED</div><div class="vh-stat-v is-danger" id="stat-prod-unpriced">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">OUT OF STOCK</div><div class="vh-stat-v" id="stat-prod-oos">0</div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <span class="filter-label">FILTER ／</span>
+    <select id="filter-prod-category">
+      <option value="">全カテゴリー</option>
+      <option value="powered_sub">DXS パワードサブ</option>
+      <option value="powered_top">DXR パワードトップ</option>
+      <option value="passive_sub">CXS パッシブサブ</option>
+      <option value="passive_top">CXR パッシブトップ</option>
+      <option value="amp_yamaha_px">YAMAHA PX</option>
+      <option value="amp_yamaha_pcd">YAMAHA PC-D / DI</option>
+    </select>
+    <button class="btn-secondary" id="prod-refresh">↻ 更新</button>
+  </div>
+
+  <div id="prod-tbody-wrap">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── キャンペーン ── -->
+<section class="view" id="view-campaigns">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">キャンペーン管理</div>
+      <div class="vh-sub">／ CAMPAIGNS</div>
+    </div>
+  </div>
+  <div class="card-grid" id="campaigns-grid">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── 顧客 ── -->
+<section class="view" id="view-customers">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">顧客リスト</div>
+      <div class="vh-sub">／ CUSTOMERS — 過去注文から集計</div>
+    </div>
+    <div class="vh-stats">
+      <div class="vh-stat"><div class="vh-stat-k">CUSTOMERS</div><div class="vh-stat-v" id="stat-cust-total">0</div></div>
+      <div class="vh-stat"><div class="vh-stat-k">REPEAT</div><div class="vh-stat-v" id="stat-cust-repeat">0</div></div>
+    </div>
+  </div>
+  <div class="filters">
+    <span class="filter-label">FILTER ／</span>
+    <input type="search" id="filter-cust-search" placeholder="氏名・会社名・メール">
+    <button class="btn-secondary" id="cust-refresh">↻ 更新</button>
+  </div>
+  <div id="cust-tbody-wrap">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── 仕入リスト ── -->
+<section class="view" id="view-suppliers">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">仕入リスト</div>
+      <div class="vh-sub">／ SUPPLIER PENDING — 未発注の注文を仕入先別に集計</div>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="btn-secondary" id="sup-refresh">↻ 更新</button>
+  </div>
+  <div id="sup-wrap">
+    <div class="loading">読み込み中...</div>
+  </div>
+</section>
+
+<!-- ── 設定 ── -->
+<section class="view" id="view-settings">
+  <div class="view-head">
+    <div>
+      <div class="vh-title">設定</div>
+      <div class="vh-sub">／ SETTINGS — メール送信先・仕入先情報の管理</div>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="btn-secondary" id="settings-refresh">↻ 更新</button>
+  </div>
+
+  <div class="settings-section">
+    <h3 class="settings-title">📧 仕入先メール送信先</h3>
+    <p class="settings-desc">
+      「仕入リスト」タブから発注メールを送信する際の宛先となります。<br>
+      フィールドを変更するとフォーカスを外した時点で自動保存されます（緑＝保存成功、赤＝エラー）。
+    </p>
+    <div id="settings-suppliers">
+      <div class="loading">読み込み中...</div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3 class="settings-title">📨 注文受付通知</h3>
+    <p class="settings-desc">
+      新規注文／トレード・イン問い合わせを受信した際、admin 画面を開いていればブラウザ上にリアルタイム通知（トースト）が表示されます。<br>
+      メールでの通知が必要な場合は、Supabase の Edge Functions または外部サービス（Resend など）の追加実装が必要です。ご希望があればご相談ください。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<!-- ── DRAWER ── -->
+<div class="drawer-overlay" id="drawer">
+  <div class="drawer">
+    <div class="drawer-head">
+      <div>
+        <div class="dh-title" id="dh-title">—</div>
+        <div class="dh-sub" id="dh-sub">—</div>
+      </div>
+      <button class="drawer-close" id="dh-close">×</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </div>
+</div>
+
+</div><!-- /.app -->
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// ============================================================
+//  Supabase 設定
+// ============================================================
+const SUPABASE_URL = 'https://nhnidamtxsgbqnlcwzgs.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bdxBJnylkn_8iZKGEvxUmA_heddc-QJ';
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── 共通ヘルパー ──
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const fmtYen = n => '¥' + (n||0).toLocaleString('ja-JP');
+const fmtDate = iso => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.getFullYear() + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+};
+const fmtDateShort = iso => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.getFullYear() + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()).padStart(2,'0');
+};
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type='success'){
+  const el = document.createElement('div');
+  el.className = 'toast is-' + type;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), 2400);
+}
+
+const STATUS_LABELS = {
+  new: '新規', confirmed: '確認済', processing: '処理中',
+  ordered_to_supplier: '仕入発注済', shipped: '発送済', delivered: '納品済',
+  cancelled: 'キャンセル',
+  reviewing: '確認中', quoted: '見積済', accepted: '受注', completed: '完了', rejected: '不成立',
+};
+
+const CAT_LABELS = {
+  powered_sub: 'DXS パワードサブ',
+  powered_top: 'DXR パワードトップ',
+  passive_sub: 'CXS パッシブサブ',
+  passive_top: 'CXR パッシブトップ',
+  amp_yamaha_px: 'YAMAHA PX',
+  amp_yamaha_pcd: 'YAMAHA PC-D / DI',
+};
+
+// ============================================================
+//  認証
+// ============================================================
+const loginView = $('#login-view');
+const app = $('#app');
+
+async function init(){
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) showApp(session.user);
+  else showLogin();
+}
+
+function showLogin(){
+  loginView.style.display = '';
+  app.classList.remove('is-active');
+}
+
+function showApp(user){
+  loginView.style.display = 'none';
+  app.classList.add('is-active');
+  $('#tb-user').textContent = user?.email || '—';
+  loadAll();
+  subscribeRealtime();
+}
+
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = $('#login-email').value.trim();
+  const password = $('#login-pw').value;
+  const errEl = $('#login-error');
+  const btn = $('#login-btn');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    showApp(data.user);
+  } catch (err){
+    errEl.textContent = 'ログイン失敗：' + (err.message || err);
+    errEl.style.display = '';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+  }
+});
+
+$('#tb-logout').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  showLogin();
+});
+
+// ============================================================
+//  ナビ切替
+// ============================================================
+$$('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    $$('.nav-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+    $$('.view').forEach(v => v.classList.toggle('is-active', v.id === 'view-' + view));
+    if (view === 'settings') loadSettings();
+  });
+});
+
+// ============================================================
+//  Drawer
+// ============================================================
+const drawer = $('#drawer');
+$('#dh-close').addEventListener('click', closeDrawer);
+drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
+
+function openDrawer(title, sub, html){
+  $('#dh-title').textContent = title;
+  $('#dh-sub').textContent = sub;
+  $('#drawer-body').innerHTML = html;
+  drawer.classList.add('is-open');
+}
+function closeDrawer(){ drawer.classList.remove('is-open'); }
+
+// ============================================================
+//  データロード（全体）
+// ============================================================
+async function loadAll(){
+  await Promise.all([loadOrders(), loadTradeIns(), loadProducts(), loadCampaigns(), loadCustomers(), loadSuppliers()]);
+}
+
+// ── State ──
+let ORDERS = [], TI = [], PRODUCTS = [], CAMPAIGNS = [], CUSTOMERS = [], SUPPLIERS_PEND = [], SUPPLIERS = [];
+
+// ============================================================
+//  注文
+// ============================================================
+async function loadOrders(){
+  const wrap = $('#orders-tbody-wrap');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data: orders, error } = await sb
+    .from('wk_orders')
+    .select('*, wk_order_items(*)')
+    .order('created_at', { ascending: false });
+  if (error){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  ORDERS = orders || [];
+  renderOrders();
+}
+
+function renderOrders(){
+  const q = $('#filter-orders-search').value.toLowerCase();
+  const st = $('#filter-orders-status').value;
+  const filtered = ORDERS.filter(o => {
+    if (st && o.status !== st) return false;
+    if (q){
+      const blob = (o.order_no+' '+(o.customer_name||'')+' '+(o.customer_company||'')+' '+(o.customer_email||'')).toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  // stats
+  const newCnt = ORDERS.filter(o => o.status === 'new').length;
+  const procCnt = ORDERS.filter(o => ['confirmed','processing','ordered_to_supplier','shipped'].includes(o.status)).length;
+  const amount = ORDERS.filter(o => o.status !== 'cancelled').reduce((s,o) => s + (o.subtotal||0), 0);
+  $('#stat-orders-new').textContent = newCnt;
+  $('#stat-orders-processing').textContent = procCnt;
+  $('#stat-orders-amount').textContent = fmtYen(amount);
+  const badge = $('#badge-orders');
+  badge.textContent = newCnt;
+  badge.classList.toggle('is-zero', newCnt === 0);
+
+  const wrap = $('#orders-tbody-wrap');
+  if (filtered.length === 0){
+    wrap.innerHTML = '<div class="empty-state"><h3>該当なし</h3><p>条件に一致する注文がありません。</p></div>';
+    return;
+  }
+
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th>注文番号</th><th>お客様</th><th>明細</th><th>合計</th><th>ステータス</th><th>受付</th>';
+  html += '</tr></thead><tbody>';
+  filtered.forEach(o => {
+    const itemsSummary = (o.wk_order_items || []).map(i => i.product_name + '×' + i.qty).join(' / ');
+    const isNew = o.status === 'new';
+    html += `<tr data-id="${o.id}" class="${isNew ? 'row-new' : ''}">`;
+    html += `<td class="col-mono">${esc(o.order_no)}</td>`;
+    html += `<td class="col-name">${esc(o.customer_name)}<div style="font-size:11px;color:var(--text-muted)">${esc(o.customer_company || '個人')}</div></td>`;
+    html += `<td style="font-size:12px;color:var(--text-dim)">${esc(itemsSummary || '—')}</td>`;
+    html += `<td class="col-num">${fmtYen(o.subtotal)}</td>`;
+    html += `<td><span class="pill s-${o.status}">${STATUS_LABELS[o.status] || o.status}</span></td>`;
+    html += `<td class="col-date">${fmtDate(o.created_at)}</td>`;
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  $$('#orders-tbody-wrap tbody tr').forEach(tr => {
+    tr.addEventListener('click', () => openOrderDrawer(tr.dataset.id));
+  });
+}
+
+function openOrderDrawer(id){
+  const o = ORDERS.find(x => x.id === id);
+  if (!o) return;
+  const items = o.wk_order_items || [];
+
+  let body = '';
+  body += '<div class="drawer-section"><div class="ds-label">お客様情報</div><div class="ds-grid">';
+  body += `<div class="ds-item"><div class="ds-item-k">会社名</div><div class="ds-item-v">${esc(o.customer_company||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">ご担当者</div><div class="ds-item-v">${esc(o.customer_name||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">メール</div><div class="ds-item-v"><a href="mailto:${esc(o.customer_email)}">${esc(o.customer_email||'—')}</a></div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">電話</div><div class="ds-item-v">${esc(o.customer_phone||'—')}</div></div>`;
+  body += `<div class="ds-item" style="grid-column:1/-1"><div class="ds-item-k">納品先住所</div><div class="ds-item-v">${esc(o.customer_address||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">納期希望</div><div class="ds-item-v">${esc(o.delivery_request||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">用途・参考</div><div class="ds-item-v">${esc(o.usage_notes||'—')}</div></div>`;
+  body += `<div class="ds-item" style="grid-column:1/-1"><div class="ds-item-k">備考</div><div class="ds-item-v" style="white-space:pre-wrap">${esc(o.notes||'—')}</div></div>`;
+  body += '</div></div>';
+
+  body += '<div class="drawer-section"><div class="ds-label">注文明細</div><div class="ds-items-list">';
+  items.forEach(i => {
+    body += '<div class="ds-item-row">';
+    body += `<div class="ds-item-row-name">${esc(i.product_name)}</div>`;
+    body += `<div class="ds-item-row-meta"><span>${fmtYen(i.unit_price)} × ${i.qty}台</span>${i.free_qty>0 ? `<span class="free">+${i.free_qty}台 FREE</span>` : ''}<span class="ds-item-row-total">${fmtYen(i.subtotal)}</span></div>`;
+    body += '</div>';
+  });
+  body += '</div>';
+  body += `<div class="ds-grand-total"><span class="lbl">合計</span><span class="val">${fmtYen(o.subtotal)}</span></div>`;
+  body += '</div>';
+
+  body += '<div class="drawer-section"><div class="ds-label">管理</div>';
+  body += `<div class="edit-row">`;
+  body += `<div class="edit-field"><label>ステータス</label><select id="ord-status">`;
+  ['new','confirmed','processing','ordered_to_supplier','shipped','delivered','cancelled'].forEach(s => {
+    body += `<option value="${s}" ${o.status===s?'selected':''}>${STATUS_LABELS[s]}</option>`;
+  });
+  body += `</select></div>`;
+  body += `<div class="edit-field"><label>仕入発注番号 / 参照</label><input type="text" id="ord-supref" value="${esc(o.supplier_order_ref||'')}"></div>`;
+  body += `</div>`;
+  body += `<div class="edit-field"><label>管理メモ（顧客には非公開）</label><textarea id="ord-admin-notes">${esc(o.admin_notes||'')}</textarea></div>`;
+  body += `<div class="edit-actions">`;
+  body += `<button class="btn-primary" id="ord-save">保存</button>`;
+  body += `<button class="btn-secondary" id="ord-mailto">お客様へメール</button>`;
+  body += `<button class="btn-danger" id="ord-delete">削除</button>`;
+  body += `</div></div>`;
+
+  openDrawer('注文 / ' + o.order_no, o.source_page === 'cxr' ? 'CXR/CXS mk3 系・パワーアンプ' : 'DXR/DXS mk3 系', body);
+
+  $('#ord-save').addEventListener('click', async () => {
+    const { error } = await sb.from('wk_orders').update({
+      status: $('#ord-status').value,
+      supplier_order_ref: $('#ord-supref').value.trim() || null,
+      admin_notes: $('#ord-admin-notes').value,
+    }).eq('id', o.id);
+    if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+    toast('保存しました');
+    closeDrawer(); loadOrders();
+  });
+  $('#ord-mailto').addEventListener('click', () => {
+    const subject = `[${o.order_no}] 脇本商会 ご注文の件`;
+    const body = `${o.customer_name} 様\n\nこの度はご注文ありがとうございます。\n\n■ ご注文番号：${o.order_no}\n■ ご注文金額：${fmtYen(o.subtotal)}\n\n` + items.map(i => `・${i.product_name} × ${i.qty}台${i.free_qty>0?` (+${i.free_qty}台 無償)`:''}`).join('\n') + `\n\n---\n脇本商会 / SoundAssist\n埼玉県本庄市駅南2-1-25 ふらわあビル 3-A\nTEL: 0495-37-4806\ninfo@wakimotocorp.com`;
+    location.href = `mailto:${o.customer_email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+  $('#ord-delete').addEventListener('click', async () => {
+    if (!confirm('この注文を削除しますか？（明細も同時削除されます）')) return;
+    const { error } = await sb.from('wk_orders').delete().eq('id', o.id);
+    if (error){ toast('削除失敗: ' + error.message, 'error'); return; }
+    toast('削除しました');
+    closeDrawer(); loadOrders();
+  });
+}
+
+$('#filter-orders-search').addEventListener('input', renderOrders);
+$('#filter-orders-status').addEventListener('change', renderOrders);
+$('#orders-refresh').addEventListener('click', loadOrders);
+
+// ============================================================
+//  トレード・イン
+// ============================================================
+async function loadTradeIns(){
+  const wrap = $('#ti-tbody-wrap');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data, error } = await sb.from('wk_tradein_inquiries').select('*').order('created_at', { ascending: false });
+  if (error){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  TI = data || [];
+  renderTradeIns();
+}
+
+function renderTradeIns(){
+  const q = $('#filter-ti-search').value.toLowerCase();
+  const st = $('#filter-ti-status').value;
+  const filtered = TI.filter(t => {
+    if (st && t.status !== st) return false;
+    if (q){
+      const blob = (t.inquiry_no+' '+(t.customer_name||'')+' '+(t.tradein_maker||'')+' '+(t.tradein_model||'')+' '+(t.target_series||'')).toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const newCnt = TI.filter(t => t.status === 'new').length;
+  const revCnt = TI.filter(t => t.status === 'reviewing').length;
+  const quoCnt = TI.filter(t => t.status === 'quoted').length;
+  $('#stat-ti-new').textContent = newCnt;
+  $('#stat-ti-reviewing').textContent = revCnt;
+  $('#stat-ti-quoted').textContent = quoCnt;
+  const badge = $('#badge-tradeins');
+  badge.textContent = newCnt;
+  badge.classList.toggle('is-zero', newCnt === 0);
+
+  const wrap = $('#ti-tbody-wrap');
+  if (filtered.length === 0){
+    wrap.innerHTML = '<div class="empty-state"><h3>該当なし</h3></div>';
+    return;
+  }
+
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th>案件番号</th><th>お客様</th><th>下取り</th><th>希望Powersoft</th><th>ステータス</th><th>受付</th>';
+  html += '</tr></thead><tbody>';
+  filtered.forEach(t => {
+    const isNew = t.status === 'new';
+    html += `<tr data-id="${t.id}" class="${isNew ? 'row-new' : ''}">`;
+    html += `<td class="col-mono">${esc(t.inquiry_no)}</td>`;
+    html += `<td class="col-name">${esc(t.customer_name)}<div style="font-size:11px;color:var(--text-muted)">${esc(t.customer_company || t.customer_type || '個人')}</div></td>`;
+    html += `<td style="font-size:12px">${esc(t.tradein_maker)} ${esc(t.tradein_model)}<div style="color:var(--text-muted);font-size:10px;font-family:'JetBrains Mono',monospace">${esc(t.tradein_channels||'')} × ${t.tradein_qty}</div></td>`;
+    html += `<td style="font-size:12px;color:var(--accent-2)">${esc(t.target_series)} × ${t.target_qty}</td>`;
+    html += `<td><span class="pill s-${t.status}">${STATUS_LABELS[t.status] || t.status}</span></td>`;
+    html += `<td class="col-date">${fmtDate(t.created_at)}</td>`;
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  $$('#ti-tbody-wrap tbody tr').forEach(tr => {
+    tr.addEventListener('click', () => openTIDrawer(tr.dataset.id));
+  });
+}
+
+function openTIDrawer(id){
+  const t = TI.find(x => x.id === id);
+  if (!t) return;
+
+  let body = '';
+  body += '<div class="drawer-section"><div class="ds-label">お客様情報</div><div class="ds-grid">';
+  body += `<div class="ds-item"><div class="ds-item-k">区分</div><div class="ds-item-v">${esc(t.customer_type||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">会社名 / 屋号</div><div class="ds-item-v">${esc(t.customer_company||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">ご担当者</div><div class="ds-item-v">${esc(t.customer_name||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">メール</div><div class="ds-item-v"><a href="mailto:${esc(t.customer_email)}">${esc(t.customer_email||'—')}</a></div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">電話</div><div class="ds-item-v">${esc(t.customer_phone||'—')}</div></div>`;
+  body += `<div class="ds-item" style="grid-column:1/-1"><div class="ds-item-k">納品先住所</div><div class="ds-item-v">${esc(t.customer_address||'—')}</div></div>`;
+  body += '</div></div>';
+
+  body += '<div class="drawer-section"><div class="ds-label">下取り対象アンプ</div><div class="ds-grid">';
+  body += `<div class="ds-item"><div class="ds-item-k">メーカー</div><div class="ds-item-v">${esc(t.tradein_maker)}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">機種</div><div class="ds-item-v">${esc(t.tradein_model)}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">チャンネル数</div><div class="ds-item-v">${esc(t.tradein_channels||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">数量</div><div class="ds-item-v">${t.tradein_qty} 台</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">状態</div><div class="ds-item-v">${esc(t.tradein_condition||'—')}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">所有形態</div><div class="ds-item-v">${esc(t.tradein_ownership||'—')}</div></div>`;
+  body += '</div></div>';
+
+  body += '<div class="drawer-section"><div class="ds-label">ご希望のPowersoft製品</div><div class="ds-grid">';
+  body += `<div class="ds-item"><div class="ds-item-k">機種</div><div class="ds-item-v">${esc(t.target_series)}</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">希望台数</div><div class="ds-item-v">${t.target_qty} 台</div></div>`;
+  body += `<div class="ds-item"><div class="ds-item-k">納期希望</div><div class="ds-item-v">${esc(t.target_delivery||'—')}</div></div>`;
+  body += '</div></div>';
+
+  if (t.remarks){
+    body += `<div class="drawer-section"><div class="ds-label">お客様備考</div><div class="ds-item"><div class="ds-item-v" style="white-space:pre-wrap">${esc(t.remarks)}</div></div></div>`;
+  }
+
+  body += '<div class="drawer-section"><div class="ds-label">対応・返信</div>';
+  body += `<div class="edit-row">`;
+  body += `<div class="edit-field"><label>ステータス</label><select id="ti-status">`;
+  ['new','reviewing','quoted','accepted','completed','rejected'].forEach(s => {
+    body += `<option value="${s}" ${t.status===s?'selected':''}>${STATUS_LABELS[s]}</option>`;
+  });
+  body += `</select></div>`;
+  body += `<div class="edit-field"><label>提示価格（円）</label><input type="number" id="ti-price" value="${t.quoted_price||''}" min="0"></div>`;
+  body += `</div>`;
+  body += `<div class="edit-field"><label>返信内容（お客様向け案内文）</label><textarea id="ti-response" rows="5">${esc(t.admin_response||'')}</textarea></div>`;
+  body += `<div class="edit-field"><label>管理メモ（内部）</label><textarea id="ti-notes" rows="3">${esc(t.admin_notes||'')}</textarea></div>`;
+  body += `<div class="edit-actions">`;
+  body += `<button class="btn-primary" id="ti-save">保存</button>`;
+  body += `<button class="btn-success" id="ti-send">返信メールを送信</button>`;
+  body += `<button class="btn-danger" id="ti-delete">削除</button>`;
+  body += `</div></div>`;
+
+  openDrawer('トレード・イン / ' + t.inquiry_no, '案件管理', body);
+
+  $('#ti-save').addEventListener('click', async () => {
+    const updates = {
+      status: $('#ti-status').value,
+      quoted_price: parseInt($('#ti-price').value) || null,
+      admin_response: $('#ti-response').value,
+      admin_notes: $('#ti-notes').value,
+    };
+    const { error } = await sb.from('wk_tradein_inquiries').update(updates).eq('id', t.id);
+    if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+    toast('保存しました');
+    closeDrawer(); loadTradeIns();
+  });
+  $('#ti-send').addEventListener('click', async () => {
+    const response = $('#ti-response').value.trim();
+    if (!response){ toast('返信内容を入力してください', 'error'); return; }
+    const price = parseInt($('#ti-price').value) || 0;
+    const subject = `[${t.inquiry_no}] Powersoft トレード・イン ご回答 — 脇本商会`;
+    const body = `${t.customer_name} 様\n\nこの度はお問い合わせいただき誠にありがとうございます。\n\n■ 案件番号：${t.inquiry_no}\n■ ご希望機種：${t.target_series} × ${t.target_qty}台\n■ 下取り対象：${t.tradein_maker} ${t.tradein_model} × ${t.tradein_qty}台\n${price > 0 ? '■ ご提案価格：' + fmtYen(price) + '\n' : ''}\n${response}\n\n---\n脇本商会 / SoundAssist\n埼玉県本庄市駅南2-1-25 ふらわあビル 3-A\nTEL: 0495-37-4806\ninfo@wakimotocorp.com`;
+    location.href = `mailto:${t.customer_email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // また、内部的に responded_at を更新
+    await sb.from('wk_tradein_inquiries').update({
+      responded_at: new Date().toISOString(),
+      status: t.status === 'new' ? 'quoted' : t.status,
+    }).eq('id', t.id);
+  });
+  $('#ti-delete').addEventListener('click', async () => {
+    if (!confirm('この案件を削除しますか？')) return;
+    const { error } = await sb.from('wk_tradein_inquiries').delete().eq('id', t.id);
+    if (error){ toast('削除失敗: ' + error.message, 'error'); return; }
+    toast('削除しました');
+    closeDrawer(); loadTradeIns();
+  });
+}
+
+$('#filter-ti-search').addEventListener('input', renderTradeIns);
+$('#filter-ti-status').addEventListener('change', renderTradeIns);
+$('#ti-refresh').addEventListener('click', loadTradeIns);
+
+// ============================================================
+//  商品 / 価格管理
+// ============================================================
+async function loadProducts(){
+  const wrap = $('#prod-tbody-wrap');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data, error } = await sb.from('wk_products').select('*').order('display_order');
+  if (error){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  PRODUCTS = data || [];
+  renderProducts();
+}
+
+function renderProducts(){
+  const cat = $('#filter-prod-category').value;
+  const filtered = PRODUCTS.filter(p => !cat || p.category === cat);
+
+  $('#stat-prod-total').textContent = PRODUCTS.length;
+  $('#stat-prod-unpriced').textContent = PRODUCTS.filter(p => !p.price || p.price === 0).length;
+  $('#stat-prod-oos').textContent = PRODUCTS.filter(p => !p.in_stock).length;
+
+  const wrap = $('#prod-tbody-wrap');
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th>機種</th><th>カテゴリー</th><th>価格（円）</th><th>在庫</th><th>納期</th><th>公開</th>';
+  html += '</tr></thead><tbody>';
+  filtered.forEach(p => {
+    html += `<tr data-id="${p.id}">`;
+    html += `<td class="col-name">${esc(p.name)}<div style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${esc(p.id)} ／ ${esc(p.spec_text||'')}</div></td>`;
+    html += `<td style="font-size:12px;color:var(--text-dim)">${esc(CAT_LABELS[p.category]||p.category)}</td>`;
+    html += `<td class="col-num"><input type="number" class="price-input" data-field="price" value="${p.price||0}" min="0" step="1000"></td>`;
+    html += `<td><button class="stock-toggle ${p.in_stock?'is-on':''}" data-field="in_stock" data-val="${p.in_stock?1:0}"></button></td>`;
+    html += `<td><input type="text" class="price-input" data-field="lead_time" value="${esc(p.lead_time||'')}" style="width:90px;text-align:left"></td>`;
+    html += `<td><button class="stock-toggle ${p.active?'is-on':''}" data-field="active" data-val="${p.active?1:0}"></button></td>`;
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  $$('#prod-tbody-wrap input[data-field]').forEach(inp => {
+    inp.addEventListener('change', async () => {
+      const id = inp.closest('tr').dataset.id;
+      const field = inp.dataset.field;
+      let value = inp.value;
+      if (field === 'price') value = parseInt(value) || 0;
+      else if (field === 'lead_time') value = value.trim() || null;
+      const { error } = await sb.from('wk_products').update({ [field]: value }).eq('id', id);
+      if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+      toast(`${id} ${field}: 保存`);
+      const p = PRODUCTS.find(x => x.id === id); if (p) p[field] = value;
+    });
+  });
+  $$('#prod-tbody-wrap .stock-toggle').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.closest('tr').dataset.id;
+      const field = btn.dataset.field;
+      const next = btn.dataset.val === '1' ? false : true;
+      const { error } = await sb.from('wk_products').update({ [field]: next }).eq('id', id);
+      if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+      btn.classList.toggle('is-on', next);
+      btn.dataset.val = next ? '1' : '0';
+      const p = PRODUCTS.find(x => x.id === id); if (p) p[field] = next;
+      toast(`${id} ${field}: ${next ? 'ON' : 'OFF'}`);
+    });
+  });
+}
+
+$('#filter-prod-category').addEventListener('change', renderProducts);
+$('#prod-refresh').addEventListener('click', loadProducts);
+
+// ============================================================
+//  キャンペーン
+// ============================================================
+async function loadCampaigns(){
+  const wrap = $('#campaigns-grid');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data, error } = await sb.from('wk_campaigns').select('*').order('created_at');
+  if (error){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  CAMPAIGNS = data || [];
+  renderCampaigns();
+}
+
+function renderCampaigns(){
+  const wrap = $('#campaigns-grid');
+  if (CAMPAIGNS.length === 0){
+    wrap.innerHTML = '<div class="empty-state"><h3>キャンペーンなし</h3></div>';
+    return;
+  }
+  let html = '';
+  CAMPAIGNS.forEach(c => {
+    html += `<div class="card" data-id="${c.id}">`;
+    html += `<div class="card-head"><div><div class="card-title">${esc(c.title)}</div><div class="card-tag">${esc(c.key)}</div></div><button class="stock-toggle ${c.active?'is-on':''}" data-active="${c.active?1:0}"></button></div>`;
+    html += `<div class="edit-field"><label>タイトル</label><input type="text" data-field="title" value="${esc(c.title)}"></div>`;
+    html += `<div class="edit-field"><label>説明</label><textarea data-field="description" rows="3">${esc(c.description||'')}</textarea></div>`;
+    html += `<div class="edit-row">`;
+    html += `<div class="edit-field"><label>開始日</label><input type="date" data-field="start_date" value="${c.start_date||''}"></div>`;
+    html += `<div class="edit-field"><label>終了日</label><input type="date" data-field="end_date" value="${c.end_date||''}"></div>`;
+    html += `</div>`;
+    html += `<button class="btn-primary camp-save">保存</button>`;
+    html += `</div>`;
+  });
+  wrap.innerHTML = html;
+
+  $$('#campaigns-grid .card').forEach(card => {
+    const id = card.dataset.id;
+    card.querySelector('.stock-toggle').addEventListener('click', async (e) => {
+      const btn = e.currentTarget;
+      const next = btn.dataset.active === '1' ? false : true;
+      const { error } = await sb.from('wk_campaigns').update({ active: next }).eq('id', id);
+      if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+      btn.classList.toggle('is-on', next);
+      btn.dataset.active = next ? '1' : '0';
+      toast('保存しました');
+    });
+    card.querySelector('.camp-save').addEventListener('click', async () => {
+      const updates = {};
+      card.querySelectorAll('[data-field]').forEach(el => {
+        const f = el.dataset.field;
+        updates[f] = (f === 'start_date' || f === 'end_date') ? (el.value || null) : el.value;
+      });
+      const { error } = await sb.from('wk_campaigns').update(updates).eq('id', id);
+      if (error){ toast('保存失敗: ' + error.message, 'error'); return; }
+      toast('保存しました');
+      loadCampaigns();
+    });
+  });
+}
+
+// ============================================================
+//  顧客リスト
+// ============================================================
+async function loadCustomers(){
+  const wrap = $('#cust-tbody-wrap');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data, error } = await sb.from('wk_customers').select('*').order('last_order_at', { ascending: false });
+  if (error){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  CUSTOMERS = data || [];
+  renderCustomers();
+}
+
+function renderCustomers(){
+  const q = $('#filter-cust-search').value.toLowerCase();
+  const filtered = CUSTOMERS.filter(c => {
+    if (!q) return true;
+    const blob = ((c.name||'') + ' ' + (c.company||'') + ' ' + (c.email||'')).toLowerCase();
+    return blob.includes(q);
+  });
+
+  $('#stat-cust-total').textContent = CUSTOMERS.length;
+  $('#stat-cust-repeat').textContent = CUSTOMERS.filter(c => c.total_orders > 1).length;
+
+  const wrap = $('#cust-tbody-wrap');
+  if (filtered.length === 0){
+    wrap.innerHTML = '<div class="empty-state"><h3>該当なし</h3><p>注文が入ると自動的に集計されます。</p></div>';
+    return;
+  }
+
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th>顧客</th><th>メール</th><th>電話</th><th>注文回数</th><th>累計金額</th><th>最終注文</th>';
+  html += '</tr></thead><tbody>';
+  filtered.forEach(c => {
+    html += `<tr>`;
+    html += `<td class="col-name">${esc(c.name||'—')}<div style="font-size:11px;color:var(--text-muted)">${esc(c.company || '個人')}</div></td>`;
+    html += `<td><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></td>`;
+    html += `<td class="col-mono">${esc(c.phone||'—')}</td>`;
+    html += `<td class="col-num">${c.total_orders}</td>`;
+    html += `<td class="col-num">${fmtYen(c.total_amount)}</td>`;
+    html += `<td class="col-date">${fmtDate(c.last_order_at)}</td>`;
+    html += `</tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+$('#filter-cust-search').addEventListener('input', renderCustomers);
+$('#cust-refresh').addEventListener('click', loadCustomers);
+
+// ============================================================
+//  仕入先別 未発注リスト
+// ============================================================
+async function loadSuppliers(){
+  const wrap = $('#sup-wrap');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const [{ data: pending, error: e1 }, { data: sups, error: e2 }] = await Promise.all([
+    sb.from('wk_supplier_pending').select('*'),
+    sb.from('wk_suppliers').select('*'),
+  ]);
+  if (e1 || e2){ wrap.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + esc((e1||e2).message) + '</p></div>'; return; }
+  SUPPLIERS_PEND = pending || [];
+  SUPPLIERS = sups || [];
+  renderSuppliers();
+}
+
+function renderSuppliers(){
+  const wrap = $('#sup-wrap');
+  if (SUPPLIERS_PEND.length === 0){
+    wrap.innerHTML = '<div class="empty-state"><h3>未発注なし</h3><p>仕入先発注番号が未入力の処理中・新規注文がありません。</p></div>';
+    return;
+  }
+  const grouped = {};
+  SUPPLIERS_PEND.forEach(row => {
+    const key = row.supplier_id || 'unassigned';
+    if (!grouped[key]) grouped[key] = { name: row.supplier_name || '未設定', rows: [] };
+    grouped[key].rows.push(row);
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([sid, g]) => {
+    const totalQty = g.rows.reduce((s,r) => s + r.total_qty, 0);
+    html += `<div class="supplier-group">`;
+    html += `<div class="sg-head"><div><div class="sg-name">${esc(g.name)}</div><div class="sg-tag">${esc(sid)}</div></div>`;
+    html += `<div style="display:flex;gap:10px"><div class="sg-tag">合計 ${totalQty} 台 ／ ${g.rows.length} 機種</div><button class="btn-primary sup-mail" data-sid="${esc(sid)}">📧 発注メール作成</button></div></div>`;
+    g.rows.forEach(r => {
+      html += `<div class="sg-list-row">`;
+      html += `<div class="sg-pname">${esc(r.product_name)}<div style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${esc(r.product_id)}</div></div>`;
+      html += `<div class="sg-pqty">${r.total_qty} 台</div>`;
+      html += `<div class="sg-pmeta">${r.order_count} 件 ／ ${fmtDateShort(r.earliest_order_at)}〜</div>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+  wrap.innerHTML = html;
+
+  $$('#sup-wrap .sup-mail').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sid = btn.dataset.sid;
+      const g = grouped[sid];
+      const supplier = SUPPLIERS.find(s => s.id === sid);
+      const to = supplier?.contact_email || '';
+      const subject = `発注依頼 — ${g.name} 御中 ／ ${fmtDateShort(new Date().toISOString())}`;
+      const lines = [
+        `${g.name} 御中`,
+        '',
+        'いつもお世話になっております。脇本商会の脇本です。',
+        '下記の通り発注いたしたく、お見積り・納期のご確認をお願い申し上げます。',
+        '',
+        '■ 発注内容',
+      ];
+      g.rows.forEach(r => {
+        lines.push(`・${r.product_name}（${r.product_id}） × ${r.total_qty}台 ／ お客様注文 ${r.order_count}件`);
+      });
+      lines.push('');
+      lines.push('■ 関連注文番号');
+      g.rows.forEach(r => {
+        lines.push(`  ${r.product_id}: ${r.order_nos}`);
+      });
+      lines.push('');
+      lines.push('---');
+      lines.push('脇本商会 / SoundAssist');
+      lines.push('〒367-0041 埼玉県本庄市駅南 2-1-25 ふらわあビル 3-A');
+      lines.push('TEL: 0495-37-4806 ／ info@wakimotocorp.com');
+      const body = lines.join('\n');
+      location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+}
+
+$('#sup-refresh').addEventListener('click', loadSuppliers);
+
+// ============================================================
+//  リアルタイム購読
+// ============================================================
+function subscribeRealtime(){
+  sb.channel('orders-changes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'wk_orders' }, () => {
+      toast('新規注文を受信', 'success');
+      loadOrders();
+      loadCustomers();
+      loadSuppliers();
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'wk_orders' }, () => {
+      loadOrders();
+      loadSuppliers();
+    })
+    .subscribe();
+
+  sb.channel('tradein-changes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'wk_tradein_inquiries' }, () => {
+      toast('新規トレード・イン案件を受信', 'success');
+      loadTradeIns();
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'wk_tradein_inquiries' }, () => {
+      loadTradeIns();
+    })
+    .subscribe();
+}
+
+
+async function loadSettings() {
+  const wrap = document.getElementById('settings-suppliers');
+  wrap.innerHTML = '<div class="loading">読み込み中...</div>';
+  const { data: suppliers, error } = await sb.from('wk_suppliers').select('*').order('id');
+  if (error) {
+    wrap.innerHTML = '<div class="empty">読み込み失敗: ' + error.message + '</div>';
+    return;
+  }
+  if (!suppliers || !suppliers.length) {
+    wrap.innerHTML = '<div class="empty">仕入先データがありません</div>';
+    return;
+  }
+  let html = '';
+  suppliers.forEach(s => {
+    html += `<div class="supplier-card" data-id="${s.id}">
+      <div class="sc-head">
+        <div class="sc-id">${s.id}</div>
+        <input class="sc-name" type="text" value="${s.name||''}" data-field="name" placeholder="仕入先名">
+      </div>
+      <div class="sc-fields">
+        <label>メールアドレス
+          <input type="email" value="${s.contact_email||''}" data-field="contact_email" placeholder="info@example.com">
+        </label>
+        <label>電話番号
+          <input type="text" value="${s.contact_phone||''}" data-field="contact_phone" placeholder="03-1234-5678">
+        </label>
+        <label class="full">備考
+          <textarea data-field="notes" rows="2" placeholder="社内メモ・運用ルール等">${s.notes||''}</textarea>
+        </label>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll('[data-field]').forEach(input => {
+    input.addEventListener('blur', async () => {
+      const card = input.closest('.supplier-card');
+      const id = card.dataset.id;
+      const field = input.dataset.field;
+      const value = (input.value || '').trim() || null;
+      input.style.borderColor = '#f59e0b';
+      const { error } = await sb.from('wk_suppliers').update({ [field]: value }).eq('id', id);
+      if (error) {
+        input.style.borderColor = '#ef4444';
+        alert('保存失敗: ' + error.message);
+      } else {
+        input.style.borderColor = '#10b981';
+        setTimeout(() => { input.style.borderColor = ''; }, 1500);
+      }
+    });
+  });
+}
+document.getElementById('settings-refresh').addEventListener('click', loadSettings);
+
+
+// ============================================================
+//  起動
+// ============================================================
+init();
+</script>
+
+</body>
+</html>

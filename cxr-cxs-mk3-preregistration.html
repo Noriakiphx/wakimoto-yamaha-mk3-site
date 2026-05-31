@@ -1,0 +1,2663 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YAMAHA CXR ／ CXS mk3 シリーズ 事前予約受付 ｜ 脇本商会 / Soundassist</title>
+<meta name="description" content="YAMAHA CXR15 / CXR12 / CXR10 mk3 パッシブラウドスピーカー、CXS18 / CXS15 / CXS12 mk3 パッシブサブウーファー。YAMAHA PX / PC-Dシリーズ、Powersoft トレード・イン・キャンペーン対応のパワーアンプもご提案。脇本商会 / Soundassist。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000000;           /* pure black, YAMAHA-aligned */
+    --bg-2:#0a0a0a;
+    --surface:#141414;
+    --surface-2:#1c1c1c;
+    --line:#1f1f1f;
+    --line-2:#333333;
+    --text:#ffffff;         /* pure white for max contrast */
+    --text-dim:#b5b5b5;
+    --text-muted:#6b6b6b;
+    --accent:#7c3aed;       /* YAMAHA Violet aligned */
+    --accent-2:#c4b5fd;     /* light violet readout */
+    --accent-soft:rgba(124,58,237,.20);
+    --accent-deep:#4f1d9c;  /* deep violet for shadows */
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* fine grid background */
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events:none;z-index:0;
+    mask-image: radial-gradient(ellipse at top, #000 30%, transparent 80%);
+  }
+
+  /* ─── YAMAHA-style diagonal violet slit (decorative) ─── */
+  .slit{
+    position:absolute;pointer-events:none;
+    background:linear-gradient(180deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+  }
+  .slit-glow{
+    position:absolute;pointer-events:none;
+    background:radial-gradient(ellipse at center, var(--accent-soft) 0%, transparent 60%);
+    filter:blur(30px);
+  }
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* ─── nav ─── */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(0,0,0,.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{
+    display:flex;align-items:baseline;gap:10px;
+    font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;
+    font-size:18px;letter-spacing:.04em;color:var(--text);
+  }
+  .brand .sa{
+    font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.1em;
+    font-size:15px;color:var(--accent);
+  }
+  .brand .div{color:var(--text-muted);font-weight:400;font-family:'JetBrains Mono',monospace;font-size:14px}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    padding:8px 14px;border:1px solid var(--accent);color:var(--accent);
+    text-decoration:none;transition:.2s;
+  }
+  .nav-cta:hover{background:var(--accent);color:#fff}
+
+  /* ─── site switcher (active/passive) ─── */
+  .site-switcher{
+    background:var(--bg-2);border-bottom:1px solid var(--line);
+    position:sticky;top:64px;z-index:40;
+  }
+  .site-switcher .ss-wrap{
+    max-width:1240px;margin:0 auto;display:flex;gap:0;
+  }
+  .ss-tab{
+    flex:1;display:flex;flex-direction:column;gap:3px;
+    padding:14px 24px;text-decoration:none;color:var(--text-dim);
+    border-bottom:2px solid transparent;
+    transition:.2s;position:relative;
+  }
+  .ss-tab + .ss-tab{border-left:1px solid var(--line)}
+  .ss-tab:hover{background:var(--surface);color:var(--text)}
+  .ss-tab.is-active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    background:linear-gradient(180deg, rgba(124,58,237,.08), transparent);
+  }
+  .ss-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.2em;color:var(--text-muted);
+  }
+  .ss-tab.is-active .ss-tag{color:var(--accent)}
+  .ss-title{
+    font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;line-height:1.1;
+  }
+  .ss-sub{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.06em;
+  }
+  @media (max-width:680px){
+    .ss-tab{padding:10px 14px}
+    .ss-title{font-size:14px}
+    .ss-sub{display:none}
+  }
+
+  /* ─── hero ─── */
+  header.hero{
+    position:relative;
+    padding:96px 0 80px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    background:
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  }
+  /* メインのヴァイオレットグロウ（右上） */
+  .hero::after{
+    content:'';position:absolute;
+    right:-300px;top:-200px;width:800px;height:800px;
+    background:radial-gradient(circle, var(--accent-soft), transparent 65%);
+    pointer-events:none;z-index:0;
+  }
+  /* 斜めスリット（YAMAHA brand visual aligned） */
+  .hero::before{
+    content:'';position:absolute;
+    top:-30%;right:18%;width:3px;height:160%;
+    background:linear-gradient(180deg, transparent 0%, var(--accent) 25%, #c4b5fd 50%, var(--accent) 75%, transparent 100%);
+    transform:rotate(14deg);
+    box-shadow: 0 0 24px var(--accent), 0 0 60px rgba(124,58,237,.4);
+    pointer-events:none;z-index:0;
+    opacity:.85;
+  }
+  .hero .wrap{position:relative;z-index:1}
+  /* 第二スリット（細く、より右側） */
+  .hero-slit-2{
+    position:absolute;top:-20%;right:8%;width:1px;height:140%;
+    background:linear-gradient(180deg, transparent, var(--accent), transparent);
+    transform:rotate(14deg);
+    opacity:.5;pointer-events:none;z-index:0;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+    padding:6px 12px;border:1px solid var(--accent);color:var(--accent);
+    margin-bottom:28px;
+  }
+  .badge::before{
+    content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 12px var(--accent);
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .hero h1{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(56px, 9vw, 132px);
+    line-height:.92;letter-spacing:.01em;
+    margin-bottom:24px;
+  }
+  .hero h1 .mk3{color:var(--accent)}
+  .hero h1 .sub{display:block;font-size:.32em;letter-spacing:.18em;color:var(--text-dim);margin-top:18px;font-family:'JetBrains Mono',monospace}
+  .hero-lead{
+    font-size:18px;max-width:680px;color:var(--text-dim);margin-bottom:40px;
+    border-left:2px solid var(--accent);padding-left:20px;
+  }
+  .hero-meta{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;max-width:760px;
+    border-top:1px solid var(--line);padding-top:28px;
+  }
+  .hero-meta dt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--text-muted);margin-bottom:6px}
+  .hero-meta dd{font-family:'Anton',sans-serif;font-size:22px;color:var(--text);letter-spacing:.04em}
+  .hero-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.08em;
+    text-decoration:none;cursor:pointer;border:none;transition:.2s;
+  }
+  .btn-primary{background:var(--accent);color:#fff;font-weight:700}
+  .btn-primary:hover{background:#9148ff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line-2)}
+  .btn-ghost:hover{border-color:var(--text);background:var(--surface)}
+
+  /* ─── section ─── */
+  section{padding:96px 0;border-bottom:1px solid var(--line);position:relative}
+  .section-tag{
+    display:flex;align-items:center;gap:14px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--text-muted);margin-bottom:20px;
+  }
+  .section-tag::before{
+    content:'';width:36px;height:1px;background:var(--accent);
+  }
+  .section-title{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(36px, 5vw, 64px);
+    line-height:1;letter-spacing:.02em;margin-bottom:48px;
+  }
+  /* 反転スタイル：白背景＋黒文字（特定の見出しを目立たせる） */
+  .section-title.is-light{
+    display:inline-block;
+    background:#ffffff;
+    color:#000000;
+    padding:.18em .42em;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  .section-title.is-light .dot{color:var(--accent)}
+
+  /* ─── benefits ─── */
+  .benefits-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .benefit{
+    background:var(--bg-2);padding:36px 28px;position:relative;
+    transition:.2s;
+  }
+  .benefit:hover{background:var(--surface);transform:translateY(-2px)}
+  .benefit-num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.16em;margin-bottom:16px;
+  }
+  .benefit h3{
+    font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;
+    font-size:20px;margin-bottom:12px;letter-spacing:.02em;
+  }
+  .benefit p{font-size:14px;color:var(--text-dim);line-height:1.7}
+  .benefit .placeholder{
+    display:inline-block;margin-top:14px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent-2);background:rgba(124,58,237,.12);
+    padding:3px 8px;letter-spacing:.1em;
+  }
+  /* featured benefit (3+1 キャンペーン用ハイライト) */
+  .benefit-featured{
+    background:linear-gradient(135deg, rgba(124,58,237,.10) 0%, var(--bg-2) 60%);
+    position:relative;
+  }
+  .benefit-featured::before{
+    content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+    background:linear-gradient(180deg, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+    box-shadow:0 0 12px var(--accent);
+  }
+  .three-plus-one{
+    display:flex;align-items:center;gap:10px;margin-bottom:16px;
+    font-family:'Anton',sans-serif;letter-spacing:.04em;
+  }
+  .three-plus-one .qty{
+    font-size:34px;color:var(--text);line-height:1;
+  }
+  .three-plus-one .qty .x{
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    color:var(--text-muted);font-weight:400;margin-right:2px;
+  }
+  .three-plus-one .plus{
+    font-size:22px;color:var(--accent);font-weight:400;
+  }
+  .three-plus-one .free{
+    font-size:34px;color:var(--accent);line-height:1;
+    text-shadow:0 0 16px rgba(124,58,237,.6);
+  }
+  .three-plus-one .free-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent);background:rgba(124,58,237,.15);
+    border:1px solid var(--accent);padding:3px 8px;
+    letter-spacing:.18em;margin-left:4px;
+  }
+
+  /* ─── lineup / spec table ─── */
+  .lineup{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .model{
+    background:var(--bg-2);padding:40px 28px;display:flex;flex-direction:column;
+    transition:.25s;
+    text-decoration:none;color:inherit;cursor:pointer;
+    position:relative;
+  }
+  .model:hover{background:var(--surface)}
+  .model:hover .product-img{transform:translateY(-4px) scale(1.02)}
+  .model:hover .view-link{color:var(--accent-2);border-color:var(--accent)}
+  .view-link{
+    margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.14em;
+    transition:.25s;
+  }
+  .view-link .arrow{transition:.25s;display:inline-block}
+  .model:hover .view-link .arrow{transform:translateX(4px)}
+  .model-name{
+    font-family:'Anton',sans-serif;font-size:40px;letter-spacing:.02em;line-height:1;
+  }
+  .model-name .mk{color:var(--accent);font-size:.7em}
+  .model-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.16em;margin-top:8px;margin-bottom:28px;
+  }
+  .speaker-visual{
+    aspect-ratio:1/1;border:1px solid var(--line-2);
+    display:flex;align-items:center;justify-content:center;margin-bottom:32px;
+    background:#ffffff;
+    position:relative;overflow:visible;
+  }
+  /* 製品画像本体（白背景の物撮りJPGに最適化） */
+  .product-img{
+    max-width:88%;max-height:88%;object-fit:contain;
+    transition: transform .35s ease;
+    position:relative;z-index:1;
+  }
+  /* 白カードの下側にバイオレットグロウ（暗背景に落とす） */
+  .speaker-visual::after{
+    content:'';position:absolute;
+    bottom:-16px;left:8%;right:8%;height:30px;
+    background:radial-gradient(ellipse at center, rgba(124,58,237,.55), transparent 65%);
+    filter:blur(18px);
+    pointer-events:none;z-index:0;
+  }
+  .size-label{
+    position:absolute;top:14px;right:14px;z-index:2;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:#fff;background:rgba(0,0,0,.88);
+    padding:3px 10px;letter-spacing:.12em;
+  }
+  /* 画像未設置時のフォールバック表示 */
+  .product-img:not([src]),
+  .product-img[src=""],
+  .product-img[src*="REPLACE"]{
+    display:none;
+  }
+  .img-placeholder{
+    display:none;
+    width:62%;aspect-ratio:1/1;border:1px dashed #b8b4ab;
+    align-items:center;justify-content:center;text-align:center;
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b6b66;
+    letter-spacing:.1em;padding:20px;line-height:1.8;
+    background:#f5f3ed;
+  }
+  .product-img[src*="REPLACE"] + .img-placeholder,
+  .product-img:not([src]) + .img-placeholder{display:flex}
+
+  .specs{list-style:none;margin-top:auto}
+  .specs li{
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    padding:10px 0;border-top:1px dashed var(--line);
+    font-size:13px;
+  }
+  .specs li:last-child{border-bottom:1px dashed var(--line)}
+  .specs .k{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
+  .specs .v{font-family:'JetBrains Mono',monospace;color:var(--text);font-weight:500}
+
+  .shared-features{
+    margin-top:48px;padding:28px;background:var(--bg-2);border:1px solid var(--line);
+  }
+  /* lineup grouping (DXS / DXR の2サブグループ) */
+  .lineup-group{margin-bottom:80px}
+  .lineup-group:last-child{margin-bottom:0}
+  .lineup-group-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    padding:0 0 16px;border-bottom:1px solid var(--line-2);margin-bottom:28px;
+  }
+  .lgh-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.18em;color:var(--accent);
+  }
+  .lgh-title{
+    font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.04em;color:var(--text);
+  }
+  @media (max-width:680px){
+    .lineup-group-head{flex-direction:column;align-items:flex-start;gap:6px}
+  }
+  /* order form のモデルカテゴリ見出し */
+  .model-category{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.16em;color:var(--text-muted);
+    margin:6px 0 8px;
+  }
+  .model-category:not(:first-of-type){margin-top:20px}
+  .shared-features h4{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+    color:var(--accent);margin-bottom:16px;
+  }
+  .feature-pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    padding:6px 12px;border:1px solid var(--line-2);color:var(--text-dim);
+    letter-spacing:.04em;
+  }
+
+  /* ─── accessories ─── */
+  .acc-category{margin-bottom:48px}
+  .acc-category:last-child{margin-bottom:0}
+  .acc-cat-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    padding:0 0 14px;border-bottom:1px solid var(--line-2);margin-bottom:0;
+  }
+  .acc-cat-title{
+    font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.04em;
+  }
+  .acc-cat-num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.16em;
+  }
+  .acc-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;
+    background:var(--line);
+  }
+  .acc-item{
+    background:var(--bg-2);padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:.2s;
+  }
+  .acc-item:hover{background:var(--surface)}
+  .acc-part{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent-2);letter-spacing:.14em;
+  }
+  .acc-name{
+    font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;
+    font-size:16px;line-height:1.4;
+  }
+  .acc-compat{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.06em;line-height:1.7;
+    padding:6px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);
+  }
+  .acc-compat .lbl{color:var(--accent);margin-right:6px}
+  .acc-desc{font-size:12px;color:var(--text-dim);line-height:1.7}
+
+  /* pole socket info box */
+  .pole-info{
+    background:var(--bg-2);border:1px solid var(--line);padding:24px 26px;
+    display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+  }
+  .pole-icon{
+    width:56px;height:56px;border:1px solid var(--line-2);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent-2);letter-spacing:.04em;text-align:center;line-height:1.2;
+  }
+  .pole-info-text h4{
+    font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;margin-bottom:4px;
+  }
+  .pole-info-text p{font-size:13px;color:var(--text-dim);line-height:1.7}
+
+  @media (max-width:780px){
+    .pole-info{grid-template-columns:1fr;text-align:left}
+    .acc-cat-head{flex-direction:column;align-items:flex-start;gap:4px}
+  }
+
+  /* ─── set proposals ─── */
+  .sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .set{
+    background:var(--bg-2);border:1px solid var(--line);
+    padding:32px;position:relative;overflow:hidden;
+  }
+  .set::before{
+    content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);
+  }
+  .set-tier{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+    color:var(--accent);margin-bottom:14px;
+  }
+  .set h3{
+    font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.02em;
+    margin-bottom:8px;line-height:1.1;
+  }
+  .set .scene{font-size:13px;color:var(--text-dim);margin-bottom:24px}
+  .set-rig{list-style:none}
+  .set-rig li{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:12px 0;border-top:1px solid var(--line);font-size:14px;
+  }
+  .set-rig li:last-child{border-bottom:1px solid var(--line)}
+  .set-rig .model-ref{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text)}
+  .set-rig .qty{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent-2)}
+  .set-note{
+    margin-top:20px;font-size:12px;color:var(--text-muted);line-height:1.7;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  /* ─── form ─── */
+  .form-wrap{
+    background:linear-gradient(180deg, var(--bg-2), var(--bg));
+    border:1px solid var(--line);padding:48px 40px;
+  }
+  .form-intro{max-width:640px;margin:0 auto 32px;text-align:center}
+  .form-intro p{color:var(--text-dim);font-size:15px}
+  .form-frame{
+    width:100%;max-width:720px;margin:0 auto;
+    border:1px solid var(--line);background:#fff;
+  }
+  .form-frame iframe{width:100%;border:none;display:block}
+  .form-replace-note{
+    margin-top:20px;padding:14px 18px;
+    border:1px dashed var(--accent-2);background:rgba(124,58,237,.08);
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-2);
+    line-height:1.7;
+  }
+
+  /* ─── contact ─── */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .contact-card{
+    background:var(--bg-2);border:1px solid var(--line);
+    padding:32px 28px;text-decoration:none;color:var(--text);
+    display:flex;flex-direction:column;gap:12px;transition:.2s;
+  }
+  .contact-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .contact-card .icon{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.18em;
+  }
+  .contact-card h3{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.02em}
+  .contact-card p{font-size:13px;color:var(--text-dim)}
+  .contact-card .arrow{
+    margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
+  }
+
+  /* ─── footer ─── */
+  footer{
+    padding:48px 0 32px;background:var(--bg-2);
+    border-top:1px solid var(--line);
+  }
+  .foot-grid{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+  .foot-brand{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:24px;letter-spacing:.04em}
+  .foot-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:.08em;line-height:1.9}
+  .disclaimer{
+    margin-top:32px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--text-muted);line-height:1.7;
+  }
+
+  /* ─── order form (selector-based) ─── */
+  .order-form{display:flex;flex-direction:column;gap:36px}
+  .order-block{display:flex;flex-direction:column;gap:14px}
+  .order-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.18em;color:var(--accent);
+    padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  /* model selector */
+  .model-options{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  }
+  .model-option{cursor:pointer;display:block;position:relative}
+  .model-option input[type="radio"]{
+    position:absolute;opacity:0;pointer-events:none;
+  }
+  .model-card-mini{
+    background:var(--bg);border:1px solid var(--line-2);
+    padding:18px 18px;display:flex;flex-direction:column;gap:6px;
+    transition:.2s;
+  }
+  .model-option:hover .model-card-mini{border-color:var(--accent-2)}
+  .model-option input:checked + .model-card-mini{
+    border-color:var(--accent);
+    background:rgba(124,58,237,.10);
+    box-shadow:inset 0 0 0 1px var(--accent), 0 4px 18px rgba(124,58,237,.18);
+  }
+  .mc-name{
+    font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.04em;color:var(--text);line-height:1;
+  }
+  .mc-name span{color:var(--accent);font-size:.65em}
+  .mc-spec{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.1em;color:var(--text-muted);
+  }
+  .mc-price{
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    color:var(--accent-2);margin-top:4px;font-weight:700;
+  }
+  /* quantity control */
+  .qty-row{display:flex;align-items:center;flex-wrap:wrap;gap:24px}
+  .qty-control{
+    display:inline-flex;align-items:center;
+    border:1px solid var(--line-2);background:var(--bg);
+  }
+  .qty-btn{
+    width:44px;height:44px;background:transparent;border:none;
+    color:var(--text);font-size:20px;cursor:pointer;
+    font-family:'JetBrains Mono',monospace;
+    transition:.15s;
+  }
+  .qty-btn:hover{background:var(--surface);color:var(--accent)}
+  #qty{
+    width:64px;height:44px;background:transparent;border:none;
+    border-left:1px solid var(--line);border-right:1px solid var(--line);
+    text-align:center;color:var(--text);
+    font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+    -moz-appearance:textfield;
+  }
+  #qty::-webkit-outer-spin-button,
+  #qty::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .qty-suffix{
+    padding:0 16px;font-family:'JetBrains Mono',monospace;
+    font-size:13px;color:var(--text-dim);
+  }
+  .campaign-meter{display:flex;flex-direction:column;gap:2px}
+  .cm-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.16em;color:var(--text-muted);
+  }
+  .cm-msg{
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--accent-2);font-weight:500;
+  }
+  .cm-msg.active{color:var(--accent);text-shadow:0 0 12px rgba(124,58,237,.5)}
+  /* order summary */
+  .order-summary{
+    background:linear-gradient(135deg, rgba(124,58,237,.10) 0%, var(--bg) 60%);
+    border:1px solid var(--accent);
+    padding:22px 26px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .sum-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--text-dim);letter-spacing:.04em;
+  }
+  .sum-row.sum-free{color:var(--accent-2)}
+  .sum-row.sum-sub{color:var(--text-dim);font-size:13px}
+  .sum-row.sum-sub .sum-val{font-family:'JetBrains Mono',monospace}
+  .sum-row.sum-total{
+    margin-top:6px;padding-top:14px;
+    border-top:1px solid rgba(124,58,237,.3);
+    color:var(--text);font-size:14px;
+  }
+  .sum-tax{font-size:11px;color:var(--text-muted);margin-left:6px}
+  .sum-amount{
+    font-family:'Anton',sans-serif;font-size:28px;
+    color:var(--accent);letter-spacing:.02em;
+  }
+  /* customer fields */
+  .customer-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  }
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field-full{grid-column:1 / -1}
+  .field > span{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;
+  }
+  .field em{color:var(--accent);font-style:normal;margin-left:4px}
+  .field input,.field textarea{
+    background:var(--bg);
+    border:1px solid var(--line-2);
+    color:var(--text);
+    padding:12px 14px;
+    font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;
+    transition:.15s;
+  }
+  .field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
+  .field input:focus,.field textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px var(--accent), 0 0 16px rgba(124,58,237,.25);
+  }
+  .field textarea{resize:vertical;font-family:inherit}
+  /* submit */
+  .order-submit{
+    align-self:flex-start;font-size:15px;padding:16px 32px;
+  }
+  .order-note{
+    font-size:12px;color:var(--text-muted);line-height:1.7;
+  }
+  @media (max-width:680px){
+    .model-options{grid-template-columns:1fr;gap:8px}
+    .customer-grid{grid-template-columns:1fr}
+    .qty-row{flex-direction:column;align-items:flex-start;gap:14px}
+  }
+
+  /* ─── responsive ─── */
+  @media (max-width:780px){
+    .lineup{grid-template-columns:1fr}
+    .hero h1{font-size:18vw}
+    section{padding:64px 0}
+    .form-wrap{padding:32px 20px}
+  }
+
+  /* fade-in on load */
+  .reveal{opacity:0;transform:translateY(20px);animation:reveal .8s ease forwards}
+  @keyframes reveal{to{opacity:1;transform:none}}
+  .reveal:nth-child(1){animation-delay:.05s}
+  .reveal:nth-child(2){animation-delay:.15s}
+  .reveal:nth-child(3){animation-delay:.25s}
+  .reveal:nth-child(4){animation-delay:.35s}
+
+  /* ─── POWER AMPLIFIER SECTION ─── */
+  .section-lead{
+    max-width:760px;color:var(--text-dim);font-size:15px;line-height:1.8;
+    margin:0 0 32px;
+  }
+  .section-lead strong{color:var(--accent-2);font-weight:600}
+
+  .amp-series-desc{
+    color:var(--text-dim);font-size:14px;line-height:1.85;
+    margin:8px 0 28px;max-width:880px;
+  }
+  .amp-series-desc strong{color:var(--text);font-weight:600}
+
+  .amp-lineup{
+    display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:18px;margin-bottom:24px;
+  }
+  .amp-card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:22px 20px;
+    text-decoration:none;color:inherit;
+    display:flex;flex-direction:column;gap:14px;
+    transition:.2s;position:relative;overflow:hidden;
+  }
+  .amp-card:hover{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+    box-shadow:0 12px 32px rgba(124,58,237,.18);
+  }
+  .amp-card-head{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding-bottom:12px;border-bottom:1px solid var(--line);
+  }
+  .amp-model{
+    font-family:'Anton',sans-serif;font-size:24px;letter-spacing:.04em;
+  }
+  .amp-tag{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    color:var(--accent);letter-spacing:.15em;
+    text-align:right;line-height:1.4;max-width:140px;
+  }
+  .amp-specs{
+    list-style:none;padding:0;margin:0;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .amp-specs li{
+    display:flex;justify-content:space-between;
+    font-size:12px;color:var(--text-dim);
+  }
+  .amp-specs .k{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-muted);letter-spacing:.06em;
+  }
+  .amp-specs .v{color:var(--text);font-weight:500}
+
+  /* Powersoft block variant */
+  .powersoft-block{
+    border:1px solid var(--accent-soft);
+    border-radius:18px;padding:32px;
+    background:linear-gradient(180deg, rgba(124,58,237,.04), transparent 60%);
+    margin-top:32px;
+  }
+  .powersoft-block .lineup-group-head{margin-top:0}
+  .powersoft-card{background:var(--bg-2)}
+  .powersoft-card .view-link{color:var(--accent-2)}
+
+  /* Campaign banner */
+  .campaign-banner{
+    background:linear-gradient(135deg, rgba(124,58,237,.18), rgba(124,58,237,.06));
+    border:1px solid var(--accent);
+    border-radius:14px;padding:26px 28px;
+    margin:20px 0 28px;
+    position:relative;overflow:hidden;
+  }
+  .campaign-banner::before{
+    content:'';position:absolute;top:0;right:0;
+    width:80px;height:80px;
+    background:linear-gradient(135deg, var(--accent), transparent 70%);
+    opacity:.4;border-bottom-left-radius:100%;
+  }
+  .cb-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent-2);letter-spacing:.2em;margin-bottom:12px;
+  }
+  .cb-title{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:24px;font-weight:700;line-height:1.4;
+    margin-bottom:18px;
+  }
+  .cb-title span{color:var(--accent-2);font-size:20px;font-weight:500}
+  .cb-period{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+    margin-bottom:18px;padding:14px 0;
+    border-top:1px solid var(--accent-soft);
+    border-bottom:1px solid var(--accent-soft);
+  }
+  .cb-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--text-muted);letter-spacing:.15em;
+  }
+  .cb-value{
+    font-family:'Anton',sans-serif;font-size:20px;
+    color:var(--text);letter-spacing:.04em;
+  }
+  .cb-note{font-size:12px;color:var(--text-muted)}
+  .cb-desc{
+    color:var(--text-dim);font-size:13px;line-height:1.85;
+    margin-bottom:16px;
+  }
+  .cb-link{
+    display:inline-block;
+    color:var(--accent-2);text-decoration:none;
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    border-bottom:1px solid var(--accent-soft);
+    padding-bottom:2px;transition:.2s;
+  }
+  .cb-link:hover{color:var(--text);border-bottom-color:var(--accent)}
+
+  /* Trade-in conditions */
+  .tradein-conditions{
+    background:var(--bg-2);border:1px solid var(--line);
+    border-radius:12px;padding:22px 26px;margin-top:24px;
+  }
+  .tradein-conditions h4{
+    margin:0 0 14px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.15em;font-weight:600;
+  }
+  .tradein-conditions ul{
+    margin:0;padding-left:18px;
+    color:var(--text-dim);font-size:13px;line-height:1.85;
+  }
+  .tradein-conditions li{margin-bottom:6px}
+  .tradein-conditions .note{
+    color:var(--text-muted);font-size:11px;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  /* Trade-in form */
+  .tradein-form-wrap{
+    margin-top:48px;
+    background:linear-gradient(180deg, rgba(124,58,237,.05), transparent);
+    border:1px solid var(--accent-soft);
+    border-radius:18px;padding:36px;
+  }
+  .tradein-form-title{
+    font-family:'Zen Kaku Gothic New',sans-serif;
+    font-size:28px;font-weight:700;
+    margin:8px 0 18px;
+  }
+  .tradein-extra-note{
+    color:var(--text-muted);font-size:12px;
+    margin-top:12px;line-height:1.7;
+  }
+
+  @media (max-width:680px){
+    .powersoft-block{padding:22px 18px}
+    .campaign-banner{padding:20px 18px}
+    .cb-title{font-size:20px}
+    .cb-title span{font-size:16px}
+    .cb-value{font-size:17px}
+    .tradein-form-wrap{padding:24px 20px}
+    .tradein-form-title{font-size:22px}
+    .amp-model{font-size:20px}
+  }
+
+  /* ── Multi-model order form (per-card qty stepper) ── */
+  .mc-qty{
+    display:flex;align-items:center;gap:6px;
+    margin-top:12px;padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .mc-qty-btn{
+    width:30px;height:30px;
+    background:var(--bg-2);border:1px solid var(--line);
+    color:var(--text);border-radius:6px;
+    font-size:18px;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.15s;padding:0;line-height:1;
+  }
+  .mc-qty-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .mc-qty input[type="number"]{
+    width:54px;text-align:center;
+    background:transparent;border:1px solid var(--line);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:14px;font-weight:600;
+    padding:6px 4px;border-radius:6px;
+    -moz-appearance:textfield;
+  }
+  .mc-qty input[type="number"]::-webkit-inner-spin-button,
+  .mc-qty input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0;
+  }
+  .mc-qty-unit{
+    font-size:11px;color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;letter-spacing:.05em;
+  }
+  .mc-subtotal{
+    margin-top:10px;font-size:11px;
+    color:var(--accent-2);
+    font-family:'JetBrains Mono',monospace;
+    min-height:16px;letter-spacing:.04em;
+  }
+  .model-card-mini.is-selected{
+    border-color:var(--accent) !important;
+    background:linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,.02)) !important;
+    box-shadow:0 4px 16px rgba(124,58,237,.18);
+  }
+
+  /* multi-item summary list */
+  .sm-list{
+    display:flex;flex-direction:column;gap:8px;
+    margin-bottom:8px;
+  }
+  .sm-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px;background:var(--bg-2);border-radius:8px;
+    gap:10px;flex-wrap:wrap;border:1px solid var(--line);
+  }
+  .sm-name{
+    font-weight:600;font-size:14px;
+    flex:1;min-width:140px;color:var(--text);
+  }
+  .sm-detail{
+    display:flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;color:var(--text-dim);
+    flex-wrap:wrap;
+  }
+  .sm-free{color:var(--accent-2);font-size:11px}
+  .sm-subtotal{color:var(--text);font-weight:700;font-size:13px}
+  .sm-empty{
+    text-align:center;padding:24px;
+    color:var(--text-muted);font-size:13px;
+    background:var(--bg-2);border-radius:8px;
+    border:1px dashed var(--line);
+  }
+
+  /* ── Success modal + product sold-out states (Supabase) ── */
+  .success-modal{
+    position:fixed;inset:0;background:rgba(0,0,0,.85);
+    z-index:1000;display:flex;align-items:center;justify-content:center;
+    padding:24px;backdrop-filter:blur(6px);
+    animation:fadeIn .25s ease;
+  }
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .sm-box{
+    background:var(--surface);border:1px solid var(--accent);
+    border-radius:16px;padding:40px 32px;
+    max-width:460px;width:100%;text-align:center;
+    box-shadow:0 30px 80px rgba(124,58,237,.3);
+  }
+  .sm-icon{
+    width:64px;height:64px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    font-size:36px;font-weight:bold;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    box-shadow:0 8px 24px rgba(124,58,237,.5);
+  }
+  .sm-title{
+    font-family:'Anton',sans-serif;font-size:26px;letter-spacing:.04em;
+    margin-bottom:14px;
+  }
+  .sm-msg{
+    color:var(--text-dim);font-size:14px;line-height:1.8;
+    margin-bottom:18px;white-space:pre-wrap;
+  }
+  .sm-no{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent-2);font-size:15px;font-weight:600;
+    padding:12px 16px;background:var(--bg-2);border-radius:8px;
+    letter-spacing:.06em;margin:14px 0 24px;
+    border:1px solid var(--accent-soft);
+  }
+  .sm-close{
+    padding:11px 28px;background:var(--accent);color:#fff;
+    border-radius:8px;font-weight:600;font-size:14px;
+    transition:.15s;cursor:pointer;border:none;
+    font-family:inherit;
+  }
+  .sm-close:hover{background:var(--accent-3, #a78bfa)}
+
+  /* sold-out product state */
+  .model-card-mini.is-soldout{
+    opacity:.4;pointer-events:none;position:relative;
+  }
+  .model-card-mini.is-soldout::after{
+    content:'売り切れ';position:absolute;top:50%;left:50%;
+    transform:translate(-50%, -50%) rotate(-12deg);
+    background:var(--text);color:#000;padding:4px 14px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+    letter-spacing:.1em;border-radius:4px;pointer-events:none;
+  }
+  .mc-lead-time{
+    margin-top:4px;font-size:10px;color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;letter-spacing:.05em;
+  }
+
+  /* submit button loading state */
+  .order-submit:disabled, .submit-btn:disabled{
+    opacity:.6;cursor:not-allowed;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- DEBUG BAR (Supabase load status) -->
+<div id="sb-debug" style="position:fixed;bottom:12px;left:12px;right:12px;max-width:600px;margin:0 auto;padding:10px 14px;background:rgba(0,0,0,.95);border:1px solid #7c3aed;border-radius:8px;color:#fff;font-size:12px;font-family:monospace;z-index:999;display:none">
+  <span id="sb-debug-msg">🔄 Loading...</span>
+  <button onclick="document.getElementById('sb-debug').style.display='none'" style="float:right;background:transparent;border:none;color:#888;cursor:pointer;padding:0 6px">×</button>
+</div>
+
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="brand">脇本商会<span class="div">/</span><span class="sa">SOUNDASSIST</span></div>
+    <a href="#preorder" class="nav-cta">ご注文フォーム →</a>
+  </div>
+</nav>
+
+<!-- SITE SWITCHER (active/passive) -->
+<div class="site-switcher">
+  <div class="ss-wrap">
+    <a class="ss-tab" href="dxs-mk3-preregistration.html">
+      <span class="ss-tag">／ ACTIVE</span>
+      <span class="ss-title">DXR · DXS mk3</span>
+      <span class="ss-sub">パワード（アンプ内蔵）</span>
+    </a>
+    <a class="ss-tab is-active" href="cxr-cxs-mk3-preregistration.html">
+      <span class="ss-tag">／ PASSIVE</span>
+      <span class="ss-title">CXR · CXS mk3</span>
+      <span class="ss-sub">パッシブ（パワーアンプ別）</span>
+    </a>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-slit-2"></div>
+  <div class="wrap">
+    <div class="badge reveal">PRE-ORDER NOW OPEN ／ 事前予約受付中</div>
+    <h1 class="reveal">
+      YAMAHA<br>
+      CXR · CXS<span class="mk3"> mk3</span>
+      <span class="sub">PASSIVE LOUDSPEAKERS &amp; SUBWOOFERS ／ 2026.06 RELEASE</span>
+    </h1>
+    <p class="hero-lead reveal">
+      CXR mk3 パッシブスピーカー（15″/12″/10″）と CXS mk3 パッシブサブウーファー（18″/15″/12″）。
+      アンプ非搭載の固定設備・常設システム向けライン。
+      YAMAHA PX / PC-D シリーズ、Powersoft UNICA / X / T シリーズの組み合わせご提案を脇本商会にて受付中。
+    </p>
+    <dl class="hero-meta reveal">
+      <div><dt>RELEASE</dt><dd>2026.06</dd></div>
+      <div><dt>TOP</dt><dd>15 / 12 / 10″</dd></div>
+      <div><dt>SUB</dt><dd>18 / 15 / 12″</dd></div>
+      <div><dt>TYPE</dt><dd>PASSIVE</dd></div>
+    </dl>
+    <div class="hero-cta-row">
+      <a href="#preorder" class="btn btn-primary">ご注文する →</a>
+      <a href="#lineup" class="btn btn-ghost">ラインナップを見る</a>
+    </div>
+  </div>
+</header>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="wrap">
+    <div class="section-tag">SECTION 01 ／ PRE-ORDER PRIVILEGES</div>
+    <h2 class="section-title is-light">事前予約特典<span class="dot">.</span></h2>
+    <div class="benefits-grid">
+      <div class="benefit benefit-featured">
+        <div class="benefit-num">PRIVILEGE / 01 — CAMPAIGN</div>
+        <div class="three-plus-one">
+          <span class="qty"><span class="x">×</span>3</span>
+          <span class="plus">＋</span>
+          <span class="free"><span class="x" style="color:var(--accent);opacity:.7">×</span>1</span>
+          <span class="free-tag">FREE</span>
+        </div>
+        <h3>3＋1 キャンペーン</h3>
+        <p>同モデルを3台ご予約ごとに、もう1台を無償でご提供。CXS18 / CXS15 / CXS12 mk3、CXR15 / CXR12 / CXR10 mk3 <strong style="color:var(--accent-2)">全機種対象</strong>のキャンペーン期間中の特典です。<span style="color:var(--text-muted);font-size:.92em">※同一モデル単位でのお申込みに限ります（複数モデルの混在は不可）。パワーアンプは対象外。</span></p>
+        <span class="placeholder" data-campaign-period="three_plus_one">// キャンペーン期間：要記載</span>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">PRIVILEGE / 02</div>
+        <h3>優先納品</h3>
+        <p>初回入荷分を事前予約のお客様に優先的に確保。発売直後の納期競合を避け、現場スケジュールに合わせた確実な納品をお約束します。</p>
+        <span class="placeholder">// 納品時期の目安を記載</span>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">PRIVILEGE / 03</div>
+        <h3>セット導入優遇</h3>
+        <p>パワーアンプとの同時導入（YAMAHA PX / PC-D シリーズ、Powersoft 各シリーズ）や、DXR / DXS mk3 アクティブ系との混在運用にも、システム全体の最適化・追加割引のご相談を承ります。設備設計・現場運用のご相談も無料。</p>
+        <span class="placeholder">// 具体的なバンドル内容を記載</span>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">PRIVILEGE / 04</div>
+        <h3>納品時セットアップ支援</h3>
+        <p>D-XSUB / カーディオイド設定、D-Remote 設定など、現場最適化のための初期セットアップを技術スタッフがサポートいたします。</p>
+        <span class="placeholder">// 提供範囲を要編集</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LINEUP -->
+<section id="lineup">
+  <div class="wrap">
+    <div class="section-tag">SECTION 02 ／ LINEUP &amp; SPECIFICATIONS</div>
+    <h2 class="section-title">ラインナップ.</h2>
+
+    <!-- CXS mk3 パッシブサブウーファー -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 01 — PASSIVE SUBWOOFERS</div>
+          <div class="lgh-title">CXS mk3 ／ パッシブサブウーファー</div>
+        </div>
+      </div>
+
+      <div class="lineup">
+      <!-- CXS18 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxs_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">18″</span>
+          <!-- ▼ 製品画像差し替え：images/cxs18-mk3.jpg -->
+          <img class="product-img" src="images/cxs18-mk3.jpg" alt="YAMAHA CXS18 mk3 パッシブサブウーファー">
+          <div class="img-placeholder">images/<br>cxs18-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXS18<span class="mk"> mk3</span></div>
+        <div class="model-tag">FLAGSHIP ／ 18-INCH PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">18″ / 4″ VC</span></li>
+          <li><span class="k">Type</span><span class="v">Passive</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Cabinet</span><span class="v">Plywood ／ Polyurea</span></li>
+          <li><span class="k">Pole</span><span class="v">M20 / Ø35 mm</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- CXS15 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxs_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">15″</span>
+          <!-- ▼ 製品画像差し替え：images/cxs15-mk3.jpg -->
+          <img class="product-img" src="images/cxs15-mk3.jpg" alt="YAMAHA CXS15 mk3 パッシブサブウーファー">
+          <div class="img-placeholder">images/<br>cxs15-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXS15<span class="mk"> mk3</span></div>
+        <div class="model-tag">STANDARD ／ 15-INCH PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">15″ / 3″ VC</span></li>
+          <li><span class="k">Type</span><span class="v">Passive</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Cabinet</span><span class="v">Plywood ／ Polyurea</span></li>
+          <li><span class="k">Pole</span><span class="v">M20 / Ø35 mm</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- CXS12 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxs_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">12″</span>
+          <!-- ▼ 製品画像差し替え：images/cxs12-mk3.jpg -->
+          <img class="product-img" src="images/cxs12-mk3.jpg" alt="YAMAHA CXS12 mk3 パッシブサブウーファー">
+          <div class="img-placeholder">images/<br>cxs12-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXS12<span class="mk"> mk3</span></div>
+        <div class="model-tag">COMPACT ／ 12-INCH PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">12″ / 3″ VC</span></li>
+          <li><span class="k">Type</span><span class="v">Passive</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Cabinet</span><span class="v">Plywood ／ Polyurea</span></li>
+          <li><span class="k">Pole</span><span class="v">M20 / Ø35 mm</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// SUBWOOFER COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">Passive Design</span>
+          <span class="pill">DXS mk3 と同一キャビネット</span>
+          <span class="pill">Polyurea-coated Plywood</span>
+          <span class="pill">M20 / Ø35 mm Pole Socket</span>
+          <span class="pill">NL4 Speakon</span>
+          <span class="pill">対応アンプは下記をご参照</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CXR mk3 パッシブスピーカー -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 02 — PASSIVE LOUDSPEAKERS</div>
+          <div class="lgh-title">CXR mk3 ／ パッシブスピーカー</div>
+        </div>
+      </div>
+
+      <div class="lineup">
+      <!-- CXR15 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">15″</span>
+          <!-- ▼ 製品画像差し替え：images/cxr15-mk3.jpg -->
+          <img class="product-img" src="images/cxr15-mk3.jpg" alt="YAMAHA CXR15 mk3 パッシブスピーカー">
+          <div class="img-placeholder">images/<br>cxr15-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXR15<span class="mk"> mk3</span></div>
+        <div class="model-tag">FLAGSHIP ／ 15-INCH 2-WAY PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">15″ + 1.75″ HF</span></li>
+          <li><span class="k">Type</span><span class="v">Passive ／ 2-Way</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Enclosure</span><span class="v">Foam-molded Resin</span></li>
+          <li><span class="k">Pole</span><span class="v">0° / −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- CXR12 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">12″</span>
+          <!-- ▼ 製品画像差し替え：images/cxr12-mk3.jpg -->
+          <img class="product-img" src="images/cxr12-mk3.jpg" alt="YAMAHA CXR12 mk3 パッシブスピーカー">
+          <div class="img-placeholder">images/<br>cxr12-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXR12<span class="mk"> mk3</span></div>
+        <div class="model-tag">STANDARD ／ 12-INCH 2-WAY PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">12″ + 1.75″ HF</span></li>
+          <li><span class="k">Type</span><span class="v">Passive ／ 2-Way</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Enclosure</span><span class="v">Foam-molded Resin</span></li>
+          <li><span class="k">Pole</span><span class="v">0° / −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+
+      <!-- CXR10 mk3 -->
+      <a class="model" href="https://jp.yamaha.com/products/proaudio/speakers/cxr_mk3/index.html" target="_blank" rel="noopener noreferrer">
+        <div class="speaker-visual">
+          <span class="size-label">10″</span>
+          <!-- ▼ 製品画像差し替え：images/cxr10-mk3.jpg -->
+          <img class="product-img" src="images/cxr10-mk3.jpg" alt="YAMAHA CXR10 mk3 パッシブスピーカー">
+          <div class="img-placeholder">images/<br>cxr10-mk3.jpg<br>// 製品画像を配置</div>
+        </div>
+        <div class="model-name">CXR10<span class="mk"> mk3</span></div>
+        <div class="model-tag">COMPACT ／ 10-INCH 2-WAY PASSIVE</div>
+        <ul class="specs">
+          <li><span class="k">Driver</span><span class="v">10″ + 1.75″ HF</span></li>
+          <li><span class="k">Type</span><span class="v">Passive ／ 2-Way</span></li>
+          <li><span class="k">Impedance</span><span class="v">8 Ω</span></li>
+          <li><span class="k">Connector</span><span class="v">NL4</span></li>
+          <li><span class="k">Enclosure</span><span class="v">Foam-molded Resin</span></li>
+          <li><span class="k">Pole</span><span class="v">0° / −7°</span></li>
+        </ul>
+        <div class="view-link">
+          <span>VIEW ON YAMAHA.COM</span>
+          <span class="arrow">↗</span>
+        </div>
+      </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// LOUDSPEAKER COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">Passive Design ／ 2-Way</span>
+          <span class="pill">DXR mk3 と同一キャビネット</span>
+          <span class="pill">Foam-molded Resin Enclosure</span>
+          <span class="pill">0° / −7° Pole Socket</span>
+          <span class="pill">Eyebolt Rigging Point</span>
+          <span class="pill">Symmetrical Design</span>
+          <span class="pill">NL4 Speakon</span>
+          <span class="pill">対応アンプは下記をご参照</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESSORIES -->
+<section id="accessories">
+  <div class="wrap">
+    <div class="section-tag">SECTION 03 ／ OPTIONS &amp; ACCESSORIES</div>
+    <h2 class="section-title">アクセサリー・<wbr>オプション.</h2>
+
+    <!-- 機能カバー -->
+    <div class="acc-category">
+      <div class="acc-cat-head">
+        <div class="acc-cat-title">機能カバー</div>
+        <div class="acc-cat-num">CATEGORY / 01 — FUNCTIONAL COVERS</div>
+      </div>
+      <div class="acc-grid">
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXS183</div>
+          <div class="acc-name">機能カバー（DXS18 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXS18 mk3 / CXS18 mk3</div>
+          <div class="acc-desc">トリラミネート生地（ポリエステル＋PVC内コート＋衝撃クッション）。フロントメッシュ、リアアクセスルーフ、ハンドルスリット、ケーブルポケット付き。装着したまま運用・移動可能。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXS153</div>
+          <div class="acc-name">機能カバー（DXS15 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXS15 mk3 / CXS15 mk3</div>
+          <div class="acc-desc">屋外イベント・粉塵保管・搬送時の保護に。装着したままサウンドリインフォースメント可能。リアアクセスルーフでアンプ冷却を阻害しない設計。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXS123</div>
+          <div class="acc-name">機能カバー（DXS12 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXS12 mk3 / CXS12 mk3</div>
+          <div class="acc-desc">最小モデル用カバー。コンパクトな取り回しを損なわない軽量設計。※完全防水ではありません（耐水仕様）。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR153</div>
+          <div class="acc-name">機能カバー（DXR15 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR15 mk3 / CXR15 mk3</div>
+          <div class="acc-desc">パワードスピーカー用機能カバー。装着したまま音出し可能、屋外運用や保管時の傷・ほこり・天候変化から機材を保護。2026年8月発売予定。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR123</div>
+          <div class="acc-name">機能カバー（DXR12 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR12 mk3 / CXR12 mk3</div>
+          <div class="acc-desc">DXR12 mk3 / CXR12 mk3 専用カバー。装着したまま音出し可能。2026年8月発売予定。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// SPCVR-DXR103</div>
+          <div class="acc-name">機能カバー（DXR10 mk3用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR10 mk3 / CXR10 mk3</div>
+          <div class="acc-desc">最小モデル用カバー。可搬性を損なわない軽量設計。装着したまま音出し可能。2026年8月発売予定。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- キャスター・搬送 -->
+    <div class="acc-category">
+      <div class="acc-cat-head">
+        <div class="acc-cat-title">キャスター・搬送</div>
+        <div class="acc-cat-num">CATEGORY / 02 — TRANSPORT</div>
+      </div>
+      <div class="acc-grid">
+        <div class="acc-item">
+          <div class="acc-part">// SPW-1</div>
+          <div class="acc-name">スピーカーホイール</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXS18 / 15 / 12 mk3 共通</div>
+          <div class="acc-desc">サブウーファーの底面にネジ止めして取り付けるキャスター。設営・撤収・搬送効率を大幅に改善。ストッパー付き仕様。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- マウントブラケット -->
+    <div class="acc-category">
+      <div class="acc-cat-head">
+        <div class="acc-cat-title">マウントブラケット<span style="font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-left:10px">— DXR mk3 / CXR mk3 用</span></div>
+        <div class="acc-cat-num">CATEGORY / 03 — U-BRACKETS</div>
+      </div>
+      <div class="acc-grid">
+        <div class="acc-item">
+          <div class="acc-part">// UB-DXRDHR10A</div>
+          <div class="acc-name">U字ブラケット（10″用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR10 mk3 / CXR10 mk3 ／ 質量 4.4 kg</div>
+          <div class="acc-desc">壁面・天井への縦横両方向取り付けに対応。固定設備・常設サブシステムに最適。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// UB-DXRDHR12A</div>
+          <div class="acc-name">U字ブラケット（12″用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR12 mk3 / CXR12 mk3 ／ 質量 5.9 kg</div>
+          <div class="acc-desc">中規模会場の設備設置に。横向き・縦向きどちらも対応。塗装色：ブラック。</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-part">// UB-DXR15A</div>
+          <div class="acc-name">U字ブラケット（15″用）</div>
+          <div class="acc-compat"><span class="lbl">FOR</span>DXR15 mk3 / CXR15 mk3 ／ 質量 7.6 kg</div>
+          <div class="acc-desc">15インチモデル対応のヘビーデューティU字ブラケット。大規模設備の主力構成に。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ポールソケット情報 -->
+    <div class="acc-category">
+      <div class="acc-cat-head">
+        <div class="acc-cat-title">ポール接続</div>
+        <div class="acc-cat-num">CATEGORY / 04 — POLE INTEGRATION</div>
+      </div>
+      <div class="pole-info">
+        <div class="pole-icon">M20<br>Ø35</div>
+        <div class="pole-info-text">
+          <h4>DUAL POLE SOCKET (本体内蔵)</h4>
+          <p>DXS mk3 シリーズは <strong style="color:var(--text)">M20 ネジ式</strong>と <strong style="color:var(--text)">Ø35mm</strong> の両方に対応したデュアルポールソケットを天面に内蔵。一般的なスピーカーポール（K&amp;M 等）が別途追加金具なしで装着可能で、サブ+トップの簡易セットアップに最適です。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ご相談ノート -->
+    <div style="margin-top:32px;padding:20px 24px;border:1px dashed var(--accent-2);background:rgba(124,58,237,.08);font-size:13px;color:var(--text-dim);line-height:1.8">
+      <strong style="color:var(--accent-2);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em">/ NOTE</strong><br>
+      上記アクセサリー類は事前予約時に本体とあわせてお見積りいたします。設置環境・運用想定をお聞かせいただければ、最適な構成をご提案します。
+    </div>
+  </div>
+</section>
+
+<!-- POWER AMPLIFIERS -->
+<section id="amps">
+  <div class="wrap">
+    <div class="section-tag">SECTION 04 ／ POWER AMPLIFIERS</div>
+    <h2 class="section-title">パワーアンプ.</h2>
+
+    <p class="section-lead">
+      CXR mk3 / CXS mk3 はパッシブ仕様。別途パワーアンプが必要です。
+      用途に合わせて YAMAHA PX シリーズ、PC-D / DI シリーズ、Powersoft シリーズをご提案いたします。
+      Powersoft は現在 <strong>トレード・イン・キャンペーン</strong> 開催中（2026.07月末日まで）。
+    </p>
+
+    <!-- YAMAHA PX series -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 01 — YAMAHA PX SERIES</div>
+          <div class="lgh-title">YAMAHA PX シリーズ ／ DSP搭載 2ch クラスD</div>
+        </div>
+      </div>
+
+      <p class="amp-series-desc">
+        ヤマハの約40年に渡るパワーアンプ開発で培ったノウハウと最新技術を盛り込んだ DSP 搭載 2ch クラスD アンプ。
+        Yamaha スピーカープリセット、PEQ / クロスオーバー / フィルター / ディレイ / リミッターを搭載。
+        D-CONTOUR や Power Boost Mode（PX5 / PX3）にも対応します。
+      </p>
+
+      <div class="amp-lineup">
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/px_series/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PX10</div>
+            <div class="amp-tag">FLAGSHIP</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @4Ω</span><span class="v">1,200 W × 2</span></li>
+            <li><span class="k">Power @8Ω</span><span class="v">1,000 W × 2</span></li>
+            <li><span class="k">Channels</span><span class="v">2 ch</span></li>
+            <li><span class="k">Class</span><span class="v">Class-D</span></li>
+            <li><span class="k">DSP</span><span class="v">Built-in</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/px_series/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PX8</div>
+            <div class="amp-tag">HIGH-POWER</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @4Ω</span><span class="v">1,050 W × 2</span></li>
+            <li><span class="k">Power @8Ω</span><span class="v">800 W × 2</span></li>
+            <li><span class="k">Channels</span><span class="v">2 ch</span></li>
+            <li><span class="k">Class</span><span class="v">Class-D</span></li>
+            <li><span class="k">DSP</span><span class="v">Built-in</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/px_series/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PX5</div>
+            <div class="amp-tag">MID-POWER ／ BOOST</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @4Ω</span><span class="v">800 W × 2</span></li>
+            <li><span class="k">Power @8Ω</span><span class="v">500 W × 2</span></li>
+            <li><span class="k">Channels</span><span class="v">2 ch</span></li>
+            <li><span class="k">Class</span><span class="v">Class-D</span></li>
+            <li><span class="k">Mode</span><span class="v">Boost 対応</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/px_series/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PX3</div>
+            <div class="amp-tag">COMPACT ／ BOOST</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @4Ω</span><span class="v">500 W × 2</span></li>
+            <li><span class="k">Power @8Ω</span><span class="v">300 W × 2</span></li>
+            <li><span class="k">Channels</span><span class="v">2 ch</span></li>
+            <li><span class="k">Class</span><span class="v">Class-D</span></li>
+            <li><span class="k">Mode</span><span class="v">Boost 対応</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// PX SERIES COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">Yamaha Speaker Presets</span>
+          <span class="pill">PEQ / X-Over / Filter / Delay / Limiter</span>
+          <span class="pill">D-CONTOUR</span>
+          <span class="pill">USB Memory 設定保存</span>
+          <span class="pill">Compact 2U</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- YAMAHA PC-D / DI series -->
+    <div class="lineup-group">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 02 — YAMAHA PC-D / DI SERIES</div>
+          <div class="lgh-title">YAMAHA PC-D / DI シリーズ ／ Dante搭載 4ch</div>
+        </div>
+      </div>
+
+      <p class="amp-series-desc">
+        16ch Dante 入出力 と 20×8 入力マトリクスを搭載した次世代パワーアンプ。
+        最大 96 kHz サンプリング、16-band PEQ、クロスオーバー、フィルター、ディレイ、リミッターを内蔵。
+        ProVisionaire Touch / Control による柔軟なリモート制御に対応します。
+        <strong>D</strong> はスタンダード仕様、<strong>DI</strong> は固定設備向けコネクター仕様です。
+      </p>
+
+      <div class="amp-lineup">
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/pc-d_di/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PC412-D</div>
+            <div class="amp-tag">FLAGSHIP ／ STANDARD</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @8Ω</span><span class="v">1,200 W × 4</span></li>
+            <li><span class="k">Channels</span><span class="v">4 ch</span></li>
+            <li><span class="k">Dante</span><span class="v">16 in / 16 out</span></li>
+            <li><span class="k">Matrix</span><span class="v">20 × 8</span></li>
+            <li><span class="k">Sampling</span><span class="v">96 kHz</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/pc-d_di/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PC412-DI</div>
+            <div class="amp-tag">FLAGSHIP ／ INSTALL</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @8Ω</span><span class="v">1,200 W × 4</span></li>
+            <li><span class="k">Channels</span><span class="v">4 ch</span></li>
+            <li><span class="k">Dante</span><span class="v">16 in / 16 out</span></li>
+            <li><span class="k">Connector</span><span class="v">固定設備向け</span></li>
+            <li><span class="k">Hi-Z</span><span class="v">100V / 70V 対応</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/pc-d_di/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PC406-D</div>
+            <div class="amp-tag">STANDARD</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @8Ω</span><span class="v">600 W × 4</span></li>
+            <li><span class="k">Channels</span><span class="v">4 ch</span></li>
+            <li><span class="k">Dante</span><span class="v">16 in / 16 out</span></li>
+            <li><span class="k">Matrix</span><span class="v">20 × 8</span></li>
+            <li><span class="k">Sampling</span><span class="v">96 kHz</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+
+        <a class="amp-card" href="https://jp.yamaha.com/products/proaudio/power_amps/pc-d_di/index.html" target="_blank" rel="noopener noreferrer">
+          <div class="amp-card-head">
+            <div class="amp-model">PC406-DI</div>
+            <div class="amp-tag">INSTALL</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">Power @8Ω</span><span class="v">600 W × 4</span></li>
+            <li><span class="k">Channels</span><span class="v">4 ch</span></li>
+            <li><span class="k">Dante</span><span class="v">16 in / 16 out</span></li>
+            <li><span class="k">Connector</span><span class="v">固定設備向け</span></li>
+            <li><span class="k">Hi-Z</span><span class="v">100V / 70V 対応</span></li>
+          </ul>
+          <div class="view-link"><span>VIEW ON YAMAHA.COM</span><span class="arrow">↗</span></div>
+        </a>
+      </div>
+
+      <div class="shared-features">
+        <h4>// PC-D / DI SERIES COMMON FEATURES</h4>
+        <div class="feature-pills">
+          <span class="pill">16ch Dante I/O</span>
+          <span class="pill">20 × 8 Input Matrix</span>
+          <span class="pill">96 kHz Sampling</span>
+          <span class="pill">16-band PEQ</span>
+          <span class="pill">Yamaha Speaker Presets</span>
+          <span class="pill">ProVisionaire Touch / Control</span>
+          <span class="pill">Redundant Dante</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Powersoft Trade-In Campaign -->
+    <div class="lineup-group powersoft-block">
+      <div class="lineup-group-head">
+        <div>
+          <div class="lgh-tag">／ 03 — POWERSOFT TRADE-IN PROGRAM</div>
+          <div class="lgh-title">Powersoft トレード・イン・キャンペーン</div>
+        </div>
+      </div>
+
+      <div class="campaign-banner">
+        <div class="cb-tag">CAMPAIGN ／ 開催中</div>
+        <div class="cb-title">下取りアンプは<br><span>ブランド・機種・故障の有無を問わず対象</span></div>
+        <div class="cb-period">
+          <span class="cb-label">CAMPAIGN PERIOD</span>
+          <span class="cb-value" data-campaign-period="powersoft_tradein">2026.04.10 — 2026.07月末日</span>
+          <span class="cb-note">（弊社受注分まで）</span>
+        </div>
+        <div class="cb-desc">
+          最新のテクノロジーを搭載した Powersoft 機種への移行を支援するトレード・イン・プログラム。
+          対象の UNICA T / X / T シリーズを特別価格にてご提供いたします。<br>
+          ※ご購入の Powersoft 製品の「総チャンネル数」を上限として下取りアンプの受け入れが可能です。
+          所定の譲渡証明書へのご署名・ご捺印が必要です。
+        </div>
+        <a class="cb-link" href="https://audiobrains.com/news/20260413/" target="_blank" rel="noopener noreferrer">
+          オーディオブレインズ公式案内ページを確認する ↗
+        </a>
+      </div>
+
+      <div class="amp-lineup powersoft-lineup">
+        <div class="amp-card powersoft-card">
+          <div class="amp-card-head">
+            <div class="amp-model">UNICA T シリーズ</div>
+            <div class="amp-tag">FLAGSHIP TOURING</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">対象</span><span class="v">4T 20K ／ 8T 10K</span></li>
+            <li><span class="k">用途</span><span class="v">大規模ツアー</span></li>
+            <li><span class="k">技術</span><span class="v">最新 DSP / SmartLink</span></li>
+          </ul>
+          <a class="view-link" href="https://audiobrains.com/product/powersoft/unica-t-series/" target="_blank" rel="noopener noreferrer">
+            <span>VIEW UNICA T DETAILS</span><span class="arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="amp-card powersoft-card">
+          <div class="amp-card-head">
+            <div class="amp-model">X シリーズ</div>
+            <div class="amp-tag">TOURING ／ DSP+ETH / DSP+D</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">対象</span><span class="v">X4L ／ X8 ／ X4</span></li>
+            <li><span class="k">構成</span><span class="v">DSP+ETH ／ DSP+D</span></li>
+            <li><span class="k">用途</span><span class="v">中〜大規模ツアー</span></li>
+          </ul>
+          <a class="view-link" href="https://audiobrains.com/product/powersoft/x-series/" target="_blank" rel="noopener noreferrer">
+            <span>VIEW X SERIES DETAILS</span><span class="arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="amp-card powersoft-card">
+          <div class="amp-card-head">
+            <div class="amp-model">T シリーズ</div>
+            <div class="amp-tag">INSTALL ／ TOURING</div>
+          </div>
+          <ul class="amp-specs">
+            <li><span class="k">対象</span><span class="v">T904 / 604 / 304</span></li>
+            <li><span class="k">A モデル</span><span class="v">T904A / 604A / 304A</span></li>
+            <li><span class="k">用途</span><span class="v">固定設備 ／ ツアー</span></li>
+          </ul>
+          <a class="view-link" href="https://audiobrains.com/product/powersoft/t-series/" target="_blank" rel="noopener noreferrer">
+            <span>VIEW T SERIES DETAILS</span><span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="tradein-conditions">
+        <h4>// TRADE-IN プログラム適用条件</h4>
+        <ul>
+          <li>下取りパワーアンプは、ブランド・機種・故障の有無を問わず対象です。</li>
+          <li>所定の「譲渡証明書」にご署名・ご捺印の上、ご提出をお願いいたします（法人は社判または代表印、個人事業主は認印が必要）。</li>
+          <li>下取り対象アンプは弊社にて引き取らせていただきます。</li>
+          <li>リース期間中など、所有権が譲渡人と異なる場合は本プログラムを適用できません。</li>
+          <li>ご購入の Powersoft 製品の「総チャンネル数」を上限として下取りアンプの受け入れが可能です。<br>
+            <span class="note">例：4ch アンプを 3 台ご購入の場合、計 12ch 分までの下取りアンプが対象</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TRADE-IN FORM -->
+    <div class="tradein-form-wrap" id="tradein">
+      <div class="section-tag" style="margin-top:48px">／ TRADE-IN INQUIRY FORM</div>
+      <h3 class="tradein-form-title">下取り・お見積りフォーム</h3>
+
+      <p class="form-intro">下取り対象のアンプ情報と、ご希望の Powersoft 機種をご入力ください。<br>送信ボタンで脇本商会にお問い合わせが送信され、担当者より特別価格・下取り価格・納期等についてご返答いたします。</p>
+
+      <form class="order-form" onsubmit="submitTradeIn(event)">
+        <!-- 01 下取り対象アンプ -->
+        <div class="order-block">
+          <div class="order-label">/ 01 — 下取りご希望のアンプ情報</div>
+          <div class="customer-grid">
+            <label class="cf-field">
+              <span class="cf-label">メーカー *</span>
+              <input type="text" name="ti_maker" required placeholder="例：Crown / QSC / Lab.gruppen 等">
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">機種名 *</span>
+              <input type="text" name="ti_model" required placeholder="例：XLS 2502">
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">チャンネル数 *</span>
+              <input type="text" name="ti_channels" required placeholder="例：2ch / 4ch">
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">数量 *</span>
+              <input type="number" name="ti_qty" required min="1" value="1">
+            </label>
+            <label class="cf-field cf-wide">
+              <span class="cf-label">状態</span>
+              <select name="ti_condition">
+                <option value="動作品">動作品（正常）</option>
+                <option value="一部不具合">一部不具合あり</option>
+                <option value="不動作">不動作 / 故障</option>
+                <option value="不明">不明</option>
+              </select>
+            </label>
+            <label class="cf-field cf-wide">
+              <span class="cf-label">所有形態 *</span>
+              <select name="ti_ownership" required>
+                <option value="自己所有">自己所有</option>
+                <option value="リース">リース中（適用不可）</option>
+                <option value="その他">その他</option>
+              </select>
+            </label>
+          </div>
+          <p class="tradein-extra-note">
+            ※ 複数台・複数機種の下取りをご希望の場合は、備考欄に詳細をご記入ください。
+          </p>
+        </div>
+
+        <!-- 02 ご希望Powersoftモデル -->
+        <div class="order-block">
+          <div class="order-label">/ 02 — ご希望の Powersoft 製品</div>
+          <div class="customer-grid">
+            <label class="cf-field cf-wide">
+              <span class="cf-label">シリーズ *</span>
+              <select name="ti_target_series" required>
+                <option value="UNICA T 4T 20K">UNICA T シリーズ ／ 4T 20K</option>
+                <option value="UNICA T 8T 10K">UNICA T シリーズ ／ 8T 10K</option>
+                <option value="X4L DSP+ETH">X シリーズ ／ X4L (DSP+ETH)</option>
+                <option value="X4L DSP+D">X シリーズ ／ X4L (DSP+D)</option>
+                <option value="X8 DSP+ETH">X シリーズ ／ X8 (DSP+ETH)</option>
+                <option value="X8 DSP+D">X シリーズ ／ X8 (DSP+D)</option>
+                <option value="X4 DSP+ETH">X シリーズ ／ X4 (DSP+ETH)</option>
+                <option value="X4 DSP+D">X シリーズ ／ X4 (DSP+D)</option>
+                <option value="T904">T シリーズ ／ T904</option>
+                <option value="T904A">T シリーズ ／ T904A</option>
+                <option value="T604">T シリーズ ／ T604</option>
+                <option value="T604A">T シリーズ ／ T604A</option>
+                <option value="T304">T シリーズ ／ T304</option>
+                <option value="T304A">T シリーズ ／ T304A</option>
+                <option value="ご相談">ご相談（おすすめを提案）</option>
+              </select>
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">ご希望台数 *</span>
+              <input type="number" name="ti_target_qty" required min="1" value="1">
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">納期希望</span>
+              <input type="text" name="ti_delivery" placeholder="例：2026/08 月中">
+            </label>
+          </div>
+        </div>
+
+        <!-- 03 お客様情報 -->
+        <div class="order-block">
+          <div class="order-label">/ 03 — お客様情報</div>
+          <div class="customer-grid">
+            <label class="cf-field cf-wide">
+              <span class="cf-label">区分 *</span>
+              <select name="ti_type" required>
+                <option value="法人">法人</option>
+                <option value="個人事業主">個人事業主</option>
+                <option value="個人">個人</option>
+              </select>
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">会社名 / 屋号</span>
+              <input type="text" name="ti_company">
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">ご担当者名 *</span>
+              <input type="text" name="ti_name" required>
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">メールアドレス *</span>
+              <input type="email" name="ti_email" required>
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">電話番号</span>
+              <input type="tel" name="ti_tel">
+            </label>
+            <label class="cf-field cf-wide">
+              <span class="cf-label">納品先住所</span>
+              <input type="text" name="ti_address">
+            </label>
+            <label class="cf-field cf-wide">
+              <span class="cf-label">備考（追加下取り機材、設置環境、ご相談内容など）</span>
+              <textarea name="ti_remarks" rows="4"></textarea>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          下取り問い合わせを送信する →
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER FORM -->
+<section id="preorder">
+  <div class="wrap">
+    <div class="section-tag">SECTION 05 ／ ORDER FORM</div>
+    <h2 class="section-title">ご注文フォーム.</h2>
+
+    <div class="form-wrap">
+      <div class="form-intro">
+        <p>必要な機種ごとに数量をご入力ください（複数機種の同時注文に対応）。3＋1キャンペーンは機種ごとに自動計算されます。<br>送信ボタンで脇本商会にご注文が送信されます。担当者より2営業日以内にご連絡いたします。</p>
+      </div>
+
+      <form class="order-form" onsubmit="submitOrder(event)">
+        <!-- 01 機種 -->
+        <div class="order-block">
+          <div class="order-label">/ 01 — 機種を選択</div>
+
+          <div class="model-category">／ パッシブサブウーファー（CXS mk3）</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="cxs18">
+              <div class="mc-name">CXS18<span> mk3</span></div>
+              <div class="mc-spec">18″ ／ Passive ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxs18">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs18', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxs18" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs18', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="cxs15">
+              <div class="mc-name">CXS15<span> mk3</span></div>
+              <div class="mc-spec">15″ ／ Passive ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxs15">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs15', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxs15" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs15', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="cxs12">
+              <div class="mc-name">CXS12<span> mk3</span></div>
+              <div class="mc-spec">12″ ／ Passive ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxs12">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs12', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxs12" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxs12', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+          <div class="model-category">／ パッシブスピーカー（CXR mk3）</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="cxr15">
+              <div class="mc-name">CXR15<span> mk3</span></div>
+              <div class="mc-spec">15″ + 1.75″ HF ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxr15">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr15', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxr15" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr15', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="cxr12">
+              <div class="mc-name">CXR12<span> mk3</span></div>
+              <div class="mc-spec">12″ + 1.75″ HF ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxr12">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr12', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxr12" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr12', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="cxr10">
+              <div class="mc-name">CXR10<span> mk3</span></div>
+              <div class="mc-spec">10″ + 1.75″ HF ／ 8 Ω</div>
+              <div class="mc-price" data-price="cxr10">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr10', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_cxr10" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('cxr10', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+          <div class="model-category">／ YAMAHA PX シリーズ（2ch クラスD）</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="px10">
+              <div class="mc-name">PX10</div>
+              <div class="mc-spec">1,200 W × 2 @4Ω / 2ch</div>
+              <div class="mc-price" data-price="px10">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px10', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_px10" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px10', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="px8">
+              <div class="mc-name">PX8</div>
+              <div class="mc-spec">1,050 W × 2 @4Ω / 2ch</div>
+              <div class="mc-price" data-price="px8">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px8', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_px8" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px8', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="px5">
+              <div class="mc-name">PX5</div>
+              <div class="mc-spec">800 W × 2 @4Ω / 2ch</div>
+              <div class="mc-price" data-price="px5">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px5', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_px5" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px5', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="px3">
+              <div class="mc-name">PX3</div>
+              <div class="mc-spec">500 W × 2 @4Ω / 2ch</div>
+              <div class="mc-price" data-price="px3">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px3', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_px3" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('px3', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+          <div class="model-category">／ YAMAHA PC-D / DI シリーズ（4ch Dante）</div>
+          <div class="model-options">
+            <div class="model-card-mini" data-model="pc412d">
+              <div class="mc-name">PC412-D</div>
+              <div class="mc-spec">1,200 W × 4 @8Ω / Dante</div>
+              <div class="mc-price" data-price="pc412d">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc412d', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_pc412d" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc412d', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="pc412di">
+              <div class="mc-name">PC412-DI</div>
+              <div class="mc-spec">1,200 W × 4 / 固定設備向け</div>
+              <div class="mc-price" data-price="pc412di">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc412di', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_pc412di" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc412di', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="pc406d">
+              <div class="mc-name">PC406-D</div>
+              <div class="mc-spec">600 W × 4 @8Ω / Dante</div>
+              <div class="mc-price" data-price="pc406d">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc406d', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_pc406d" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc406d', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+            <div class="model-card-mini" data-model="pc406di">
+              <div class="mc-name">PC406-DI</div>
+              <div class="mc-spec">600 W × 4 / 固定設備向け</div>
+              <div class="mc-price" data-price="pc406di">価格未設定</div>
+              <div class="mc-qty">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc406di', -1)" aria-label="−">−</button>
+                <input type="number" name="qty_pc406di" value="0" min="0" max="99" oninput="updateOrder()">
+                <button type="button" class="mc-qty-btn" onclick="changeModelQty('pc406di', 1)" aria-label="＋">＋</button>
+                <span class="mc-qty-unit">台</span>
+              </div>
+              <div class="mc-subtotal"></div>
+            </div>
+          </div>
+
+        </div>
+        </div>
+        <!-- 注文サマリー -->
+        <div class="order-summary">
+          <div class="sm-list" id="sm-list">
+            <div class="sm-empty">機種を選択してください（各カードの「＋」で数量を増やしてください）</div>
+          </div>
+          <div class="sum-row">
+            <span class="sum-key">合計台数</span>
+            <span class="sum-val"><span id="sum-qty">0</span> 台</span>
+          </div>
+          <div class="sum-row sum-free" id="sum-free" style="display:none">
+            <span class="sum-key">3＋1無償特典</span>
+            <span class="sum-val">+ <span id="sum-free-qty">0</span> 台 FREE</span>
+          </div>
+          <div class="sum-row sum-sub">
+            <span class="sum-key">小計（税抜）</span>
+            <span class="sum-val" id="sum-subtotal-extax">¥0</span>
+          </div>
+          <div class="sum-row sum-sub">
+            <span class="sum-key">消費税（10%）</span>
+            <span class="sum-val" id="sum-tax-amount">¥0</span>
+          </div>
+          <div class="sum-row sum-total">
+            <span class="sum-key">合計金額<span id="sum-tax-label" class="sum-tax">（税込）</span></span>
+            <span class="sum-val sum-amount" id="sum-total">¥0</span>
+          </div>
+        </div>
+        <!-- 03 お客様情報 -->
+        <div class="order-block">
+          <div class="order-label">/ 03 — お客様情報</div>
+          <div class="customer-grid">
+            <label class="field">
+              <span>会社名 <em>*</em></span>
+              <input type="text" id="company" required>
+            </label>
+            <label class="field">
+              <span>ご担当者名 <em>*</em></span>
+              <input type="text" id="contact" required>
+            </label>
+            <label class="field">
+              <span>メールアドレス <em>*</em></span>
+              <input type="email" id="email" required>
+            </label>
+            <label class="field">
+              <span>電話番号 <em>*</em></span>
+              <input type="tel" id="phone" required>
+            </label>
+            <label class="field field-full">
+              <span>納品先住所</span>
+              <input type="text" id="address" placeholder="〒 から始まる正式な住所">
+            </label>
+            <label class="field">
+              <span>ご希望納期</span>
+              <input type="text" id="delivery" placeholder="例：2026年8月中旬">
+            </label>
+            <label class="field">
+              <span>用途・参考情報</span>
+              <input type="text" id="usage" placeholder="例：野外フェス、設備導入">
+            </label>
+            <label class="field field-full">
+              <span>備考・ご要望</span>
+              <textarea id="notes" rows="3"></textarea>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary order-submit">
+          ご注文内容を送信する →
+        </button>
+
+        <p class="order-note">※ 送信後、担当者より2営業日以内にご連絡いたします。ご入力いただいたメールアドレス宛にも控えをお送りします。</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-tag">SECTION 06 ／ CONTACT</div>
+    <h2 class="section-title">お問い合わせ・見積依頼.</h2>
+
+    <div class="contact-grid">
+      <a href="mailto:info@wakimotocorp.com?subject=DXS%20mk3%20%E8%A6%8B%E7%A9%8D%E4%BE%9D%E9%A0%BC" class="contact-card">
+        <span class="icon">/ 01 — QUOTATION</span>
+        <h3>御見積依頼</h3>
+        <p>台数・構成が決まっている方は、メールにて直接ご相談ください。</p>
+        <span class="arrow">EMAIL →</span>
+      </a>
+      <a href="tel:0495-37-4806" class="contact-card">
+        <span class="icon">/ 02 — DIRECT</span>
+        <h3>お電話</h3>
+        <p>お急ぎのご相談・現場相談は直接お電話ください。<br>0495-37-4806</p>
+        <span class="arrow">TEL →</span>
+      </a>
+      <a href="#preorder" class="contact-card">
+        <span class="icon">/ 03 — ORDER</span>
+        <h3>ご注文フォームへ</h3>
+        <p>機種・数量をご選択のうえ、選択式フォームからご注文ください。</p>
+        <span class="arrow">FORM →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">脇本商会<span style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:.7em;margin:0 8px">/</span><span style="color:var(--accent);font-family:'Anton',sans-serif;font-weight:400;font-size:.8em;letter-spacing:.1em">SOUNDASSIST</span></div>
+        <div class="foot-meta" style="margin-top:8px">PROFESSIONAL AUDIO &amp; LIVE PRODUCTION EQUIPMENT</div>
+      </div>
+      <div class="foot-meta" style="text-align:right">
+        〒367-0041<br>
+        埼玉県本庄市駅南 2-1-25 ふらわあビル 3-A<br>
+        TEL：<a href="tel:0495-37-4806" style="color:inherit;text-decoration:none">0495-37-4806</a><br>
+        MAIL：<a href="mailto:info@wakimotocorp.com" style="color:inherit;text-decoration:none">info@wakimotocorp.com</a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      ※ 本ページに記載のスペックは2026年4月時点で公表されている YAMAHA の発表内容に基づいています。最終仕様はメーカー公式情報をご確認ください。<br>
+      ※ YAMAHA、DXS、DXR は Yamaha Corporation の商標または登録商標です。<br>
+      © Wakimoto Shokai. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+
+// ============================================================
+//  Supabase 連携
+// ============================================================
+const SUPABASE_URL = 'https://nhnidamtxsgbqnlcwzgs.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bdxBJnylkn_8iZKGEvxUmA_heddc-QJ';
+let sb = null;
+let supabaseError = null;
+try {
+  // The UMD bundle exposes a global 'supabase' object (which is also window.supabase)
+  const lib = (typeof supabase !== 'undefined') ? supabase : window.supabase;
+  if (!lib || !lib.createClient) {
+    throw new Error('Supabase JS library failed to load from CDN');
+  }
+  sb = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (err) {
+  supabaseError = err.message || String(err);
+  console.error('[Supabase] init failed:', err);
+}
+
+const PAGE_SOURCE = 'cxr';
+const PAGE_CATEGORIES = ['passive_sub', 'passive_top', 'amp_yamaha_px', 'amp_yamaha_pcd'];
+
+async function loadFromSupabase() {
+  setDebug('🔄 Supabase 接続中...', '#f59e0b');
+  if (!sb) {
+    setDebug('❌ Supabase client 未初期化: ' + (supabaseError || 'unknown'), '#ef4444');
+    console.error('[Supabase] client not initialized. Reason:', supabaseError);
+    document.querySelectorAll('.mc-price').forEach(function(el) {
+      el.textContent = 'Supabase接続エラー';
+      el.style.color = '#ef4444';
+    });
+    return;
+  }
+  try {
+    // 商品マスタを読み込み、価格・在庫・納期をDOMへ反映
+    const { data: products, error: e1 } = await sb
+      .from('wk_products')
+      .select('*')
+      .in('category', PAGE_CATEGORIES)
+      .order('display_order');
+    if (e1) throw e1;
+
+    setDebug('✓ ' + (products ? products.length : 0) + '件の商品を取得 / 価格反映中...', '#10b981');
+    if (products) {
+      products.forEach(function(p) {
+        ORDER_CONFIG.prices[p.id] = p.price || 0;
+        if (ORDER_CONFIG.campaignEligible) {
+          ORDER_CONFIG.campaignEligible[p.id] = !!p.campaign_eligible;
+        }
+        if (p.name) MODEL_NAMES[p.id] = p.name;
+        const card = document.querySelector('.model-card-mini[data-model="' + p.id + '"]');
+        if (!card) return;
+        // 公開停止 or 在庫切れ
+        if (!p.active || !p.in_stock) {
+          card.classList.add('is-soldout');
+          const input = card.querySelector('input[type="number"]');
+          if (input) { input.disabled = true; input.value = 0; }
+        } else {
+          card.classList.remove('is-soldout');
+          const input = card.querySelector('input[type="number"]');
+          if (input) input.disabled = false;
+        }
+        // 納期表示
+        if (p.lead_time) {
+          let leadEl = card.querySelector('.mc-lead-time');
+          if (!leadEl) {
+            leadEl = document.createElement('div');
+            leadEl.className = 'mc-lead-time';
+            const specEl = card.querySelector('.mc-spec');
+            if (specEl) specEl.appendChild(leadEl);
+          }
+          leadEl.textContent = '納期目安: ' + p.lead_time;
+        }
+      });
+    }
+
+    // キャンペーン期間
+    const { data: campaigns, error: e2 } = await sb
+      .from('wk_campaigns')
+      .select('*')
+      .eq('active', true);
+    if (e2) throw e2;
+
+    if (campaigns) {
+      campaigns.forEach(function(c) {
+        document.querySelectorAll('[data-campaign-period="' + c.key + '"]').forEach(function(el) {
+          if (c.start_date && c.end_date) {
+            el.textContent = c.start_date + ' 〜 ' + c.end_date;
+          } else if (c.start_date) {
+            el.textContent = c.start_date + ' 〜';
+          } else if (c.end_date) {
+            el.textContent = '〜 ' + c.end_date;
+          } else {
+            el.textContent = '通年実施中';
+          }
+        });
+        document.querySelectorAll('[data-campaign-title="' + c.key + '"]').forEach(function(el) {
+          el.textContent = c.title;
+        });
+      });
+    }
+
+    updateOrder();
+    setDebug('✓ 価格反映完了（5秒後に自動で閉じます）', '#10b981');
+    setTimeout(function() {
+      const bar = document.getElementById('sb-debug');
+      if (bar) bar.style.display = 'none';
+    }, 5000);
+  } catch (err) {
+    setDebug('❌ DBエラー: ' + (err.message || err), '#ef4444');
+    console.warn('[Supabase] データ読み込み失敗:', err);
+  }
+}
+
+function setDebug(msg, color) {
+  const bar = document.getElementById('sb-debug');
+  const m = document.getElementById('sb-debug-msg');
+  if (!bar || !m) return;
+  bar.style.display = 'block';
+  bar.style.borderColor = color || '#7c3aed';
+  m.textContent = msg;
+  m.style.color = color || '#fff';
+}
+
+function showSuccess(title, no, msg) {
+  document.getElementById('sm-title').textContent = title;
+  document.getElementById('sm-no').textContent = no;
+  document.getElementById('sm-msg').textContent = msg;
+  document.getElementById('success-modal').style.display = 'flex';
+}
+
+// Bind close button after DOM is ready (element is later in <body>)
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('sm-close');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      document.getElementById('success-modal').style.display = 'none';
+    });
+  }
+});
+
+// ============================================================
+//  価格設定 ／ EDIT HERE  ←各機種の販売価格を入力してください
+// ============================================================
+const ORDER_CONFIG = {
+  prices: {
+    // パッシブサブウーファー（CXS mk3）
+    cxs18: 0,     // ← CXS18 mk3 の販売価格（半角数字、例：158000）
+    cxs15: 0,     // ← CXS15 mk3 の販売価格
+    cxs12: 0,     // ← CXS12 mk3 の販売価格
+    // パッシブスピーカー（CXR mk3）
+    cxr15: 0,     // ← CXR15 mk3 の販売価格
+    cxr12: 0,     // ← CXR12 mk3 の販売価格
+    cxr10: 0,     // ← CXR10 mk3 の販売価格
+    // YAMAHA PX シリーズ
+    px10: 0,      // ← PX10 の販売価格
+    px8: 0,       // ← PX8 の販売価格
+    px5: 0,       // ← PX5 の販売価格
+    px3: 0,       // ← PX3 の販売価格
+    // YAMAHA PC-D / DI シリーズ
+    pc412d: 0,    // ← PC412-D の販売価格
+    pc412di: 0,   // ← PC412-DI の販売価格
+    pc406d: 0,    // ← PC406-D の販売価格
+    pc406di: 0,   // ← PC406-DI の販売価格
+  },
+  campaignEligible: {
+    cxs18: true,
+    cxs15: true,
+    cxs12: true,
+    cxr15: true,
+    cxr12: true,
+    cxr10: true,
+    px10: false,
+    px8: false,
+    px5: false,
+    px3: false,
+    pc412d: false,
+    pc412di: false,
+    pc406d: false,
+    pc406di: false
+  },
+  taxLabel: '（税込）',                 // '（税抜）' に変更可
+  orderEmail: 'info@wakimotocorp.com',  // 送信先メールアドレス
+};
+// ============================================================
+
+const MODEL_NAMES = {
+  cxs18: 'CXS18 mk3',
+  cxs15: 'CXS15 mk3',
+  cxs12: 'CXS12 mk3',
+  cxr15: 'CXR15 mk3',
+  cxr12: 'CXR12 mk3',
+  cxr10: 'CXR10 mk3',
+  px10: 'YAMAHA PX10',
+  px8:  'YAMAHA PX8',
+  px5:  'YAMAHA PX5',
+  px3:  'YAMAHA PX3',
+  pc412d:  'YAMAHA PC412-D',
+  pc412di: 'YAMAHA PC412-DI',
+  pc406d:  'YAMAHA PC406-D',
+  pc406di: 'YAMAHA PC406-DI',
+};
+
+function calcFree(model, qty) {
+  if (!ORDER_CONFIG.campaignEligible || ORDER_CONFIG.campaignEligible[model] === false) return 0;
+  return Math.floor(qty / 3);
+}
+
+function formatYen(n) {
+  if (!n || n === 0) return '価格未設定';
+  return '¥' + n.toLocaleString('ja-JP');
+}
+
+function changeModelQty(model, delta) {
+  const input = document.querySelector('input[name="qty_' + model + '"]');
+  if (!input) return;
+  const next = Math.max(0, Math.min(99, (parseInt(input.value) || 0) + delta));
+  input.value = next;
+  updateOrder();
+}
+
+function getOrders() {
+  const orders = [];
+  document.querySelectorAll('input[type="number"][name^="qty_"]').forEach(function(input) {
+    const qty = parseInt(input.value) || 0;
+    if (qty > 0) {
+      const model = input.name.replace('qty_', '');
+      orders.push({ model: model, qty: qty });
+    }
+  });
+  return orders;
+}
+
+function updateOrder() {
+  // 各カードの単価表示を更新
+  Object.keys(ORDER_CONFIG.prices).forEach(function(key) {
+    const el = document.querySelector('[data-price="' + key + '"]');
+    if (el) el.textContent = formatYen(ORDER_CONFIG.prices[key]);
+  });
+
+  // 各カードの選択状態と小計表示を更新
+  document.querySelectorAll('.model-card-mini[data-model]').forEach(function(card) {
+    const model = card.dataset.model;
+    const input = card.querySelector('input[name="qty_' + model + '"]');
+    if (!input) return;
+    const qty = parseInt(input.value) || 0;
+    const price = ORDER_CONFIG.prices[model] || 0;
+    const subtotal = price * qty;
+    const free = calcFree(model, qty);
+    const subEl = card.querySelector('.mc-subtotal');
+    if (subEl) {
+      if (qty > 0) {
+        let txt = '小計：' + formatYen(subtotal);
+        if (free > 0) txt += '（+' + free + '台 無償）';
+        subEl.textContent = txt;
+      } else {
+        subEl.textContent = '';
+      }
+    }
+    if (qty > 0) card.classList.add('is-selected');
+    else card.classList.remove('is-selected');
+  });
+
+  // 一覧サマリーと合計を再計算
+  const orders = getOrders();
+  let grandTotal = 0;
+  let totalFree = 0;
+  let totalQty = 0;
+
+  const listEl = document.getElementById('sm-list');
+  if (listEl) {
+    if (orders.length === 0) {
+      listEl.innerHTML = '<div class="sm-empty">機種を選択してください（各カードの「＋」で数量を増やしてください）</div>';
+    } else {
+      let html = '';
+      orders.forEach(function(o) {
+        const price = ORDER_CONFIG.prices[o.model] || 0;
+        const subtotal = price * o.qty;
+        const free = calcFree(o.model, o.qty);
+        totalQty += o.qty;
+        totalFree += free;
+        grandTotal += subtotal;
+        let freeHtml = free > 0 ? '<span class="sm-free">+' + free + '台 FREE</span>' : '';
+        html += '<div class="sm-item">';
+        html +=   '<div class="sm-name">' + MODEL_NAMES[o.model] + '</div>';
+        html +=   '<div class="sm-detail">';
+        html +=     '<span>' + formatYen(price) + ' × ' + o.qty + '台</span>';
+        html +=     freeHtml;
+        html +=     '<span class="sm-subtotal">' + formatYen(subtotal) + '</span>';
+        html +=   '</div>';
+        html += '</div>';
+      });
+      listEl.innerHTML = html;
+    }
+  }
+
+  const qtyEl = document.getElementById('sum-qty');
+  if (qtyEl) qtyEl.textContent = totalQty;
+  const freeRow = document.getElementById('sum-free');
+  const freeQtyEl = document.getElementById('sum-free-qty');
+  if (freeRow && freeQtyEl) {
+    freeQtyEl.textContent = totalFree;
+    freeRow.style.display = totalFree > 0 ? 'flex' : 'none';
+  }
+  const totalEl = document.getElementById('sum-total');
+  if (totalEl) totalEl.textContent = formatYen(grandTotal);
+  const taxEl = document.getElementById('sum-tax-label');
+  if (taxEl) taxEl.textContent = ORDER_CONFIG.taxLabel;
+
+  // 税抜小計と消費税（10%）を計算
+  // grandTotal は税込価格の合計。税抜 = floor(税込 / 1.10)、消費税 = 税込 - 税抜
+  const extax = Math.floor(grandTotal / 1.10);
+  const tax = grandTotal - extax;
+  const extaxEl = document.getElementById('sum-subtotal-extax');
+  const taxAmountEl = document.getElementById('sum-tax-amount');
+  if (extaxEl) extaxEl.textContent = grandTotal > 0 ? formatYen(extax) : '¥0';
+  if (taxAmountEl) taxAmountEl.textContent = grandTotal > 0 ? formatYen(tax) : '¥0';
+}
+
+function submitOrder(e) {
+  e.preventDefault();
+  if (!sb) {
+    alert('データベース接続エラー。お手数ですがお電話（0495-37-4806）またはメール（info@wakimotocorp.com）にてご注文ください。\n\nエラー: ' + (supabaseError || 'unknown'));
+    return;
+  }
+  const orders = getOrders();
+  if (orders.length === 0) {
+    alert('機種を1つ以上選択してください。');
+    return;
+  }
+
+  let grandTotal = 0;
+  const items = orders.map(function(o) {
+    const price = ORDER_CONFIG.prices[o.model] || 0;
+    const subtotal = price * o.qty;
+    const free = calcFree(o.model, o.qty);
+    grandTotal += subtotal;
+    return {
+      product_id: o.model,
+      product_name: MODEL_NAMES[o.model] || o.model,
+      brand: o.model.startsWith('px') || o.model.startsWith('pc') ? 'yamaha' : 'yamaha',
+      qty: o.qty,
+      free_qty: free,
+      unit_price: price,
+      subtotal: subtotal,
+    };
+  });
+
+  const get = function(id) {
+    const el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  };
+  const orderData = {
+    customer_company: get('company') || null,
+    customer_name: get('contact'),
+    customer_email: get('email'),
+    customer_phone: get('phone') || null,
+    customer_address: get('address') || null,
+    delivery_request: get('delivery') || null,
+    usage_notes: get('usage') || null,
+    notes: get('notes') || null,
+    subtotal: grandTotal,
+    source_page: PAGE_SOURCE,
+  };
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const origBtnText = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
+
+  (async function() {
+    try {
+      const { data: result, error } = await sb.rpc('wk_create_order', {
+        p_order: orderData,
+        p_items: items,
+      });
+      if (error) throw error;
+      const order = Array.isArray(result) ? result[0] : result;
+      if (!order || !order.order_no) throw new Error('注文番号の取得に失敗しました');
+
+      showSuccess(
+        'ご注文を承りました',
+        '注文番号：' + order.order_no,
+        '担当者より2営業日以内にご連絡いたします。\nご入力いただいたメールアドレス宛にも控えをお送りいたしますので、迷惑メールフォルダ等もあわせてご確認ください。'
+      );
+
+      e.target.reset();
+      document.querySelectorAll('input[name^="qty_"]').forEach(function(i) { i.value = 0; });
+      document.querySelectorAll('.model-card-mini').forEach(function(c) { c.classList.remove('is-selected'); });
+      updateOrder();
+    } catch (err) {
+      console.error(err);
+      alert('送信失敗：' + (err.message || err) + '\n\nお手数ですが下記までご連絡ください：\ninfo@wakimotocorp.com / TEL 0495-37-4806');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = origBtnText; }
+    }
+  })();
+}
+
+
+// ============================================================
+//  Powersoft トレード・イン・フォーム送信
+// ============================================================
+function submitTradeIn(e) {
+  e.preventDefault();
+  const form = e.target;
+  const get = function(name) {
+    const el = form.querySelector('[name="' + name + '"]');
+    return el ? (el.value || '').trim() : '';
+  };
+
+  const data = {
+    tradein_maker: get('ti_maker'),
+    tradein_model: get('ti_model'),
+    tradein_channels: get('ti_channels') || null,
+    tradein_qty: parseInt(get('ti_qty')) || 1,
+    tradein_condition: get('ti_condition') || null,
+    tradein_ownership: get('ti_ownership') || null,
+    target_series: get('ti_target_series'),
+    target_qty: parseInt(get('ti_target_qty')) || 1,
+    target_delivery: get('ti_delivery') || null,
+    customer_type: get('ti_type') || null,
+    customer_company: get('ti_company') || null,
+    customer_name: get('ti_name'),
+    customer_email: get('ti_email'),
+    customer_phone: get('ti_tel') || null,
+    customer_address: get('ti_address') || null,
+    remarks: get('ti_remarks') || null,
+  };
+
+  const btn = form.querySelector('button[type="submit"]');
+  const origBtnText = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
+
+  (async function() {
+    try {
+      const { data: rpcResult, error } = await sb.rpc('wk_create_tradein', { p_data: data });
+      if (error) throw error;
+      const result = Array.isArray(rpcResult) ? rpcResult[0] : rpcResult;
+      if (!result || !result.inquiry_no) throw new Error('案件番号の取得に失敗しました');
+
+      showSuccess(
+        '下取りお問い合わせを受付ました',
+        '案件番号：' + result.inquiry_no,
+        '担当者にて下取り価格・特別価格・納期等を確認のうえ、3営業日以内にご連絡いたします。\nご入力いただいたメールアドレス宛にも控えをお送りいたしますので、迷惑メールフォルダ等もあわせてご確認ください。'
+      );
+
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      alert('送信失敗：' + (err.message || err) + '\n\nお手数ですが下記までご連絡ください：\ninfo@wakimotocorp.com / TEL 0495-37-4806');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = origBtnText; }
+    }
+  })();
+}
+
+// 初期化
+document.addEventListener('DOMContentLoaded', function() {
+  updateOrder();
+  loadFromSupabase();
+  document.querySelectorAll('input[type="number"][name^="qty_"]').forEach(function(input) {
+    input.addEventListener('change', updateOrder);
+  });
+});
+</script>
+
+
+<!-- SUCCESS MODAL (Supabase送信完了) -->
+<div class="success-modal" id="success-modal" style="display:none">
+  <div class="sm-box">
+    <div class="sm-icon">✓</div>
+    <div class="sm-title" id="sm-title">送信完了</div>
+    <div class="sm-no" id="sm-no"></div>
+    <div class="sm-msg" id="sm-msg"></div>
+    <button class="sm-close" id="sm-close">閉じる</button>
+  </div>
+</div>
+
+</body>
+</html>
