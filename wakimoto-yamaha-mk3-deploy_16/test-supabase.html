@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supabase Connection Test</title>
+<style>
+  body{font-family:-apple-system,sans-serif;max-width:720px;margin:0 auto;padding:20px;background:#111;color:#eee}
+  h1{font-size:18px;border-bottom:1px solid #444;padding-bottom:8px}
+  .step{margin:14px 0;padding:14px;background:#1d1d1d;border-radius:8px;border-left:4px solid #555}
+  .step.ok{border-left-color:#10b981}
+  .step.err{border-left-color:#ef4444}
+  .step.pending{border-left-color:#f59e0b}
+  .label{font-size:11px;color:#888;font-family:monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+  .title{font-size:15px;font-weight:600;margin-bottom:6px}
+  .detail{font-size:12px;color:#aaa;font-family:monospace;white-space:pre-wrap;word-break:break-all;background:#000;padding:8px;border-radius:4px;margin-top:6px}
+  .ok .title{color:#10b981}
+  .err .title{color:#ef4444}
+  .pending .title{color:#f59e0b}
+</style>
+</head>
+<body>
+<h1>🔧 Supabase Connection Test</h1>
+<p style="font-size:12px;color:#888">このページを開いた状態のスクリーンショットを送ってください。</p>
+
+<div id="step1" class="step pending">
+  <div class="label">STEP 1</div>
+  <div class="title">Supabase JS ライブラリのロード（CDN）</div>
+  <div class="detail">確認中...</div>
+</div>
+
+<div id="step2" class="step pending">
+  <div class="label">STEP 2</div>
+  <div class="title">Supabase クライアント初期化</div>
+  <div class="detail">前のステップ待ち</div>
+</div>
+
+<div id="step3" class="step pending">
+  <div class="label">STEP 3</div>
+  <div class="title">商品マスタ取得（wk_products）</div>
+  <div class="detail">前のステップ待ち</div>
+</div>
+
+<div id="step4" class="step pending">
+  <div class="label">STEP 4</div>
+  <div class="title">キャンペーン取得（wk_campaigns）</div>
+  <div class="detail">前のステップ待ち</div>
+</div>
+
+<div style="margin-top:24px;padding:14px;background:#1d1d1d;border-radius:8px">
+  <div class="label">DIAGNOSTICS</div>
+  <div class="detail" id="env">collecting...</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://nhnidamtxsgbqnlcwzgs.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_bdxBJnylkn_8iZKGEvxUmA_heddc-QJ';
+
+function setStep(id, status, detail) {
+  const el = document.getElementById(id);
+  el.classList.remove('pending', 'ok', 'err');
+  el.classList.add(status);
+  el.querySelector('.detail').textContent = detail;
+}
+
+// Environment info
+document.getElementById('env').textContent = [
+  'URL: ' + location.href,
+  'UA: ' + navigator.userAgent,
+  'typeof supabase: ' + typeof supabase,
+  'typeof window.supabase: ' + typeof window.supabase,
+  'Time: ' + new Date().toString(),
+].join('\n');
+
+(async function() {
+  // Step 1: Library load
+  await new Promise(r => setTimeout(r, 100)); // give CDN script a moment
+  if (typeof supabase === 'undefined' && typeof window.supabase === 'undefined') {
+    setStep('step1', 'err', '❌ supabase global が未定義\nCDN ロード失敗の可能性');
+    return;
+  }
+  const lib = (typeof supabase !== 'undefined') ? supabase : window.supabase;
+  if (!lib.createClient) {
+    setStep('step1', 'err', '❌ supabase.createClient が見つからない\nlib keys: ' + Object.keys(lib).join(', '));
+    return;
+  }
+  setStep('step1', 'ok', '✓ ライブラリロード OK\ntypeof supabase = ' + typeof supabase);
+
+  // Step 2: Client init
+  let sb;
+  try {
+    sb = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+    setStep('step2', 'ok', '✓ クライアント作成 OK\nURL: ' + SUPABASE_URL);
+  } catch (err) {
+    setStep('step2', 'err', '❌ ' + (err.message || err));
+    return;
+  }
+
+  // Step 3: Fetch products
+  try {
+    const { data, error, status, statusText } = await sb.from('wk_products')
+      .select('id, name, price, in_stock, active')
+      .in('category', ['powered_sub','powered_top']);
+    if (error) {
+      setStep('step3', 'err', '❌ クエリエラー\nHTTP ' + status + ' ' + statusText + '\n' + JSON.stringify(error, null, 2));
+      return;
+    }
+    setStep('step3', 'ok', '✓ ' + data.length + '件取得\n' + JSON.stringify(data, null, 2));
+  } catch (err) {
+    setStep('step3', 'err', '❌ ネットワーク例外\n' + (err.message || err));
+    return;
+  }
+
+  // Step 4: Fetch campaigns
+  try {
+    const { data, error } = await sb.from('wk_campaigns').select('*').eq('active', true);
+    if (error) {
+      setStep('step4', 'err', '❌ ' + JSON.stringify(error, null, 2));
+      return;
+    }
+    setStep('step4', 'ok', '✓ ' + data.length + '件取得\n' + JSON.stringify(data, null, 2));
+  } catch (err) {
+    setStep('step4', 'err', '❌ ' + (err.message || err));
+  }
+})();
+</script>
+</body>
+</html>
