@@ -2171,6 +2171,35 @@ const SUPABASE_URL = 'https://nhnidamtxsgbqnlcwzgs.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_bdxBJnylkn_8iZKGEvxUmA_heddc-QJ';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ============================================================
+//  アクセス解析（Supabase）
+// ============================================================
+(function trackPageview() {
+  let sessionId = sessionStorage.getItem('wk_sid');
+  if (!sessionId) {
+    sessionId = 's_' + Math.random().toString(36).slice(2,11) + Date.now().toString(36);
+    sessionStorage.setItem('wk_sid', sessionId);
+  }
+  const isFirstVisit = !localStorage.getItem('wk_first_visit');
+  if (isFirstVisit) localStorage.setItem('wk_first_visit', new Date().toISOString());
+  const params = new URLSearchParams(location.search);
+  if (sb && sb.rpc) {
+    sb.rpc('wk_track_pageview', {
+      p_data: {
+        page: location.pathname,
+        page_title: document.title,
+        referrer: document.referrer,
+        user_agent: navigator.userAgent.slice(0, 500),
+        session_id: sessionId,
+        is_first_visit: isFirstVisit,
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+        utm_campaign: params.get('utm_campaign')
+      }
+    }).then(function(r) { if (r && r.error) console.warn('[Tracking]', r.error); });
+  }
+})();
+
 const PAGE_SOURCE = 'cxr';
 const PAGE_CATEGORIES = ['passive_sub', 'passive_top', 'amp_yamaha_px', 'amp_yamaha_pcd'];
 
